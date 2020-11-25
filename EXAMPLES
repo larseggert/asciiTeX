@@ -1,0 +1,110 @@
+% In this input file there are several examples
+% Comments are preceded by a % mark and continue untill the end of a line
+% end of lines are otherwise ignored. The equations in this example file are
+% therefore separated by \\ \\ \\ (three line breaks)
+
+% example of an array
+\begin{array}{ccc}
+x_{11} & x_{12} & x_{13}\\
+x_{21} & x_{22} & x_{23}\\
+x_{31} & x_{32} & x_{33}
+\end{array}
+
+\\ \\ \\
+
+% example of a matrix
+\left[
+\begin{array}{ccc}
+x_{11} & x_{12} & x_{13}\\
+x_{21} & x_{22} & x_{23}\\
+x_{31} & x_{32} & x_{33}
+\end{array}
+\right]
+
+\\ \\ \\
+
+% fun with braces and a matrix
+\left[
+\begin{array}{ccc}
+x_{11} & x_{12} & x_{13}\\
+x_{21} & x_{22} & x_{23}\\
+x_{31} & x_{32} & x_{33}
+\end{array} \left| 
+\begin{array}{ccc}
+y_{11} & y_{12} & y_{13}\\
+y_{21} & y_{22} & y_{23}\\
+y_{31} & y_{32} & y_{33}
+\end{array}
+\right.
+\right]
+
+\\ \\ \\
+
+% example of automatic line breaks in a long equation. automatic line-breaks are inserted after ~+/-*=
+% Unfortunately I used a dirty hack (feel free to improve on that) to do this so I also insert
+% spaces before and after ~+/-*= 
+% The original eqascii also did this "to make it prettier". However, I feel it is better to let the user controll spaces.
+\int_0^W \frac{np}{n+p}dx = \int_0^W \frac{n_0}{exp \left( \frac{E_0(x-x_0)}{kT} \right)+exp \left( -\frac{E_0(x-x_0)}{kT}\right)}dx=\frac{n_0kT}{E_0} \left[ arctan \left( exp \left[\frac{E_0(x-x_0)}{kT}\right]\right)\right]^{x=W}_{x=0}~ \frac{n_0kT}{E_0} pi
+
+\\ \\ \\
+
+% example of using arrays, large curly braces closed with a \right. and 
+% an example of when the automatic space insertion around a - sign is not 
+% desired
+f(x) = \left{\begin{array}{lr} 
+	\frac{1}{x+1} +12 & -12<x<0\\
+	 & \\ 13-x & x<-12, x>0 
+\end{array}\right.
+
+\\ \\ \\
+
+% This is how to fix the space inserts
+f(x) = \left{\begin{array}{lr} 
+	\frac{1}{x+1} +12 & \-12<x<0\\
+	 & \\ 13-x & x<\-12, x>0
+\end{array}\right.
+
+\\ \\ \\
+
+% What follows are some arbitrary showcases
+a = \frac{1}{\sqrt{2} + 
+\frac{1}{\sqrt{2} + 
+\frac{1}{\sqrt{2} + 
+\frac{1}{\sqrt{2} + ...
+}}}}
+
+\\ \\ \\
+
+\prod_{i=1}^{\infty} \sqrt{
+  a_{ala}+b^{ela}- \frac{
+    \left[
+      a+\frac{
+        a+b^{
+          \left(
+            3+4a
+          \right)
+        }
+      }{
+        4a-3c
+      }
+    \right]
+  }{
+    a_1-\sqrt{2}
+  }
+}
++
+\left|
+  \begin{array}{ccc} \frac{8}{2} & 1& 3\\ 2& 3& \left|
+      \begin{array}{cc}
+        1& 2\\
+	3& 4
+      \end{array}
+    \right| \\ 
+    3& \sqrt{5}& 12
+  \end{array}
+\right|
+
+\\ \\ \\
+% Taylor Series 
+f(x) = \sum^{\infty}_{i=0} \frac{f^{(i)}(0)}{i!}x^i
+

@@ -1,0 +1,16 @@
+Author:
+Bart Pieters:
+	Responsible for forking eqascii into asciiTeX, i.e., 
+	contibuting bugfixes, enhancements, documentation, a 
+	graphical user interface, etc.
+
+Other contributions (i.e. whose I code I re-used):
+Przemek Borys:
+	Contribution: the original program (eqascii)
+
+Micah Carrick:
+	Contribution: Large parts of the graphical user interface 
+	were directly copied from:
+	"Example running a command into a GtkTextView"
+	written for www.gtkforums.com
+	URL: http://www.gtkforums.com/about906.html

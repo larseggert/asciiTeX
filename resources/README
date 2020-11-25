@@ -1,0 +1,19 @@
+This directory contains several files useful when you want
+to develop the gui further.
+
+gui.glade is the glade description of the user interface. The
+gui-description is included in the source-tree through the 
+gui.h header file. To create this heaser file use:
+
+gtk-builder-convert gui.glade gui.xml
+XML_to_header.sh >gui.h
+
+Note that the XML_to_header script assumes the xml file is 
+called gui.xml.
+
+The asciiTeX logo, used to decorate the window, is also 
+included in the source-tree with the header file gui_ico.h.
+The image is available in svg format and png format. I 
+used the 64x64 pixels png image to generate the header file
+by running:
+dk-pixbuf-csource --name icon --struct logo.png > gui_ico.h

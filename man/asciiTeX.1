@@ -1,0 +1,201 @@
+.TH ASCIITEX 1 "17 Dec 2009"
+.SH NAME
+asciiTeX \- Equation ASCII renderer
+.SH SYNOPSIS
+.B asciiTeX
+.I [-v]
+.I [-h]
+.I [-f file]
+.I [-ll line-length]
+.I [equation]
+.SH DESCRIPTION
+.B asciiTeX
+is an ASCII equation renderer released under the terms of the The GNU
+General Public License. The program can generate ASCII-art representations of 
+mathematical equations. You can use asciiTeX to quickly insert equations in 
+e.g. e-mails, in comments in your source-code, etc. The syntax is similar to LaTex.
+This program is a the command-line utillity. For the graphical asciiTeX editor
+see asciiTeX_gui. The asciiTeX project is a fork of eqascii, providing new 
+features and many bug fixes to the original program.
+
+.SH OPTIONS
+.B -v
+.br
+Print out the version of the asciiTeX executable and exit.
+
+.B -h
+.br
+Print out a brief summary of how to use the program and exit.
+
+.B -f file
+.br
+This option specifies the equation should be read from a file (per default 
+asciiTeX expects the equation on the command line).
+
+.B -ll line-length
+.br
+With this option asciiTeX attempts to format the equation within the 
+specified line width, i.e., asciiTeX will insert line breaks in order to
+format long equations over several lines. The default is line-length 80
+characters. With a specified line width of 0 asciiTeX will not insert line
+breaks.
+
+.B equation
+.br
+If the -f option is not specified the equation is read from the command line.
+
+.SH SYNTAX
+asciiTeX implements a LaTeX style syntax to format equations. 
+.br
+Accepted syntax:
+
+.B \efrac{a}{b}
+.br
+A fraction of a and b.
+
+.B a^{b}
+.br
+A superscript. One can also omit the braces. In this case the first character 
+following ^ will be superscripted.
+
+.B a_{b}
+.br
+A subscript. Works just like the superscript (well, not exactly of course).
+
+.B \esqrt[n]{a}
+.br
+A n-th root of a, the argument [n] is optional. Without it it produces the square root
+of a.
+
+.B \esum
+.br
+Expands to a sigma
+
+.B \eprod
+.br
+Expands to the product mark (pi).
+
+.B \eint
+.br
+Expands to the integral mark.
+
+.B \eoint
+.br
+A closed path integral.
+
+.B \eleft(
+,
+.B \eright)
+.br
+Expands to braces which adept to the height of their content. Available left braces are:
+.B ([{|
+The corresponding right braces are:
+.B )]}|
+All brace types can be opened by
+.B \eleft. 
+or closed by 
+.B \eright.
+, producing a single right
+or left brace, respectively.
+
+.B \eleadsto
+.br
+Expands to an arrow (~>), May look ugly depending on your fonts.
+
+.B \eto
+.br
+Expands to an arrow (->).
+
+.B \elimit{x}
+.br
+Expands to a limit, i.e. \elimit{x \eto 0}.
+
+.B \eoverline{X}
+.br
+Draws a line above expression X
+
+.B \eunderline{X}
+.br
+Draws a line under expression X
+
+.B \elceil
+.br
+Left ceiling symbol
+
+.B \erceil
+.br
+Right ceiling symbol
+
+.B \elfloor
+.br
+Left floor symbol
+
+.B \erfloor
+.br
+Right floor symbol
+
+.B \e\e
+.br
+Insert a line break.
+
+.B \ebegin{array}[pos]{column alignments}
+.br
+.I
+    a00 & a01 & ... a0n \e\e 
+.br 
+    a10 & a11 & ... a1n \e\e
+.br
+    ... & ... & ... ... \e\e
+.br
+    am0 & am1 & ... amn
+.br
+.B \eend{array}
+.br
+Makes an array. The optional argument pos sets the alignment of the array to t(op),
+b(ottom) or c(enter). The column alignments consist of one character per column,
+l(eft), c(enter), or r(ight). Currently asciiTeX does not support vertical or horizontal
+lines, e.g. the column-alignment specification "{|c|}" will lead to errors. Note, that 
+the string \fI\ebegin{array}\fR must not contain spaces. Cells of the array may contain 
+formulas and sub-arrays.
+
+.B \ea
+.br
+Escapes the character \fIa\fR. Useful for inserting characters like ^, and _ in your equation.  
+
+.SH EXAMPLES
+A simple fraction:
+.nf
+asciiTeX "\efrac{1}{1+x}"
+  1  
+-----
+1 + x
+
+.fi
+An arbitrary equation:
+.nf
+asciiTeX "\elfloorx\erfloor = x \-\efrac{1}{2} + \esum_{k=1}^{\einfty} 
+\efrac{sin(2 Pi k x)}{pi k}"
+
+             1      __ oo  sin(2 Pi k x)  
+|_x_| = x  - -  +  \e       -------------  
+             2     /__ k=1     pi k       
+
+
+.fi
+More examples can be found in the file "examples"
+.nf
+asciiTeX -f examples
+.fi
+.SH AUTHORS
+Bart Pieters.br
+Przemek Borys (author of the original program, eqascii)
+
+.SH LICENSE
+GNU GENERAL PUBLIC LICENSE Version 2
+
+.SH VERSION
+0.2
+
+.SH SEE ALSO
+.B asciiTeX_gui(1)
+

@@ -1,0 +1,27 @@
+DESCRIPTION
+asciiTeX is an ASCII equation renderer released under the terms of the GNU
+General Public License. The program can generate ASCII-art representations of 
+mathematical equations. You can use asciiTeX to quickly insert equations in 
+e.g. e-mails or comments in your source-code. The syntax is similar to LaTex. 
+The asciiTeX project is a fork of eqascii, providing new features and many 
+bug fixes to the original program. The latest addition to the program is a
+graphical user interface written in GTK
+
+INSTALLING FROM SOURCES
+unpack the source and do the usual
+./configure
+make
+make install
+[make install-man]
+
+This will provide two programs to your system, asciiTeX, the command line 
+utility, and asciiTeX_gui, the graphical application. To disable compilation 
+of the graphical application you can specify --diable-gtk to the configure 
+script. The last optional make install-man installs the manual pages for both
+programs
+
+
+INSTALLING THE WINDOWS BINARY
+Download and execute the installer script.
+
+

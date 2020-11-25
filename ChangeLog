@@ -1,0 +1,160 @@
+18 Jan 2010 asciiTeX v 0.21
+	Added a help button to the GTK interface. The help button displays some syntax help and exaples
+	you can copy directly from the output to the input window.
+15 Jan 2010 asciiTeX v 0.2
+	Created a new GTK user-interface. I switched to the GNU build utillities (autoconf, automake, 
+	etc.) Updated documentation.
+03 Jan 2010 asciiTeX v 0.1
+	I failed to contact the original author. Thus I decided to change the name and call it a fork.
+	Minor bugfix in findClosingLRBrace.
+	The first version of asciiTeX is set back to version 0.1
+	
+21 Dec 2009 eqascii v0.5.3
+	Bugfix in super and subscript. 
+	
+17 Dec 2009 eqascii v0.5.2
+	Added alignment options in array. The syntax is now the same as in LaTeX
+	\begin{array}[pos]{columnalignments} ... \end{array}
+	pos indicates the alignment of the array and can be t(op), c(enter) or b(ottom). If omitted 
+	the alignment is center. The columnalignment is one character per column, l(eft), c(enter), 
+	or r(ight).
+	
+15 Dec 2009 eqascii v0.5.1
+	Minor bugs. Restored the library part. The interface now only exports one function EqASCII
+	which returns an array of characters containing the equation in pretty print.
+	
+13 Dec 2009 eqascii v0.5.0
+	Added \\ for breaking a line. It basically creates an array with one column. Per default 
+	eqascii now tries to fit the equations on a line of 80 characters wide. The line length 
+	can be set using the -ll option. If you give a line length of 0 eqascii will not insert line 
+	breaks. Eqascii breaks lines after =,+,-,*,/,~ in the main expression (i.e., these characters
+	are ignored if they occur within an array environment or in expressions like \sqrt, \frac,
+	etc). I further added the possibility to read the equation from a file (with the -f option).
+	The line breaking option bumps the version to 0.5.x
+	  
+03 Dec 2009 eqascii v0.4.3
+	I still found there were issues after the initial memory debuging round. I did some 
+	additional memory debugging with electricfence and valgrind. 
+	
+	More debugging of the array routines. Now removed all the custom initializations being done 
+	there. All initializations of Tgraphs now go via the NewChild routine.
+	
+02 Dec 2009 eqascii v0.4.2
+	Time to work on memory management. The code was full of memory leaks (not really an issue
+	for the current form of the program, it only exits without properly cleaning up, if you
+	want to use the code in a library it may be called many times during program execution.
+	In tests for such cases I experienced segfaults). 
+	
+	Many small fixes. The array routines were a mayor source of memory leaks. Modiefied the
+	Tgraph struct to include some pointers used for arrays. This used to be done by 
+	typecasting a Tarray struct to a Tgraph struct. Needlesly confusing during deallocation.
+	Now a Tgraph is a Tgraph and not sometimes secretly a Tarray.
+	
+24 Jul 2009 eqascii v0.4.1
+	- Reduced the number of files, e.g. grouping all symbols.
+	- I tried to structure the parsing routines. The parsing pprocedure is still a bit messy 
+	  but I added a keyword tale and lookup functions. Further improvements could easily be 
+	  made but would require a more extesive rewrite.
+	- Added several new mathematical elements \overline{}, \underline{}, \limit{} and \to
+	- The code did very little sanity checks which could lead to pretty hard crashes on
+	  ill formatted equations. I added some sanity checks, fixing sevral cases of uncomplete
+	  function definitions or overcomplete function definitions(with spurious characters).
+	  Equations like 'a^', and '\sqrt' would result in segfaults.
+	  Equations like '\sqrtdjashfjksh{5}' would give a square root without any notification.
+	  The code will now give hopefully helpfull errors and warnings.
+		
+	
+23 Jul 2009 eqascii v0.4.0
+	I (Bart Pieters) downloaded the original program by Przemek Borys and took it upon me to
+	make eqascii more feature complete and less buggy.
+	- I removed the library stuff to avoid confusion. I first want to make the code more 
+	feature complete, then we'll see further.
+	
+	I revamped the look of the equations. Mostly things that are a matter of taste but
+	I 've got that :)	 
+	- Changed the integral sign from this   _  to   _
+	                                       |       /
+              	                               |       |
+	                                      _|      _/
+	- I changed the look of sqrt:
+	
+    _____________________________________                                       
+   |              [         (3 + 4a)  ]                                         
+   |              [    a + b          ]                                         
+   |              [a + ---------------]                                         
+   |        ela   [        4a - 3c    ]                                         
+   |a    + b    - -----------------------                                       
+   | ala                        _                                               
+   |                     a  - \|2                                               
+  \|                      1                   
+
+	has become:
+           _____________________________________                                                                                               
+          /              [         (3 + 4a)  ]                                                                                                 
+         /               [    a + b          ]                                                                                                 
+        /                [a + ---------------]                                                                                                 
+  |    /           ela   [        4a - 3c    ]                                                                                                 
+  |   /    a    + b    - -----------------------                                                                                               
+  |  /      ala                       _                                                                                                        
+  | /                          a  - |/2                                                                                                        
+  |/                            1                                                                                                              
+
+	- I changed alighnment in the array routine:
+   |                       |                                                    
+   | 8                     |                                                    
+   | -    1         3      |                                                    
+   | 2                     |                                                    
+   |                       |                                                    
+   |           | 1   2 |   |                                                    
+   | 2    3    |       |   |                                                    
+   |           | 3   4 |   |                                                    
+   |                       |                                                    
+   | 3     _       12      |                                                    
+   |     \|5               |              
+   
+          
+Changed to                                                                                                                                     
+   |                        |                                                                                                                  
+   | 8                      |                                                                                                                  
+   | -    1          3      |                                                                                                                  
+   | 2                      |                                                                                                                  
+   |                        |                                                                                                                  
+   |            | 1   2 |   |                                                                                                                  
+   | 2    3     |       |   |                                                                                                                  
+   |            | 3   4 |   |                                                                                                                  
+   |                        |                                                                                                                  
+   |       _                |                                                                                                                  
+   | 3   |/5        12      |                                                                                                                  
+						      
+	The implementation of braces was primitive. 
+	- The size of braces should adapt to what is inbetween the braces but it adapts to the 
+	  size of the parent (i.e. it adapts to the maximal vertical size of the parent and the 
+	  child where it should always adapt the vertical size of the child). To clarify:
+	  	"\left(x+1\right)\left(\frac{1}{x}\right)"
+	  gives:
+		(     )(1)    
+		(x + 1)(-)    
+		(     )(x)    
+	  the vertical size braces around the term x+1 should be 1, not 3
+	- The braces consisted of one character printed vertically over the height of the parent, 
+	  which is not particularly pretty. 
+	- You could close one type of braces with an arbitrary different type. I implemented 
+	  error messages.
+	- The implementation used a little dirty hack to make sure that the drawing routine knows 
+	  which brace to draw. I implemented an options string in the graph struct to pass options
+	  to the drawing routines. This may not only be used for which brace to use but also for
+	  other options, such as "\sqrt[n]{x}" (the option [n] used to be ignored, but now also 
+	  implemented), and alignment options for arrays (not implemented yet). 
+13 Apr 2001 eqascii v0.3.1
+	Ported the code to a library
+	Added a tree deallocation procedure
+1  Apr 2001 eqascii v0.3.0
+	I have added array support. Now this program can be used to
+	render most of common equation types (probably)
+25 Mar 2001 eqascii v0.2.0, v0.2.1
+	I have rewritten the code to gain modularity. Implemented
+	devices are \frac, \sqrt, \sum, \int, and sub/superscript.
+24 Mar 2001 eqascii v0.1.0
+	I have visualised my conception about this renderer. I have
+        imagined and designed all the data structures and their
+        relationships.
