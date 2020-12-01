@@ -64,7 +64,7 @@ const KEYWORD Keys[] = {{"^{", 2, SUPER},
                         {"\\text", 5, TEXT},
                         {"\\mathrm", 7, TEXT},
                         {"\\", 1, ESCAPE},
-                        {NULL, ERR}};
+                        {NULL, 0, ERR}};
 PRSDEF
 LookupKey(char * txt, const KEYWORD * Keys)
 {
@@ -127,7 +127,7 @@ Tdim dim(char * txt, struct Tgraph * graph)
         int nlines = 0;
         char * start = txt;
         char ** lines = (char **)malloc(sizeof(char *));
-        Tdim out;
+        Tdim out = {0};
         if (SYNTAX_ERR_FLAG == S_ERR)
             return out;
         *gpos = 1; /* See parsedef.h for the keyword
