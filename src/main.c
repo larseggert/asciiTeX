@@ -59,7 +59,7 @@ char * readfile(char * filename)
         }
         if (esc) /* the escape flag is to comment out comment signs, i.e. \% */
             esc = 0;
-        else if (results[l - 1] == '\\')
+        else if (l > 0 && results[l - 1] == '\\')
             esc = 1;
     }
     results[--l] = '\0';
