@@ -173,8 +173,8 @@ found vector.
     Array->array = malloc(sizeof(Tarray));
     Array->array->rows = rows;
     Array->array->cols = cols;
-    Array->array->rowy = (int *)calloc(rows, sizeof(int));
-    Array->array->colx = (int *)calloc(cols, sizeof(int));
+    Array->array->rowy = (int *)calloc(rows + 1, sizeof(int));
+    Array->array->colx = (int *)calloc(cols + 1, sizeof(int));
     for (i = 0; i < ncells; i++) {
         int whichrow = i / cols;
         int whichcol = i - whichrow * cols;
