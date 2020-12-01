@@ -1,0 +1,10 @@
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: Empty
+BasedOnStyle: llvm
+BinPackArguments: true
+BinPackParameters: false
+BreakBeforeBraces: WebKit
+ForEachMacros: []
+IndentWidth: 4
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Middle
