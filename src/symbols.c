@@ -37,7 +37,10 @@
 /*
  * integral symbol (it has a constant size)
  */
-int dimInt(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimInt(char * found __attribute__((unused)),
+           char ** Gpos,
+           Tdim * Our,
+           struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -70,11 +73,11 @@ found vector.
 #undef our
 }
 
-void drawInt(int * Kid,
+void drawInt(int * Kid __attribute__((unused)),
              int * Curx,
              int * Cury,
              char *** screen,
-             struct Tgraph * graph)
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -98,7 +101,10 @@ graph		--	The parent
 /*
  * closed path integral
  */
-int dimOint(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimOint(char * found __attribute__((unused)),
+            char ** Gpos,
+            Tdim * Our,
+            struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -131,11 +137,11 @@ found vector.
 #undef our
 }
 
-void drawOint(int * Kid,
+void drawOint(int * Kid __attribute__((unused)),
               int * Curx,
               int * Cury,
               char *** screen,
-              struct Tgraph * graph)
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -159,7 +165,10 @@ graph		--	The parent
 /*
  * product sign
  */
-int dimProd(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimProd(char * found __attribute__((unused)),
+            char ** Gpos,
+            Tdim * Our,
+            struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -192,11 +201,11 @@ found vector.
 #undef our
 }
 
-void drawProd(int * Kid,
+void drawProd(int * Kid __attribute__((unused)),
               int * Curx,
               int * Cury,
               char *** screen,
-              struct Tgraph * graph)
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -222,7 +231,10 @@ graph		--	The parent
 /*
  * sum sign
  */
-int dimSum(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimSum(char * found __attribute__((unused)),
+           char ** Gpos,
+           Tdim * Our,
+           struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -255,11 +267,11 @@ found vector.
 #undef our
 }
 
-void drawSum(int * Kid,
+void drawSum(int * Kid __attribute__((unused)),
              int * Curx,
              int * Cury,
              char *** screen,
-             struct Tgraph * graph)
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -286,7 +298,10 @@ graph		--	The parent
  * to sign ->
  */
 
-int dimTo(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimTo(char * found __attribute__((unused)),
+          char ** Gpos,
+          Tdim * Our,
+          struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -313,11 +328,11 @@ found vector.
 #undef our
 }
 
-void drawTo(int * Kid,
+void drawTo(int * Kid __attribute__((unused)),
             int * Curx,
             int * Cury,
             char *** screen,
-            struct Tgraph * graph)
+            struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -334,7 +349,10 @@ graph		--	The parent
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLeadsto(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimLeadsto(char * found __attribute__((unused)),
+               char ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -361,11 +379,11 @@ found vector.
 #undef our
 }
 
-void drawLeadsto(int * Kid,
+void drawLeadsto(int * Kid __attribute__((unused)),
                  int * Curx,
                  int * Cury,
                  char *** screen,
-                 struct Tgraph * graph)
+                 struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -382,7 +400,10 @@ graph		--	The parent
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLceil(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimLceil(char * found __attribute__((unused)),
+             char ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -415,11 +436,11 @@ found vector.
 #undef our
 }
 
-void drawLceil(int * Kid,
+void drawLceil(int * Kid __attribute__((unused)),
                int * Curx,
                int * Cury,
                char *** screen,
-               struct Tgraph * graph)
+               struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -436,7 +457,10 @@ graph		--	The parent
     (*screen)[cury - 1][curx++] = '_';
 }
 
-int dimRceil(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimRceil(char * found __attribute__((unused)),
+             char ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -469,11 +493,11 @@ found vector.
 #undef our
 }
 
-void drawRceil(int * Kid,
+void drawRceil(int * Kid __attribute__((unused)),
                int * Curx,
                int * Cury,
                char *** screen,
-               struct Tgraph * graph)
+               struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -490,7 +514,10 @@ graph		--	The parent
     (*screen)[cury][curx++] = '|';
 }
 
-int dimLfloor(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimLfloor(char * found __attribute__((unused)),
+              char ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -517,11 +544,11 @@ found vector.
 #undef our
 }
 
-void drawLfloor(int * Kid,
+void drawLfloor(int * Kid __attribute__((unused)),
                 int * Curx,
                 int * Cury,
                 char *** screen,
-                struct Tgraph * graph)
+                struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -538,7 +565,10 @@ graph		--	The parent
     (*screen)[cury][curx++] = '_';
 }
 
-int dimRfloor(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimRfloor(char * found __attribute__((unused)),
+              char ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -565,11 +595,11 @@ found vector.
 #undef our
 }
 
-void drawRfloor(int * Kid,
+void drawRfloor(int * Kid __attribute__((unused)),
                 int * Curx,
                 int * Cury,
                 char *** screen,
-                struct Tgraph * graph)
+                struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
