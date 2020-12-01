@@ -222,6 +222,7 @@ char * findClosingLRBrace(char * txt)
             else if ((c == '.') && (strncmp(txt + i, "\\right", 6) == 0))
                 opened--;
             else if ((strncmp(txt + i, "\\right.", 7) == 0) ||
+                     (strncmp(txt + i, "\\right\\.", 8) == 0) ||
                      (strncmp(txt + i, rb, 7) == 0))
                 opened--;
             if (opened == 0) {

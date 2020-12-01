@@ -58,17 +58,24 @@ found vector.
     *gpos = 0;
 
     start = found + 5;
+    while (*start == '\\')
+        start++;
+
     end = findClosingLRBrace(start);
     c = (*end);
     *end = 0;
-    tmp = strdup(found + 6);
+    tmp = strdup(start + 1);
     *end = c;
     out = dim(tmp, newChild(graph));
     free(tmp);
 
+    int off = 6;
+    while (*(end + off) == '\\')
+        off++;
+
     tmp = malloc(sizeof(char) * 3);
     tmp[0] = (*start);
-    tmp[1] = (*(end + 6));
+    tmp[1] = (*(end + off));
     tmp[2] = '\0';
 
     /*
@@ -114,7 +121,7 @@ found vector.
                                   * room at the top */
 
     our.x += out.x + 3;
-    return end + 6 - (found);
+    return end + off - (found);
 #undef gpos
 #undef our
 }
