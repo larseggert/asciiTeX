@@ -76,7 +76,7 @@ void drawText(int * Kid,
               int * Cury,
               char *** screen,
               struct Tgraph * graph,
-              char * txt)
+              char * txt __attribute__((unused)))
 {
 #define kid (*Kid)
 #define curx (*Curx)
