@@ -37,6 +37,8 @@ char ** messages;
 int Nmes;
 int Nall;
 
+STAT SYNTAX_ERR_FLAG;
+
 char ** asciiTeX(char * eq, int ll, int * cols, int * rows)
 {
     struct Tgraph * graph = malloc(sizeof(struct Tgraph));

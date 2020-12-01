@@ -58,5 +58,5 @@ struct Tgraph {            /* the order of fields is important--see
 };
 
 typedef enum { S_NOERR, S_WARN, S_ERR } STAT;
-STAT SYNTAX_ERR_FLAG;
+extern STAT SYNTAX_ERR_FLAG;
 #endif

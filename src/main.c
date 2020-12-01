@@ -26,12 +26,13 @@
 *************************************************************************/
 
 
-#include "asciiTeX.h"
-#include "config.h"
-#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "asciiTeX.h"
+#include "utils.h"
+
 
 char * readfile(char * filename)
 {
@@ -88,6 +89,7 @@ int main(int argc, char * argv[])
                      "Version %s - %s\n\n"
                      "asciiTeX is a fork of eqascii by Przemek Borys\n"
                      "Fork by Bart Pieters\n"
+                     "Fork by Lars Eggert\n"
                      "Distributed under GPL V2\n"};
 
     for (i = 1; i < argc; i++) {
@@ -119,7 +121,7 @@ int main(int argc, char * argv[])
 
                 opt_parse = FILE;
             } else if (strncmp("-v", argv[i], 2) == 0) {
-                printf(header, PACKAGE_VERSION, __DATE__);
+                printf(header, "lars", __DATE__);
                 return 0;
             } else if (strncmp("-h", argv[i], 2) == 0) {
                 puts(usage);
