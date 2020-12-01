@@ -17,27 +17,34 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef SSCRIPT_H
 #define SSCRIPT_H
 
-int             dimSubscript(char *found, char **Gpos, Tdim * Our,
-			     struct Tgraph *graph);
-void            drawSubscript(int *Kid, int *Curx, int *Cury,
-			      char ***screen, struct Tgraph *graph,
-			      char *txt);
+int dimSubscript(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawSubscript(int * Kid,
+                   int * Curx,
+                   int * Cury,
+                   char *** screen,
+                   struct Tgraph * graph,
+                   char * txt);
 
-int             dimSuperscript(char *found, char **Gpos, Tdim * Our,
-			       struct Tgraph *graph);
-void            drawSuperscript(int *Kid, int *Curx, int *Cury,
-				char ***screen, struct Tgraph *graph,
-				char *txt);
+int dimSuperscript(char * found,
+                   char ** Gpos,
+                   Tdim * Our,
+                   struct Tgraph * graph);
+void drawSuperscript(int * Kid,
+                     int * Curx,
+                     int * Cury,
+                     char *** screen,
+                     struct Tgraph * graph,
+                     char * txt);
 
 #endif

@@ -16,20 +16,22 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef SQRT_H
 #define SQRT_H
 
-int             dimSqrt(char *found, char **Gpos, Tdim * Our,
-			struct Tgraph *graph);
-void            drawSqrt(int *Kid, int *Curx, int *Cury, char ***screen,
-			 struct Tgraph *graph);
+int dimSqrt(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawSqrt(int * Kid,
+              int * Curx,
+              int * Cury,
+              char *** screen,
+              struct Tgraph * graph);
 
 #endif

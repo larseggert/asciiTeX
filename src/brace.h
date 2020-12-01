@@ -16,20 +16,22 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef BRACE_H
 #define BRACE_H
 
-int             dimBrace(char *found, char **Gpos, Tdim * Our,
-			 struct Tgraph *graph);
-void            drawBrace(int *Kid, int *Curx, int *Cury, char ***screen,
-			  struct Tgraph *graph);
+int dimBrace(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawBrace(int * Kid,
+               int * Curx,
+               int * Cury,
+               char *** screen,
+               struct Tgraph * graph);
 
 #endif

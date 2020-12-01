@@ -1,4 +1,4 @@
-/* ouline.h: header for layout/dimentioning and drawing routines for over 
+/* ouline.h: header for layout/dimentioning and drawing routines for over
    and underlines. */
 
 /*  This file is part of asciiTeX.
@@ -17,25 +17,29 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef OULINEL_H
 #define OULINEL_H
 
-int             dimOverl(char *found, char **Gpos, Tdim * Our,
-			 struct Tgraph *graph);
-void            drawOverl(int *Kid, int *Curx, int *Cury, char ***screen,
-			  struct Tgraph *graph);
+int dimOverl(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawOverl(int * Kid,
+               int * Curx,
+               int * Cury,
+               char *** screen,
+               struct Tgraph * graph);
 
-int             dimUnderl(char *found, char **Gpos, Tdim * Our,
-			  struct Tgraph *graph);
-void            drawUnderl(int *Kid, int *Curx, int *Cury, char ***screen,
-			   struct Tgraph *graph);
+int dimUnderl(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawUnderl(int * Kid,
+                int * Curx,
+                int * Cury,
+                char *** screen,
+                struct Tgraph * graph);
 
 #endif

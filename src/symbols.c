@@ -1,4 +1,4 @@
-/* symbol.c: layout/dimentioning and drawing routines for symbols (things 
+/* symbol.c: layout/dimentioning and drawing routines for symbols (things
    that do not resize). */
 
 /*  This file is part of asciiTeX.
@@ -17,64 +17,63 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
-#include <string.h>
-#include "parsedef.h"
-#include "utils.h"
 #include "asciiTeX_struct.h"
 #include "dim.h"
+#include "parsedef.h"
+#include "utils.h"
+#include <string.h>
 /*
- * all non adaptive symbols here 
+ * all non adaptive symbols here
  */
 /*
- * integral symbol (it has a constant size) 
+ * integral symbol (it has a constant size)
  */
-int
-dimInt(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimInt(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) INT;
-	gpos++;
-	*gpos = 0;
-	our.x += 4;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 3)
-		our.y = 3 + our.baseline;
-	return 3;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)INT;
+    gpos++;
+    *gpos = 0;
+    our.x += 4;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 3)
+        our.y = 3 + our.baseline;
+    return 3;
 
 #undef gpos
 #undef our
 }
 
-void
-drawInt(int *Kid, int *Curx, int *Cury, char ***screen,
-	struct Tgraph *graph)
+void drawInt(int * Kid,
+             int * Curx,
+             int * Cury,
+             char *** screen,
+             struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -87,56 +86,55 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury - 2][curx + 2] = '_';
-	(*screen)[cury - 1][curx + 1] = '/';
-	(*screen)[cury][curx + 1] = '|';
-	(*screen)[cury + 1][curx + 1] = '/';
-	(*screen)[cury + 1][curx] = '_';
-	curx += 4;
+    (*screen)[cury - 2][curx + 2] = '_';
+    (*screen)[cury - 1][curx + 1] = '/';
+    (*screen)[cury][curx + 1] = '|';
+    (*screen)[cury + 1][curx + 1] = '/';
+    (*screen)[cury + 1][curx] = '_';
+    curx += 4;
 }
 
 /*
- * closed path integral 
+ * closed path integral
  */
-int
-dimOint(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimOint(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) OINT;
-	gpos++;
-	*gpos = 0;
-	our.x += 4;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 3)
-		our.y = 3 + our.baseline;
-	return 4;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)OINT;
+    gpos++;
+    *gpos = 0;
+    our.x += 4;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 3)
+        our.y = 3 + our.baseline;
+    return 4;
 
 #undef gpos
 #undef our
 }
 
-void
-drawOint(int *Kid, int *Curx, int *Cury, char ***screen,
-	 struct Tgraph *graph)
+void drawOint(int * Kid,
+              int * Curx,
+              int * Cury,
+              char *** screen,
+              struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -149,56 +147,55 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury - 2][curx + 2] = '_';
-	(*screen)[cury - 1][curx + 1] = '/';
-	(*screen)[cury][curx + 1] = 'O';
-	(*screen)[cury + 1][curx + 1] = '/';
-	(*screen)[cury + 1][curx] = '_';
-	curx += 4;
+    (*screen)[cury - 2][curx + 2] = '_';
+    (*screen)[cury - 1][curx + 1] = '/';
+    (*screen)[cury][curx + 1] = 'O';
+    (*screen)[cury + 1][curx + 1] = '/';
+    (*screen)[cury + 1][curx] = '_';
+    curx += 4;
 }
 
 /*
- * product sign 
+ * product sign
  */
-int
-dimProd(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimProd(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) PROD;
-	gpos++;
-	*gpos = 0;
-	our.x += 4;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 2)
-		our.y++;
-	return 4;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)PROD;
+    gpos++;
+    *gpos = 0;
+    our.x += 4;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 2)
+        our.y++;
+    return 4;
 
 #undef gpos
 #undef our
 }
 
-void
-drawProd(int *Kid, int *Curx, int *Cury, char ***screen,
-	 struct Tgraph *graph)
+void drawProd(int * Kid,
+              int * Curx,
+              int * Cury,
+              char *** screen,
+              struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -211,58 +208,57 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury - 1][curx] = '_';
-	(*screen)[cury - 1][curx + 1] = '_';
-	(*screen)[cury - 1][curx + 2] = '_';
-	(*screen)[cury][curx] = '|';
-	(*screen)[cury][curx + 2] = '|';
-	(*screen)[cury + 1][curx] = '|';
-	(*screen)[cury + 1][curx + 2] = '|';
-	curx += 4;
+    (*screen)[cury - 1][curx] = '_';
+    (*screen)[cury - 1][curx + 1] = '_';
+    (*screen)[cury - 1][curx + 2] = '_';
+    (*screen)[cury][curx] = '|';
+    (*screen)[cury][curx + 2] = '|';
+    (*screen)[cury + 1][curx] = '|';
+    (*screen)[cury + 1][curx + 2] = '|';
+    curx += 4;
 }
 
 /*
- * sum sign 
+ * sum sign
  */
-int
-dimSum(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimSum(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) SUM;
-	gpos++;
-	*gpos = 0;
-	our.x += 4;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 2)
-		our.y++;
-	return 3;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)SUM;
+    gpos++;
+    *gpos = 0;
+    our.x += 4;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 2)
+        our.y++;
+    return 3;
 
 #undef gpos
 #undef our
 }
 
-void
-drawSum(int *Kid, int *Curx, int *Cury, char ***screen,
-	struct Tgraph *graph)
+void drawSum(int * Kid,
+             int * Curx,
+             int * Cury,
+             char *** screen,
+             struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -275,52 +271,52 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury - 1][curx] = ' ';
-	(*screen)[cury - 1][curx + 1] = '_';
-	(*screen)[cury - 1][curx + 2] = '_';
-	(*screen)[cury][curx] = '\\';
-	(*screen)[cury + 1][curx] = '/';
-	(*screen)[cury + 1][curx + 1] = '_';
-	(*screen)[cury + 1][curx + 2] = '_';
-	curx += 4;
+    (*screen)[cury - 1][curx] = ' ';
+    (*screen)[cury - 1][curx + 1] = '_';
+    (*screen)[cury - 1][curx + 2] = '_';
+    (*screen)[cury][curx] = '\\';
+    (*screen)[cury + 1][curx] = '/';
+    (*screen)[cury + 1][curx + 1] = '_';
+    (*screen)[cury + 1][curx + 2] = '_';
+    curx += 4;
 }
 
 /*
- * to sign -> 
+ * to sign ->
  */
 
-int
-dimTo(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimTo(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) TO;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	return 2;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)TO;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    return 2;
 
 #undef gpos
 #undef our
 }
 
-void
-drawTo(int *Kid, int *Curx, int *Cury, char ***screen,
-       struct Tgraph *graph)
+void drawTo(int * Kid,
+            int * Curx,
+            int * Cury,
+            char *** screen,
+            struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -333,42 +329,42 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury][curx++] = '-';
-	(*screen)[cury][curx++] = '>';
+    (*screen)[cury][curx++] = '-';
+    (*screen)[cury][curx++] = '>';
 }
 
-int
-dimLeadsto(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimLeadsto(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) LEADSTO;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	return 7;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)LEADSTO;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    return 7;
 
 #undef gpos
 #undef our
 }
 
-void
-drawLeadsto(int *Kid, int *Curx, int *Cury, char ***screen,
-	    struct Tgraph *graph)
+void drawLeadsto(int * Kid,
+                 int * Curx,
+                 int * Cury,
+                 char *** screen,
+                 struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -381,49 +377,48 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury][curx++] = '~';
-	(*screen)[cury][curx++] = '>';
+    (*screen)[cury][curx++] = '~';
+    (*screen)[cury][curx++] = '>';
 }
 
-int
-dimLceil(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimLceil(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) LCEIL;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 2)
-		our.y = 2 + our.baseline;
-	return 5;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)LCEIL;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 2)
+        our.y = 2 + our.baseline;
+    return 5;
 
 #undef gpos
 #undef our
 }
 
-void
-drawLceil(int *Kid, int *Curx, int *Cury, char ***screen,
-	  struct Tgraph *graph)
+void drawLceil(int * Kid,
+               int * Curx,
+               int * Cury,
+               char *** screen,
+               struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -436,49 +431,48 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury][curx++] = '|';
-	(*screen)[cury - 1][curx++] = '_';
+    (*screen)[cury][curx++] = '|';
+    (*screen)[cury - 1][curx++] = '_';
 }
 
-int
-dimRceil(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimRceil(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) RCEIL;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	if (our.baseline == 0)
-	{
-		our.baseline++;
-		our.y++;
-	}
-	if (our.y - our.baseline < 2)
-		our.y = 2 + our.baseline;
-	return 5;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)RCEIL;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    if (our.baseline == 0) {
+        our.baseline++;
+        our.y++;
+    }
+    if (our.y - our.baseline < 2)
+        our.y = 2 + our.baseline;
+    return 5;
 
 #undef gpos
 #undef our
 }
 
-void
-drawRceil(int *Kid, int *Curx, int *Cury, char ***screen,
-	  struct Tgraph *graph)
+void drawRceil(int * Kid,
+               int * Curx,
+               int * Cury,
+               char *** screen,
+               struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -491,42 +485,42 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury - 1][curx++] = '_';
-	(*screen)[cury][curx++] = '|';
+    (*screen)[cury - 1][curx++] = '_';
+    (*screen)[cury][curx++] = '|';
 }
 
-int
-dimLfloor(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimLfloor(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) LFLOOR;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	return 6;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)LFLOOR;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    return 6;
 
 #undef gpos
 #undef our
 }
 
-void
-drawLfloor(int *Kid, int *Curx, int *Cury, char ***screen,
-	   struct Tgraph *graph)
+void drawLfloor(int * Kid,
+                int * Curx,
+                int * Cury,
+                char *** screen,
+                struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -539,42 +533,42 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury][curx++] = '|';
-	(*screen)[cury][curx++] = '_';
+    (*screen)[cury][curx++] = '|';
+    (*screen)[cury][curx++] = '_';
 }
 
-int
-dimRfloor(char *found, char **Gpos, Tdim * Our, struct Tgraph *graph)
+int dimRfloor(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the equation
-Gpos		--	Pointer to a string which will contain the part of the equation 
-			relevant to the current parent with flags to indicate which drawing 
-			routines to use.
-Our		--	dimention of the parent
-graph		--	The parent
-The routines returns the number of characters it used of the found vector.
+found		--	Pointer to a sting containing the remaining part of the
+equation Gpos		--	Pointer to a string which will contain the part
+of the equation relevant to the current parent with flags to indicate which
+drawing routines to use. Our		--	dimention of the parent graph
+--	The parent The routines returns the number of characters it used of the
+found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
 
-	*gpos = 1;		/* See parsedef.h for the keyword
-				 * definitions */
-	gpos++;
-	*gpos = (char) RFLOOR;
-	gpos++;
-	*gpos = 0;
-	our.x += 2;
-	return 6;
+    *gpos = 1; /* See parsedef.h for the keyword
+                * definitions */
+    gpos++;
+    *gpos = (char)RFLOOR;
+    gpos++;
+    *gpos = 0;
+    our.x += 2;
+    return 6;
 
 #undef gpos
 #undef our
 }
 
-void
-drawRfloor(int *Kid, int *Curx, int *Cury, char ***screen,
-	   struct Tgraph *graph)
+void drawRfloor(int * Kid,
+                int * Curx,
+                int * Cury,
+                char *** screen,
+                struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -587,6 +581,6 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-	(*screen)[cury][curx++] = '_';
-	(*screen)[cury][curx++] = '|';
+    (*screen)[cury][curx++] = '_';
+    (*screen)[cury][curx++] = '|';
 }

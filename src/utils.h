@@ -16,38 +16,38 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-      
+
 *************************************************************************/
 
 #ifndef UTILS_H
 #define UTILS_H
-void SyntaxError(char *format_str, ...);
-void SyntaxWarning(char *format_str, ...);
+void SyntaxError(char * format_str, ...);
+void SyntaxWarning(char * format_str, ...);
 
-char           *preparse(char *txt);	/* make the text formatting nice,
-					 * and create a dynamic array */
-char           *findClosingBrace(char *txt);	/* find the closing brace
-						 * of cmds like frac{},
-						 * sqrt{}, etc. */
-struct Tgraph  *newChild(struct Tgraph *graph);	/* add new child to the
-						 * tree, and return a
-						 * pointer to this child */
-void            dealloc(struct Tgraph *graph);	/* frees the space used by 
-						 * tree */
-void InitGraph(struct Tgraph *graph);
+char * preparse(char * txt);         /* make the text formatting nice,
+                                      * and create a dynamic array */
+char * findClosingBrace(char * txt); /* find the closing brace
+                                      * of cmds like frac{},
+                                      * sqrt{}, etc. */
+struct Tgraph * newChild(struct Tgraph * graph); /* add new child to the
+                                                  * tree, and return a
+                                                  * pointer to this child */
+void dealloc(struct Tgraph * graph);             /* frees the space used by
+                                                  * tree */
+void InitGraph(struct Tgraph * graph);
 
-char           *getbegin_endEnd(char *txt);	/* similar to
-						 * findClosingBrace, but
-						 * works with \begin{}
-						 * \end{} pairs. */
-char           *findClosingLRBrace(char *txt);	/* find the closing brace
-						 * of cmds like \left( */
-extern char	**messages;
-extern int	Nmes;
-extern int	Nall;
+char * getbegin_endEnd(char * txt);    /* similar to
+                                        * findClosingBrace, but
+                                        * works with \begin{}
+                                        * \end{} pairs. */
+char * findClosingLRBrace(char * txt); /* find the closing brace
+                                        * of cmds like \left( */
+extern char ** messages;
+extern int Nmes;
+extern int Nall;
 #endif

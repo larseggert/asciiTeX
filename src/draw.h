@@ -16,19 +16,18 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef DRAW_H
 #define DRAW_H
 
-void            drawInternal(char ***screen, struct Tgraph *graph, int x,
-			     int y);
-char          **draw(struct Tgraph *graph);
+void drawInternal(char *** screen, struct Tgraph * graph, int x, int y);
+char ** draw(struct Tgraph * graph);
 
 #endif

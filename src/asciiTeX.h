@@ -16,15 +16,15 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef ASCIITEX_H
 #define ASCIITEX_H
-char **  asciiTeX(char *eq, int ll, int * cols, int * rows);
+char ** asciiTeX(char * eq, int ll, int * cols, int * rows);
 #endif

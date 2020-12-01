@@ -16,61 +16,61 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef PARSEDEF
 #define PARSEDEF
 /*
  * to add keywords: 1 add an element to the list below 2 add a
- * recognision pattern to the key table in dim.c 3 add the case for your 
+ * recognision pattern to the key table in dim.c 3 add the case for your
  * element to the dim routine 4 write your routine, let it add the list
  * element to the gpos vector 5 call your routine from the draw routine
- * 
+ *
  */
 
 typedef enum {
-	/*
-	 * misk 
-	 */
-	ERR,
-	ESCAPE,
-	/*
-	 * things with children 
-	 */
-	FRAC,
-	SUPER,
-	SUB,
-	SQRT,
-	OVERLINE,
-	UNDERLINE,
-	LIMIT,
-	BRACES,
-	ARRAY,
-	/*
-	 * symbols 
-	 */
-	TO,
-	LEADSTO,
-	SUM,
-	PROD,
-	INT,
-	OINT,
-	INFTY,
-	LCEIL,
-	RCEIL,
-	LFLOOR,
-	RFLOOR
+    /*
+     * misk
+     */
+    ERR,
+    ESCAPE,
+    /*
+     * things with children
+     */
+    FRAC,
+    SUPER,
+    SUB,
+    SQRT,
+    OVERLINE,
+    UNDERLINE,
+    LIMIT,
+    BRACES,
+    ARRAY,
+    /*
+     * symbols
+     */
+    TO,
+    LEADSTO,
+    SUM,
+    PROD,
+    INT,
+    OINT,
+    INFTY,
+    LCEIL,
+    RCEIL,
+    LFLOOR,
+    RFLOOR
 } PRSDEF;
 typedef struct {
-	char           *name;
-	int             len;
-	PRSDEF          Nr;
+    char * name;
+    int len;
+    PRSDEF Nr;
 } KEYWORD;
 
 /* the keword table in dim.c */

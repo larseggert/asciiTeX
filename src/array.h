@@ -16,21 +16,25 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef ARRAY_H
 #define ARRAY_H
 
-char           *findArrayDelimiter(char *txt);
-int             dimArray(char *found, char **Gpos, Tdim * Our,
-			 struct Tgraph *graph);
-void            drawArray(int *Kid, int *Curx, int *Cury, char ***screen,
-			  struct Tgraph *graph);
+#include "asciiTeX_struct.h"
+
+char * findArrayDelimiter(char * txt);
+int dimArray(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+void drawArray(int * Kid,
+               int * Curx,
+               int * Cury,
+               char *** screen,
+               struct Tgraph * graph);
 
 #endif

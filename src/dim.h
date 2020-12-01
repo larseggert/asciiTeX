@@ -16,18 +16,18 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 #ifndef DIM_H
 #define DIM_H
 
-Tdim            dim(char *txt, struct Tgraph *graph);
-Tdim            eqdim(char *txt, struct Tgraph *graph, int ll);
+Tdim dim(char * txt, struct Tgraph * graph);
+Tdim eqdim(char * txt, struct Tgraph * graph, int ll);
 
 #endif

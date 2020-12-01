@@ -16,64 +16,61 @@
       The Free Software Foundation, Inc.
       59 Temple Place, Suite 330
       Boston, MA 02111 USA
-      
-    
+
+
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
-       
+
 *************************************************************************/
 
 /*
- * #define DEBUG 
+ * #define DEBUG
  */
 #ifdef DEBUG
 #include <mcheck.h>
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "asciiTeX_struct.h"
-#include "draw.h"
 #include "dim.h"
+#include "draw.h"
 #include "utils.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char ** messages;
 int Nmes;
 int Nall;
 
-char **  asciiTeX(char *eq, int ll, int * cols, int * rows)
+char ** asciiTeX(char * eq, int ll, int * cols, int * rows)
 {
-	struct Tgraph  *graph = malloc(sizeof(struct Tgraph));
-	char          **screen;
-	char           *txt;
-	SYNTAX_ERR_FLAG=S_NOERR;
-	Nmes=0;
-	Nall=10;
-	messages=malloc(Nall*sizeof(char *));
-	
+    struct Tgraph * graph = malloc(sizeof(struct Tgraph));
+    char ** screen;
+    char * txt;
+    SYNTAX_ERR_FLAG = S_NOERR;
+    Nmes = 0;
+    Nall = 10;
+    messages = malloc(Nall * sizeof(char *));
+
 #ifdef DEBUG
-	mtrace();
+    mtrace();
 #endif
-	InitGraph(graph);
-	eqdim(txt = preparse(eq), graph,ll);
-	if (SYNTAX_ERR_FLAG!=S_ERR)
-	{
-		free(txt);
-		screen = draw(graph);
-		*rows=graph->dim.y;
-		*cols=graph->dim.x;
-	}
-	else
-	{
-		(*cols)=-1;
-		(*rows)=Nmes;
-		return messages;
-	}
-	dealloc(graph);
-	free(graph);
+    InitGraph(graph);
+    eqdim(txt = preparse(eq), graph, ll);
+    if (SYNTAX_ERR_FLAG != S_ERR) {
+        free(txt);
+        screen = draw(graph);
+        *rows = graph->dim.y;
+        *cols = graph->dim.x;
+    } else {
+        (*cols) = -1;
+        (*rows) = Nmes;
+        return messages;
+    }
+    dealloc(graph);
+    free(graph);
 #ifdef DEBUG
-	muntrace();
+    muntrace();
 #endif
-	return screen;
+    return screen;
 }
