@@ -20,7 +20,6 @@
 // Authors:
 // Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -49,7 +48,6 @@ int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 #define our (*Our)
     char *start, *end, *tmp;
     Tdim out;
-    puts(found);
     *gpos = 1;
     gpos++;
     *gpos = (char)TEXT;
@@ -61,7 +59,6 @@ int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
     end = findClosingBrace(start + 1);
     *end = 0;
     tmp = strdup(start + 1);
-    puts(tmp);
     *end = '}';
 
     out = dim(tmp, newChild(graph));
