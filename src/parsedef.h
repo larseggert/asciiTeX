@@ -25,7 +25,7 @@
 *************************************************************************/
 
 #ifndef PARSEDEF
-#define PAREDEF
+#define PARSEDEF
 /*
  * to add keywords: 1 add an element to the list below 2 add a
  * recognision pattern to the key table in dim.c 3 add the case for your 

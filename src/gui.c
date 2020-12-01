@@ -100,7 +100,7 @@ char * process_command(char *command)
 		}
 		if (esc) /* the escape flag is to comment out comment signs, i.e. \% */
 			esc=0;
-		else if((results[j-1]=='\\'))
+		else if(results[j-1]=='\\')
 			esc=1;
 	
 	}

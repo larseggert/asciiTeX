@@ -26,7 +26,7 @@
 *************************************************************************/
 
 #ifndef OULINEL_H
-#define OULINE_H
+#define OULINEL_H
 
 int             dimOverl(char *found, char **Gpos, Tdim * Our,
 			 struct Tgraph *graph);

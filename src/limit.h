@@ -25,7 +25,7 @@
 *************************************************************************/
 
 #ifndef LIMIT_H
-#define LIMITL_H
+#define LIMIT_H
 
 int             dimLimit(char *found, char **Gpos, Tdim * Our,
 			 struct Tgraph *graph);

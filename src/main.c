@@ -65,7 +65,7 @@ char * readfile(char *filename)
 		}
 		if (esc) /* the escape flag is to comment out comment signs, i.e. \% */
 			esc=0;
-		else if((results[l-1]=='\\'))
+		else if(results[l-1]=='\\')
 			esc=1;
 	
 	}
@@ -153,7 +153,7 @@ main(int argc, char *argv[])
 			}
 			else if(strncmp("-h", argv[i], 2)==0)
 			{
-				printf(usage);
+				puts(usage);
 				return 0;
 			}
 			else if (eq)
@@ -169,7 +169,7 @@ main(int argc, char *argv[])
 
 	if (!eq)
 	{
-		fprintf(stderr, usage);
+		fputs(usage,stderr);
 		return 1;
 	}
 	screen = asciiTeX(eq, ll, &cols, &rows);
