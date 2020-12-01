@@ -35,6 +35,7 @@
 #include "sqrt.h"
 #include "sscript.h"
 #include "symbols.h"
+#include "text.h"
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,6 +61,8 @@ const KEYWORD Keys[] = {{"^{", 2, SUPER},
                         {"\\rceil", 6, RCEIL},
                         {"\\lfloor", 7, LFLOOR},
                         {"\\rfloor", 7, RFLOOR},
+                        {"\\text", 5, TEXT},
+                        {"\\mathrm", 7, TEXT},
                         {"\\", 1, ESCAPE},
                         {NULL, ERR}};
 PRSDEF
@@ -263,6 +266,10 @@ Tdim dim(char * txt, struct Tgraph * graph)
                 break;
             case LFLOOR:
                 i += dimLfloor(txt + i, &gpos, &our, graph);
+                break;
+            case TEXT:
+            case MATHRM:
+                i += dimText(txt + i, &gpos, &our, graph);
                 break;
             case ESCAPE:
                 i++;

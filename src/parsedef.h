@@ -1,49 +1,50 @@
-/* parsedef.h: header for parsing keqword tables */
+// parsedef.h: header for parsing keqword tables
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
+#pragma once
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
+// to add keywords:
+//
+// 1 add an element to the list below
+//
+// 2 add a recognition pattern to the key table in dim.c
+//
+// 3 add the case for your element to the dim routine
+//
+// 4 write your routine, let it add the list element to the gpos vector
+//
+// 5 call your routine from the draw routine
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
-
-#ifndef PARSEDEF
-#define PARSEDEF
-/*
- * to add keywords: 1 add an element to the list below 2 add a
- * recognision pattern to the key table in dim.c 3 add the case for your
- * element to the dim routine 4 write your routine, let it add the list
- * element to the gpos vector 5 call your routine from the draw routine
- *
- */
 
 typedef enum {
-    /*
-     * misk
-     */
+    // misc
     ERR,
     ESCAPE,
-    /*
-     * things with children
-     */
+    TEXT,
+    MATHRM,
+
+    // things with children
     FRAC,
     SUPER,
     SUB,
@@ -53,9 +54,8 @@ typedef enum {
     LIMIT,
     BRACES,
     ARRAY,
-    /*
-     * symbols
-     */
+
+    // symbols
     TO,
     LEADSTO,
     SUM,
@@ -68,12 +68,12 @@ typedef enum {
     LFLOOR,
     RFLOOR
 } PRSDEF;
+
+
 typedef struct {
     char * name;
     int len;
     PRSDEF Nr;
 } KEYWORD;
 
-/* the keword table in dim.c */
-
-#endif
+// the keyword table in dim.c

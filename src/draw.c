@@ -35,6 +35,7 @@
 #include "sqrt.h"
 #include "sscript.h"
 #include "symbols.h"
+#include "text.h"
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -104,6 +105,9 @@ void drawInternal(char *** screen, struct Tgraph * graph, int x, int y)
                 break;
             case OINT:
                 drawOint(&kid, &curx, &cury, screen, graph);
+                break;
+            case TEXT:
+                drawText(&kid, &curx, &cury, screen, graph, txt);
                 break;
             default:
                 fprintf(stderr,
