@@ -21,15 +21,11 @@
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
+    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 *************************************************************************/
 
-/*
- * #define DEBUG
- */
-#ifdef DEBUG
-#include <mcheck.h>
-#endif
+
 #include "asciiTeX.h"
 #include "config.h"
 #include "utils.h"

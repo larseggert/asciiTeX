@@ -4,6 +4,7 @@
         {
             "path": ".",
             "file_include_patterns": [
+                "AUTHORS",
                 "*.c",
                 "*.cc",
                 "*.cpp",

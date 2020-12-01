@@ -21,6 +21,7 @@
     Authors:
     Original program (eqascii): Przemek Borys <pborys@dione.ids.pl>
     Fork by: Bart Pieters
+    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 *************************************************************************/
 

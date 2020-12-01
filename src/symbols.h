@@ -22,6 +22,7 @@
     Authors:
     Original program (eqascii): Przemek Borys
     Fork by: Bart Pieters
+    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 *************************************************************************/
 
