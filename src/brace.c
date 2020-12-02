@@ -126,10 +126,8 @@ the found vector.
 
     if ((graph->down[graph->children - 1]->options[0] == L'<') ||
         (graph->down[graph->children - 1]->options[1] == L'>')) {
-        printf("%d\n", our.y);
         our.y += (!(our.y % 2)); /* ensure y is uneven with
                                   * room at the top */
-        printf("%d\n", our.y);
         out.x += our.y;
         our.x += out.x;
     }
