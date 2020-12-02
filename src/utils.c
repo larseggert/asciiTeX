@@ -85,6 +85,20 @@ wchar_t * preparse(wchar_t * txt)
         if (!*ptr)
             break;
 
+        if (wcsncmp(ptr, L"\\text{", 6) == 0) {
+            // don't touch
+            wchar_t * end = findClosingBrace(ptr + 6);
+            if (end == ptr) {
+                SyntaxError(L"\\text not closed\n");
+                exit(1);
+            }
+            wcsncpy(rptr, ptr, end - ptr + 1);
+            rptr += end - ptr + 1;
+            *rptr = L'\0';
+            ptr = end + 1;
+            continue;
+        }
+
         if (*ptr == L'\\' && *(ptr + 1) != L'\\' && *(ptr + 1) != L'\0') {
             *rptr = *ptr;
             rptr++;
