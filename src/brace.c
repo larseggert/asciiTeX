@@ -120,6 +120,11 @@ found vector.
         our.y += (!(our.y % 2)); /* ensure y is uneven with
                                   * room at the top */
 
+    if ((graph->down[graph->children - 1]->options[0] == '<') ||
+        (graph->down[graph->children - 1]->options[1] == '>'))
+        our.y += (!(our.y % 2)); /* ensure y is uneven with
+                                  * room at the top */
+
     our.x += out.x + 3;
     return end + off - (found);
 #undef gpos
@@ -193,6 +198,22 @@ graph		--	The parent
         } else
             (*screen)[cury + graph->dim.baseline][curx++] = '{';
         break;
+    case '<':
+        if (graph->down[kid]->dim.y > 2) {
+            (*screen)[low][curx] = '\\';
+            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '|';
+            for (i = 1;
+                 i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
+                 i++)
+                if (!(i == graph->down[kid]->dim.y / 2))
+                    (*screen)[low - i][curx] = '\\';
+
+            (*screen)[low - graph->down[kid]->dim.y +
+                      graph->down[kid]->dim.y % 2][curx] = '/';
+            curx++;
+        } else
+            (*screen)[cury + graph->dim.baseline][curx++] = '<';
+        break;
     case '.': /* dummy brace to open or close any type *
                * of brace */
         break;
@@ -255,6 +276,21 @@ graph		--	The parent
                       (graph->down[kid]->dim.y % 2)][curx] = '\\';
         } else
             (*screen)[cury][curx] = '}';
+        break;
+    case '>':
+        if (graph->down[kid]->dim.y > 2) {
+            (*screen)[low][curx] = '/';
+            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '>';
+            for (i = 1;
+                 i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
+                 i++)
+                if (!(i == graph->down[kid]->dim.y / 2))
+                    (*screen)[low - i][curx] = '/';
+
+            (*screen)[low - graph->down[kid]->dim.y +
+                      (graph->down[kid]->dim.y % 2)][curx] = '\\';
+        } else
+            (*screen)[cury][curx] = '>';
         break;
     case '.': /* dummy brace to open or close any type *
                * of brace */
