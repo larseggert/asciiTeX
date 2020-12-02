@@ -5,6 +5,7 @@
             "path": ".",
             "file_include_patterns": [
                 "AUTHORS",
+                "EXAMPLES",
                 "*.c",
                 "*.cc",
                 "*.cpp",
