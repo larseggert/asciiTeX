@@ -35,7 +35,7 @@
 wchar_t * readfile(char * filename)
 {
     FILE * f;
-    int l_alloc = 100;
+    int l_alloc = 1000;
     int l = 0, esc = 0;
     wchar_t * results = malloc(l_alloc * sizeof(wchar_t));
     if ((f = fopen(filename, "r")) == NULL) {
@@ -49,18 +49,18 @@ wchar_t * readfile(char * filename)
         }
         results[l++] = getwc(f);
 
-        if ((results[l - 1] == '%') && (!esc)) {
+        if ((results[l - 1] == L'%') && (!esc)) {
             /* % is the comment sign, ignore rest of the line */
             l--;
-            while (!feof(f) && ((char)getc(f) != '\n'))
+            while (!feof(f) && getwc(f) != L'\n')
                 ;
         }
         if (esc) /* the escape flag is to comment out comment signs, i.e. \% */
             esc = 0;
-        else if (l > 0 && results[l - 1] == '\\')
+        else if (l > 0 && results[l - 1] == L'\\')
             esc = 1;
     }
-    results[--l] = '\0';
+    results[--l] = L'\0';
     fclose(f);
     return results;
 }
@@ -132,6 +132,7 @@ int main(int argc, char * argv[])
                 eq = malloc((strlen(argv[i]) + 1) * sizeof(wchar_t));
                 swprintf(eq, (strlen(argv[i]) + 1) * sizeof(wchar_t), L"%s",
                          argv[i]);
+                f = 1;
             }
         }
     }

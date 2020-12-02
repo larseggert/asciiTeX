@@ -75,25 +75,17 @@ wchar_t * getbegin_endEnd(wchar_t * txt)
 
 wchar_t * preparse(wchar_t * txt)
 {
-    wchar_t * result = malloc((wcslen(txt) * 3) * sizeof(wchar_t));
+    wchar_t * result = malloc((wcslen(txt) * 10) * sizeof(wchar_t));
     wchar_t * ptr = txt;
     wchar_t * rptr = result;
     while (*ptr) {
-        while ((*ptr == L' ') || (*ptr == L'\t') || (*ptr == L'\n'))
+        while (*ptr == L' ' || *ptr == L'\t' || *ptr == L'\n')
             ptr++;
-        /* spaces around +/-*= is generally prettier */
-        /* We insert spaces as when a line does not fit within the
-         * line-length we */
-        /* need to insert a break after one of these characters (perhaps
-         * this is not */
-        /* the most elegant solution). It becomes ugly when, e.g., we want
-         * to specify */
-        /* the following condition: x > -12 */
-        /* In this case breaking lines around the - is undesired and so is
-         * inserting */
-        /* spaces. The quick and dirty workaround is to escape the - */
-        if ((*ptr == L'\\') &&
-            ((*(ptr + 1) != L'\\') && (*(ptr + 1) != L'\0'))) {
+
+        if (!*ptr)
+            break;
+
+        if (*ptr == L'\\' && *(ptr + 1) != L'\\' && *(ptr + 1) != L'\0') {
             *rptr = *ptr;
             rptr++;
             ptr++;
@@ -101,46 +93,60 @@ wchar_t * preparse(wchar_t * txt)
             rptr++;
             ptr++;
         }
-        if ((*ptr != L'+') && (*ptr != L'-') && (*ptr != L'/') &&
-            (*ptr != L'*') && (*ptr != L'=')) {
+
+        if (*ptr != L'+' && *ptr != L'-' && *ptr != L'/' && *ptr != L'<' &&
+            *ptr != L'>' && *ptr != L'*' && *ptr != L'=' && *ptr != L',' &&
+            *ptr != L'!') {
             *rptr = *ptr;
             rptr++;
             ptr++;
         } else {
-            *rptr = L' ';
-            rptr++;
+            if (*ptr != L',' &&
+                (*ptr != L'=' || (*(rptr - 1) != '<' && *(rptr - 1) != '>' &&
+                                  *(rptr - 1) != '!'))) {
+                *rptr = L' ';
+                rptr++;
+            }
             *rptr = *ptr;
             rptr++;
-            *rptr = L' ';
-            rptr++;
             ptr++;
+
+            if (*ptr != L'=' || (*(rptr - 1) != L'<' && *(rptr - 1) != L'>' &&
+                                 *(rptr - 1) != L'!')) {
+                *rptr = L' ';
+                rptr++;
+            }
         }
-        if ((*(ptr - 1) == L'\\') && (*ptr == L'\\')) {
+
+        if (*(ptr - 1) == L'\\' && *ptr == L'\\') {
             /* internally we replace \\ with endline characters as a single
              * endline character is more convenient */
             *(rptr - 1) = L'\n';
             ptr++;
         }
-        if (((*(ptr - 1) == L'^') || (*(ptr - 1) == L'_')) && (*ptr != L'{')) {
-            if (!(*ptr) && (*(ptr - 2) != L'\\')) {
+
+        if (*(ptr - 1) == L'^' || (*(ptr - 1) == L'_' && *ptr != L'{')) {
+            if (!*ptr && *(ptr - 2) != L'\\') {
                 SyntaxError(L"Premature end of input\n");
                 return result;
             }
-            if ((*ptr == L'^') || (*ptr == L'_')) {
+
+            if (*ptr == L'^' || *ptr == L'_') {
                 SyntaxError(L"Ill formatter super- of subscript\n");
                 return result;
             }
-            if ((ptr - 2 < txt) || (*(ptr - 2) != L'\\')) {
+
+            if ((ptr - 2 < txt) || *(ptr - 2) != L'\\') {
                 *rptr = L'{';
                 rptr++;
-
                 *rptr = *ptr;
                 ptr++;
                 rptr++;
+
                 if (*(ptr - 1) == L'\\') {
-                    while (((*ptr >= 0x41) && (*ptr <= 0x5a)) ||
-                           ((*ptr >= 0x61) &&
-                            (*ptr <= 0x7a))) { /* while not whitespace or end */
+                    while ((*ptr >= 0x41 && *ptr <= 0x5a) ||
+                           (*ptr >= 0x61 && *ptr <= 0x7a)) {
+                        /* while not whitespace or end */
                         *rptr = *ptr;
                         rptr++;
                         ptr++;
@@ -153,7 +159,6 @@ wchar_t * preparse(wchar_t * txt)
         }
     }
     *rptr = L'\0';
-    result = (wchar_t *)realloc(result, (wcslen(result) + 1) * sizeof(wchar_t));
     return result;
 }
 
