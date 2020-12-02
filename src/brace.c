@@ -60,7 +60,7 @@ the found vector.
     *gpos = 0;
 
     start = found + 5;
-    while (*start == '\\')
+    while (*start == L'\\')
         start++;
 
     end = findClosingLRBrace(start);
@@ -72,13 +72,13 @@ the found vector.
     free(tmp);
 
     int off = 6;
-    while (*(end + off) == '\\')
+    while (*(end + off) == L'\\')
         off++;
 
     tmp = malloc(sizeof(wchar_t) * 3);
     tmp[0] = (*start);
     tmp[1] = (*(end + off));
-    tmp[2] = '\0';
+    tmp[2] = L'\0';
 
     /*
      * Store the brace type in the options string of the child
@@ -89,15 +89,15 @@ the found vector.
     graph->down[graph->children - 1]->options = wcsdup(tmp);
     free(tmp);
 
-    if ((graph->down[graph->children - 1]->options[0] == '[') &&
-        (graph->down[graph->children - 1]->options[1] == ']')) {
+    if ((graph->down[graph->children - 1]->options[0] == L'[') &&
+        (graph->down[graph->children - 1]->options[1] == L']')) {
         if (out.y > 1) {
             out.y++;    /* make room for an underscore at
                          * the top */
             out.x += 2; /* two braces of two chars wide */
         }
-    } else if ((graph->down[graph->children - 1]->options[0] == '[') ||
-               (graph->down[graph->children - 1]->options[1] == ']')) {
+    } else if ((graph->down[graph->children - 1]->options[0] == L'[') ||
+               (graph->down[graph->children - 1]->options[1] == L']')) {
         if (out.y > 1) {
             out.y++;    /* make room for an underscore at
                          * the top */
@@ -117,17 +117,23 @@ the found vector.
         our.y = (out.y - out.baseline) + our.baseline;
     }
 
-    if ((graph->down[graph->children - 1]->options[0] == '{') ||
-        (graph->down[graph->children - 1]->options[1] == '}'))
+    if ((graph->down[graph->children - 1]->options[0] == L'{') ||
+        (graph->down[graph->children - 1]->options[1] == L'}')) {
         our.y += (!(our.y % 2)); /* ensure y is uneven with
                                   * room at the top */
+        our.x += out.x + 3;
+    }
 
-    if ((graph->down[graph->children - 1]->options[0] == '<') ||
-        (graph->down[graph->children - 1]->options[1] == '>'))
+    if ((graph->down[graph->children - 1]->options[0] == L'<') ||
+        (graph->down[graph->children - 1]->options[1] == L'>')) {
+        printf("%d\n", our.y);
         our.y += (!(our.y % 2)); /* ensure y is uneven with
                                   * room at the top */
+        printf("%d\n", our.y);
+        out.x += our.y;
+        our.x += out.x;
+    }
 
-    our.x += out.x + 3;
     return end + off - (found);
 #undef gpos
 #undef our
@@ -158,63 +164,61 @@ graph		--	The parent
     switch (graph->down[kid]->options[0]) {
     case '(':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '\\';
+            (*screen)[low][curx] = L'\\';
             for (i = 1; i < graph->down[kid]->dim.y - 1; i++)
-                (*screen)[low - i][curx] = '|';
-            (*screen)[low - graph->down[kid]->dim.y + 1][curx] = '/';
+                (*screen)[low - i][curx] = L'|';
+            (*screen)[low - graph->down[kid]->dim.y + 1][curx] = L'/';
             curx++;
         } else
-            (*screen)[cury][curx++] = '(';
+            (*screen)[cury][curx++] = L'(';
         break;
     case '|':
         if (graph->down[kid]->dim.y > 2) {
             for (i = 0; i < graph->down[kid]->dim.y; i++)
-                (*screen)[low - i][curx] = '|';
+                (*screen)[low - i][curx] = L'|';
             curx++;
         } else
-            (*screen)[cury][curx++] = '|';
+            (*screen)[cury][curx++] = L'|';
         break;
     case '[':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx + 1] = '_';
+            (*screen)[low][curx + 1] = L'_';
             for (i = 0; i < graph->down[kid]->dim.y; i++)
-                (*screen)[low - i][curx] = '|';
-            (*screen)[low - graph->down[kid]->dim.y][curx + 1] = '_';
+                (*screen)[low - i][curx] = L'|';
+            (*screen)[low - graph->down[kid]->dim.y][curx + 1] = L'_';
             curx += 2;
         } else
-            (*screen)[cury][curx++] = '[';
+            (*screen)[cury][curx++] = L'[';
         break;
     case '{':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '\\';
-            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '<';
+            (*screen)[low][curx] = L'\\';
+            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'<';
             for (i = 1;
                  i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
                  i++)
                 if (!(i == graph->down[kid]->dim.y / 2))
-                    (*screen)[low - i][curx] = '|';
+                    (*screen)[low - i][curx] = L'|';
 
             (*screen)[low - graph->down[kid]->dim.y +
-                      graph->down[kid]->dim.y % 2][curx] = '/';
+                      graph->down[kid]->dim.y % 2][curx] = L'/';
             curx++;
         } else
-            (*screen)[cury + graph->dim.baseline][curx++] = '{';
+            (*screen)[cury][curx++] = L'{';
         break;
     case '<':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '\\';
-            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '|';
-            for (i = 1;
-                 i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
-                 i++)
-                if (!(i == graph->down[kid]->dim.y / 2))
-                    (*screen)[low - i][curx] = '\\';
-
-            (*screen)[low - graph->down[kid]->dim.y +
-                      graph->down[kid]->dim.y % 2][curx] = '/';
-            curx++;
+            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'<';
+            curx += graph->down[kid]->dim.y / 2 - 1;
+            for (i = 1; i < graph->down[kid]->dim.y; i++)
+                if (i < graph->down[kid]->dim.y / 2)
+                    (*screen)[low - i][curx--] = L'\\';
+                else if (i == graph->down[kid]->dim.y / 2)
+                    curx++;
+                else if (i > graph->down[kid]->dim.y / 2)
+                    (*screen)[low - i][curx++] = L'/';
         } else
-            (*screen)[cury + graph->dim.baseline][curx++] = '<';
+            (*screen)[cury][curx++] = L'<';
         break;
     case '.': /* dummy brace to open or close any type *
                * of brace */
@@ -240,59 +244,58 @@ graph		--	The parent
     switch (graph->down[kid]->options[1]) {
     case ')':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '/';
+            (*screen)[low][curx] = L'/';
             for (i = 1; i < graph->down[kid]->dim.y - 1; i++)
-                (*screen)[low - i][curx] = '|';
-            (*screen)[low - graph->down[kid]->dim.y + 1][curx] = '\\';
+                (*screen)[low - i][curx] = L'|';
+            (*screen)[low - graph->down[kid]->dim.y + 1][curx] = L'\\';
         } else
-            (*screen)[cury][curx] = ')';
+            (*screen)[cury][curx] = L')';
         break;
     case '|':
         if (graph->down[kid]->dim.y > 2) {
             for (i = 0; i < graph->down[kid]->dim.y; i++)
-                (*screen)[low - i][curx] = '|';
+                (*screen)[low - i][curx] = L'|';
         } else
-            (*screen)[cury][curx] = '|';
+            (*screen)[cury][curx] = L'|';
         break;
     case ']':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '_';
+            (*screen)[low][curx] = L'_';
             for (i = 0; i < graph->down[kid]->dim.y; i++)
-                (*screen)[low - i][curx + 1] = '|';
-            (*screen)[low - graph->down[kid]->dim.y][curx] = '_';
+                (*screen)[low - i][curx + 1] = L'|';
+            (*screen)[low - graph->down[kid]->dim.y][curx] = L'_';
             curx++;
         } else
-            (*screen)[cury][curx] = ']';
+            (*screen)[cury][curx] = L']';
         break;
     case '}':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '/';
-            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '>';
+            (*screen)[low][curx] = L'/';
+            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'>';
             for (i = 1;
                  i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
                  i++)
                 if (!(i == graph->down[kid]->dim.y / 2))
-                    (*screen)[low - i][curx] = '|';
+                    (*screen)[low - i][curx] = L'|';
 
             (*screen)[low - graph->down[kid]->dim.y +
-                      (graph->down[kid]->dim.y % 2)][curx] = '\\';
+                      (graph->down[kid]->dim.y % 2)][curx] = L'\\';
         } else
-            (*screen)[cury][curx] = '}';
+            (*screen)[cury][curx] = L'}';
         break;
     case '>':
         if (graph->down[kid]->dim.y > 2) {
-            (*screen)[low][curx] = '/';
-            (*screen)[low - graph->down[kid]->dim.y / 2][curx] = '>';
-            for (i = 1;
-                 i < graph->down[kid]->dim.y - (graph->down[kid]->dim.y % 2);
-                 i++)
-                if (!(i == graph->down[kid]->dim.y / 2))
-                    (*screen)[low - i][curx] = '/';
-
-            (*screen)[low - graph->down[kid]->dim.y +
-                      (graph->down[kid]->dim.y % 2)][curx] = '\\';
+            (*screen)[low - graph->down[kid]->dim.y / 2]
+                     [curx + graph->down[kid]->dim.y / 2 - 1] = L'>';
+            for (i = 1; i < graph->down[kid]->dim.y; i++)
+                if (i < graph->down[kid]->dim.y / 2)
+                    (*screen)[low - i][curx++] = L'/';
+                else if (i == graph->down[kid]->dim.y / 2)
+                    curx--;
+                else if (i > graph->down[kid]->dim.y / 2)
+                    (*screen)[low - i][curx--] = L'\\';
         } else
-            (*screen)[cury][curx] = '>';
+            (*screen)[cury][curx++] = L'>';
         break;
     case '.': /* dummy brace to open or close any type *
                * of brace */

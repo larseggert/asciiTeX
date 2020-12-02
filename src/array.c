@@ -38,14 +38,14 @@ wchar_t * findArrayDelimiter(wchar_t * txt)
     int len = wcslen(txt);
     int i;
     for (i = 0; i < len; i++) {
-        if (txt[i] == '\\') {
+        if (txt[i] == L'\\') {
             if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip
                                                        * nested
                                                        * * parts
                                                        */
                 i += 6 + getbegin_endEnd(txt + i + 1) - (txt + i);
         }
-        if ((txt[i] == '&') || (txt[i] == '\n'))
+        if ((txt[i] == L'&') || (txt[i] == L'\n'))
             return txt + i;
     }
     return txt + i; /* no delimiter has been found */
@@ -67,7 +67,7 @@ the found vector.
 {
 #define gpos (*Gpos)
 #define our (*Our)
-    wchar_t *start, *end, *tmp = getbegin_endEnd(found + 1), rowal = 'c';
+    wchar_t *start, *end, *tmp = getbegin_endEnd(found + 1), rowal = L'c';
     Tdim out;
 
     wchar_t ** cells = (wchar_t **)malloc(sizeof(wchar_t *));
@@ -92,7 +92,7 @@ the found vector.
 
     newChild(graph);
     /* find the column-alignment argument */
-    start = wcschr(found + 6 + 7, '{');
+    start = wcschr(found + 6 + 7, L'{');
     if (start)
         end = findClosingBrace(start + 1);
     if (!start || !end || (end - start < 2)) {
@@ -103,11 +103,11 @@ the found vector.
     if (start - found - 6 - 7 > 0) {
         /* search for row alignment */
         if (wcsstr(found + 6 + 7, L"[t]"))
-            rowal = 't';
+            rowal = L't';
         else if (wcsstr(found + 6 + 7, L"[b]"))
-            rowal = 'b';
+            rowal = L'b';
         else if (wcsstr(found + 6 + 7, L"[c]"))
-            rowal = 'c';
+            rowal = L'c';
         else
             SyntaxWarning(L"Warning spurious characters ignored in \\array\n");
     }
@@ -135,10 +135,10 @@ the found vector.
         }
         i++;
     }
-    graph->down[graph->children - 1]->options[j] = '\0';
+    graph->down[graph->children - 1]->options[j] = L'\0';
     cols = j;
 
-    *end = '}';
+    *end = L'}';
 
     start = end + 1;
     while (1) {
@@ -148,14 +148,14 @@ the found vector.
         wcsncpy(cells[ncells], start, end - start);
         cells[ncells][end - start] = 0; /* terminate the string */
         ncells++;
-        if (*end == '&') {
+        if (*end == L'&') {
             start = end + 1;
             curcols++;
-        } else if (*end == '\n') {
+        } else if (*end == L'\n') {
             curcols++;
             start = end + 1;
             if ((cols != 0) && (curcols != cols)) {
-                SyntaxError(L"Bad number of collumns in array\n");
+                SyntaxError(L"Bad number of columns in array\n");
                 exit(1);
             }
             cols = curcols;
@@ -220,7 +220,7 @@ the found vector.
         our.y = Array->dim.y;
 
 #undef Array
-    *tmp = '\\'; /* restore original value */
+    *tmp = L'\\'; /* restore original value */
     return (tmp + 3 + 7) - found;
 #undef gpos
 #undef our

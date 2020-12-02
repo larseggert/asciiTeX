@@ -99,6 +99,21 @@ wchar_t * preparse(wchar_t * txt)
             continue;
         }
 
+        if (wcsncmp(ptr, L"\\left", 5) == 0 ||
+            wcsncmp(ptr, L"\\right", 6) == 0) {
+            int len = *(ptr + 1) == L'l' ? 5 : 6;
+            wcsncpy(rptr, ptr, len);
+            rptr += len;
+            *rptr = L'\0';
+            ptr += len;
+            if (*ptr == L'\\')
+                ++ptr;
+            *rptr = *ptr;
+            rptr++;
+            ptr++;
+            continue;
+        }
+
         if (*ptr == L'\\' && *(ptr + 1) != L'\\' && *(ptr + 1) != L'\0') {
             *rptr = *ptr;
             rptr++;
