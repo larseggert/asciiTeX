@@ -86,83 +86,75 @@ char * preparse(char * txt)
     char * ptr = txt;
     char * rptr = result;
     while (*ptr) {
-        if (*ptr == '\n') {
-            /* endlines are ignored, so is whitespace following */
-            /* This is to allow identation in writing the equations */
-            do
-                ptr++;
-            while ((*ptr == ' ') || (*ptr == '\t'));
+        while ((*ptr == ' ') || (*ptr == '\t') || (*ptr == '\n'))
+            ptr++;
+        /* spaces around +/-*= is generally prettier */
+        /* We insert spaces as when a line does not fit within the
+         * line-length we */
+        /* need to insert a break after one of these characters (perhaps
+         * this is not */
+        /* the most elegant solution). It becomes ugly when, e.g., we want
+         * to specify */
+        /* the following condition: x > -12 */
+        /* In this case breaking lines around the - is undesired and so is
+         * inserting */
+        /* spaces. The quick and dirty workaround is to escape the - */
+        if ((*ptr == '\\') && ((*(ptr + 1) != '\\') && (*(ptr + 1) != '\0'))) {
+            *rptr = *ptr;
+            rptr++;
+            ptr++;
+            *rptr = *ptr;
+            rptr++;
+            ptr++;
+        }
+        if ((*ptr != '+') && (*ptr != '-') && (*ptr != '/') && (*ptr != '*') &&
+            (*ptr != '=')) {
+            *rptr = *ptr;
+            rptr++;
+            ptr++;
         } else {
-            /* spaces around +/-*= is generally prettier */
-            /* We insert spaces as when a line does not fit within the
-             * line-length we */
-            /* need to insert a break after one of these characters (perhaps
-             * this is not */
-            /* the most elegant solution). It becomes ugly when, e.g., we want
-             * to specify */
-            /* the following condition: x > -12 */
-            /* In this case breaking lines around the - is undesired and so is
-             * inserting */
-            /* spaces. The quick and dirty workaround is to escape the - */
-            if ((*ptr == '\\') &&
-                ((*(ptr + 1) != '\\') && (*(ptr + 1) != '\0'))) {
-                *rptr = *ptr;
-                rptr++;
-                ptr++;
-                *rptr = *ptr;
-                rptr++;
-                ptr++;
+            *rptr = ' ';
+            rptr++;
+            *rptr = *ptr;
+            rptr++;
+            *rptr = ' ';
+            rptr++;
+            ptr++;
+        }
+        if ((*(ptr - 1) == '\\') && (*ptr == '\\')) {
+            /* internally we replace \\ with endline characters as a single
+             * endline character is more convenient */
+            *(rptr - 1) = '\n';
+            ptr++;
+        }
+        if (((*(ptr - 1) == '^') || (*(ptr - 1) == '_')) && (*ptr != '{')) {
+            if (!(*ptr) && (*(ptr - 2) != '\\')) {
+                SyntaxError("Premature end of input\n");
+                return result;
             }
-            if ((*ptr != '+') && (*ptr != '-') && (*ptr != '/') &&
-                (*ptr != '*') && (*ptr != '=')) {
-                *rptr = *ptr;
-                rptr++;
-                ptr++;
-            } else {
-                *rptr = ' ';
-                rptr++;
-                *rptr = *ptr;
-                rptr++;
-                *rptr = ' ';
-                rptr++;
-                ptr++;
+            if ((*ptr == '^') || (*ptr == '_')) {
+                SyntaxError("Ill formatter super- of subscript\n");
+                return result;
             }
-            if ((*(ptr - 1) == '\\') && (*ptr == '\\')) {
-                /* internally we replace \\ with endline characters as a single
-                 * endline character is more convenient */
-                *(rptr - 1) = '\n';
-                ptr++;
-            }
-            if (((*(ptr - 1) == '^') || (*(ptr - 1) == '_')) && (*ptr != '{')) {
-                if (!(*ptr) && (*(ptr - 2) != '\\')) {
-                    SyntaxError("Premature end of input\n");
-                    return result;
-                }
-                if ((*ptr == '^') || (*ptr == '_')) {
-                    SyntaxError("Ill formatter super- of subscript\n");
-                    return result;
-                }
-                if ((ptr - 2 < txt) || (*(ptr - 2) != '\\')) {
-                    *rptr = '{';
-                    rptr++;
+            if ((ptr - 2 < txt) || (*(ptr - 2) != '\\')) {
+                *rptr = '{';
+                rptr++;
 
-                    *rptr = *ptr;
-                    ptr++;
-                    rptr++;
-                    if (*(ptr - 1) == '\\') {
-                        while (((*ptr >= 0x41) && (*ptr <= 0x5a)) ||
-                               ((*ptr >= 0x61) &&
-                                (*ptr <=
-                                 0x7a))) { /* while not whitespace or end */
-                            *rptr = *ptr;
-                            rptr++;
-                            ptr++;
-                        }
+                *rptr = *ptr;
+                ptr++;
+                rptr++;
+                if (*(ptr - 1) == '\\') {
+                    while (((*ptr >= 0x41) && (*ptr <= 0x5a)) ||
+                           ((*ptr >= 0x61) &&
+                            (*ptr <= 0x7a))) { /* while not whitespace or end */
+                        *rptr = *ptr;
+                        rptr++;
+                        ptr++;
                     }
-
-                    *rptr = '}';
-                    rptr++;
                 }
+
+                *rptr = '}';
+                rptr++;
             }
         }
     }
@@ -198,9 +190,9 @@ char * findClosingLRBrace(char * txt)
     int len = strlen(txt);
     int i;
     char *lb, *rb, c = (*txt);
-    char * inv = "()[]{}||";
+    char * inv = "()[]{}||<>";
 
-    for (i = 0; i < 7; i += 2)
+    for (i = 0; i < 9; i += 2)
         if (inv[i] == c)
             c = inv[i + 1];
 
