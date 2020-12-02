@@ -1,29 +1,30 @@
-/* dim.c: main layout/dimentioning routines. */
+// dim.c: main layout/dimensioning routines.
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "array.h"
 #include "asciiTeX_struct.h"
@@ -37,53 +38,50 @@
 #include "symbols.h"
 #include "text.h"
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-const KEYWORD Keys[] = {{"^{", 2, SUPER},
-                        {"_{", 2, SUB},
-                        {"\\frac", 5, FRAC},
-                        {"\\sqrt", 5, SQRT},
-                        {"\\overline", 9, OVERLINE},
-                        {"\\underline", 10, UNDERLINE},
-                        {"\\limit", 6, LIMIT},
-                        {"\\left", 5, BRACES},
-                        {"\\begin{array}", 13, ARRAY},
-                        {"\\to", 3, TO},
-                        {"\\leadsto", 8, LEADSTO},
-                        {"\\sum", 4, SUM},
-                        {"\\prod", 5, PROD},
-                        {"\\int", 4, INT},
-                        {"\\oint", 5, OINT},
-                        {"\\infty", 6, INFTY},
-                        {"\\lceil", 6, LCEIL},
-                        {"\\rceil", 6, RCEIL},
-                        {"\\lfloor", 7, LFLOOR},
-                        {"\\rfloor", 7, RFLOOR},
-                        {"\\text", 5, TEXT},
-                        {"\\mathrm", 7, TEXT},
-                        {"\\", 1, ESCAPE},
+const KEYWORD Keys[] = {{L"^{", 2, SUPER},
+                        {L"_{", 2, SUB},
+                        {L"\\frac", 5, FRAC},
+                        {L"\\sqrt", 5, SQRT},
+                        {L"\\overline", 9, OVERLINE},
+                        {L"\\underline", 10, UNDERLINE},
+                        {L"\\limit", 6, LIMIT},
+                        {L"\\left", 5, BRACES},
+                        {L"\\begin{array}", 13, ARRAY},
+                        {L"\\to", 3, TO},
+                        {L"\\leadsto", 8, LEADSTO},
+                        {L"\\sum", 4, SUM},
+                        {L"\\prod", 5, PROD},
+                        {L"\\int", 4, INT},
+                        {L"\\oint", 5, OINT},
+                        {L"\\infty", 6, INFTY},
+                        {L"\\lceil", 6, LCEIL},
+                        {L"\\rceil", 6, RCEIL},
+                        {L"\\lfloor", 7, LFLOOR},
+                        {L"\\rfloor", 7, RFLOOR},
+                        {L"\\text", 5, TEXT},
+                        {L"\\mathrm", 7, TEXT},
+                        {L"\\", 1, ESCAPE},
                         {NULL, 0, ERR}};
 PRSDEF
-LookupKey(char * txt, const KEYWORD * Keys)
+LookupKey(wchar_t * txt, const KEYWORD * Keys)
 {
     for (; Keys->name; Keys++) {
-        if (strncmp(txt, Keys->name, Keys->len) == 0)
+        if (wcsncmp(txt, Keys->name, Keys->len) == 0)
             break;
     }
     return Keys->Nr;
 }
 
-char * findLineEnd(char * txt)
+wchar_t * findLineEnd(wchar_t * txt)
 {
-    int len = strlen(txt);
+    int len = wcslen(txt);
     int i;
     for (i = 0; i < len; i++) {
         /* return pointer to the next endline */
-        if (strncmp(txt + i, "\\begin", 6) == 0) /* skip nested parts */
+        if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip nested parts */
             i = 4 + getbegin_endEnd(txt + i + 6) - txt;
-        else if (strncmp(txt + i, "\\left", 5) == 0)
+        else if (wcsncmp(txt + i, L"\\left", 5) == 0)
             i = 6 + findClosingLRBrace(txt + i + 5) - txt;
         else if (txt[i] == '{')
             i = findClosingBrace(txt + i + 1) - txt;
@@ -93,7 +91,7 @@ char * findLineEnd(char * txt)
     return txt + i; /* no line end found */
 }
 
-Tdim dim(char * txt, struct Tgraph * graph)
+Tdim dim(wchar_t * txt, struct Tgraph * graph)
 {
     /* a linewidth mechanism were cool, i.e. automatic braking of the line */
     /* baceline should jump current y down, x should be the maximum x of all
@@ -101,11 +99,11 @@ Tdim dim(char * txt, struct Tgraph * graph)
     /* a flag for linebreak should be placed, containing the y jump size */
     /* so that the draw routines know when to add to y and reset x zo 0 */
     int i;
-    int len = strlen(txt); /* length of text passed
+    int len = wcslen(txt); /* length of text passed
                             * to parse */
     Tdim our;              /* the dimensions of our current object */
-    char * gpos;           /* points to the tree node's text */
-    char * end;
+    wchar_t * gpos;        /* points to the tree node's text */
+    wchar_t * end;
     PRSDEF K; /* keynumber, result from the
                * keywordlookup */
     our.x = 0;
@@ -113,40 +111,44 @@ Tdim dim(char * txt, struct Tgraph * graph)
     our.baseline = 0;
     graph->children = 0; /* at the beginning the tree doesn't have
                           * children. We must first find them */
-    graph->txt = (char *)malloc(len + 1); /* allocating the same
-                                           * length is OK. Special
-                                           * characters in output
-                                           * are 2 chars
-                                           * long--shorter than in
-                                           * the input */
-    gpos = graph->txt;                    /* we setup now this pointer */
+    graph->txt =
+        (wchar_t *)malloc((len + 1) * sizeof(wchar_t)); /* allocating the same
+                                                         * length is OK. Special
+                                                         * wcharacters_t in
+                                                         * output are 2 wchars_t
+                                                         * long--shorter than in
+                                                         * the input */
+    gpos = graph->txt; /* we setup now this pointer */
     *gpos = 0;
     if (*(end = findLineEnd(txt)) != '\0') {
         /* the current level contains one or more line ends */
         /* the current level will become aan array of lines */
         int nlines = 0;
-        char * start = txt;
-        char ** lines = (char **)malloc(sizeof(char *));
+        wchar_t * start = txt;
+        wchar_t ** lines = (wchar_t **)malloc(sizeof(wchar_t *));
         Tdim out = {0};
         if (SYNTAX_ERR_FLAG == S_ERR)
             return out;
         *gpos = 1; /* See parsedef.h for the keyword
                     * definitions */
         gpos++;
-        *gpos = (char)ARRAY;
+        *gpos = (wchar_t)ARRAY;
         gpos++;
         *gpos = 0;
         newChild(graph);
-        graph->down[graph->children - 1]->options = malloc((2) * sizeof(char));
+        graph->down[graph->children - 1]->options =
+            malloc((2) * sizeof(wchar_t));
         graph->down[graph->children - 1]->options[0] =
             'c'; /* default col alignment */
         graph->down[graph->children - 1]->options[1] =
             '\0'; /* default col alignment */
         /* count how many lines we have */
         while (1) {
-            lines = (char **)realloc(lines, (nlines + 1) * (sizeof(char *)));
-            lines[nlines] = (char *)malloc(end - start + 1);
-            strncpy(lines[nlines], start, end - start);
+            lines =
+                (wchar_t **)realloc(lines, (nlines + 1) * (sizeof(wchar_t *)));
+            lines[nlines] =
+                (wchar_t *)malloc((end - start + 1) * sizeof(wchar_t));
+            wcsncpy(lines[nlines], start, end - start);
             lines[nlines][end - start] = '\0'; /* terminate the string */
             nlines++;
             if (*end == '\0')
@@ -250,7 +252,7 @@ Tdim dim(char * txt, struct Tgraph * graph)
                 i += dimOint(txt + i, &gpos, &our, graph);
                 break;
             case INFTY:
-                strcat(gpos, "oo");
+                wcscat(gpos, L"oo");
                 gpos += 2;
                 our.x += 2;
                 i += 5;
@@ -291,16 +293,16 @@ Tdim dim(char * txt, struct Tgraph * graph)
     return our;
 }
 
-char * PotLineEnd(char * txt)
+wchar_t * PotLineEnd(wchar_t * txt)
 {
-    int len = strlen(txt);
+    int len = wcslen(txt);
     int i, j;
-    char * plbp = "+-*/=~";
+    wchar_t * plbp = L"+-*/=~";
     for (i = 0; i < len; i++) {
         /* return pointer to the next potential endline position */
-        if (strncmp(txt + i, "\\begin", 6) == 0) /* skip nested parts */
+        if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip nested parts */
             i = 4 + getbegin_endEnd(txt + i + 6) - txt;
-        else if (strncmp(txt + i, "\\left", 5) == 0)
+        else if (wcsncmp(txt + i, L"\\left", 5) == 0)
             i = 6 + findClosingLRBrace(txt + i + 5) - txt;
         else if (txt[i] == '{')
             i = findClosingBrace(txt + i + 1) - txt;
@@ -316,18 +318,18 @@ char * PotLineEnd(char * txt)
     return txt + i; /* no potential line end found */
 }
 
-Tdim eqdim(char * txt, struct Tgraph * graph, int ll)
+Tdim eqdim(wchar_t * txt, struct Tgraph * graph, int ll)
 {
     /* if the linelength (ll) is zero we do not break, otherwise we try to fit
     the eq within ll columns */
     if (ll) {
         /* position linebreaks at + - / * = in the top level */
-        char * END = txt + strlen(txt);
+        wchar_t * END = txt + wcslen(txt);
         struct Tgraph * dummy = malloc(sizeof(struct Tgraph));
         Tdim dumdim;
-        char * start = txt;
-        char *end, c;
-        char * prevplb = NULL;
+        wchar_t * start = txt;
+        wchar_t *end, c;
+        wchar_t * prevplb = NULL;
         int x = 0;
         while (start < END) {
             end = PotLineEnd(start);
@@ -343,11 +345,12 @@ Tdim eqdim(char * txt, struct Tgraph * graph, int ll)
             dealloc(dummy);
             x += dumdim.x;
             if (dumdim.x > ll)
-                SyntaxWarning("Warning: overfull line\n");
+                SyntaxWarning(L"Warning: overfull line\n");
 
             if ((x > ll) && (prevplb)) {
                 /* at the previous potential line end we have to place one */
-                /* in order to make it easy we create a single char line end, \n
+                /* in order to make it easy we create a single wchar_t line end,
+                 * \n
                  */
                 /* note that enters are removed in preparse to allow multi line
                  * editing

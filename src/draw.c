@@ -1,29 +1,29 @@
-/* draw.c: main drawing routines. */
+// draw.c: main drawing routines
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "array.h"
 #include "asciiTeX_struct.h"
@@ -37,13 +37,12 @@
 #include "symbols.h"
 #include "text.h"
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-void drawInternal(char *** screen, struct Tgraph * graph, int x, int y)
+
+void drawInternal(wchar_t *** screen, struct Tgraph * graph, int x, int y)
 {
     int kid = 0, curx = x, cury = y + (graph->dim.y - 1) - graph->dim.baseline;
-    char * txt = graph->txt;
+    wchar_t * txt = graph->txt;
     while (*txt) {
         if (*txt == 1) {
             txt++;
@@ -115,18 +114,19 @@ void drawInternal(char *** screen, struct Tgraph * graph, int x, int y)
                 exit(1);
                 break;
             }
-        } else
+        } else {
             (*screen)[cury][curx++] = *txt;
+        }
         txt++;
     }
 }
 
-char ** draw(struct Tgraph * graph)
+wchar_t ** draw(struct Tgraph * graph)
 {
-    char ** screen = malloc(sizeof(char *) * (graph->dim.y + 1));
+    wchar_t ** screen = malloc(sizeof(wchar_t *) * (graph->dim.y + 1));
     int i, j;
     for (i = 0; i < graph->dim.y; i++) {
-        screen[i] = malloc((graph->dim.x + 2) * sizeof(char));
+        screen[i] = malloc((graph->dim.x + 2) * sizeof(wchar_t));
         for (j = 0; j < graph->dim.x; j++)
             screen[i][j] = ' ';
         screen[i][graph->dim.x] = 0;

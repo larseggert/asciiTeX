@@ -42,11 +42,11 @@
 ///
 /// @return     Number of characters it used of the found vector.
 ///
-int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimText(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph)
 {
 #define gpos (*Gpos)
 #define our (*Our)
-    char *start, *end, *tmp;
+    wchar_t *start, *end, *tmp;
     Tdim out;
     *gpos = 1;
     gpos++;
@@ -54,11 +54,11 @@ int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
     gpos++;
     *gpos = 0;
 
-    start = strchr(found, '{');
+    start = wcschr(found, '{');
 
     end = findClosingBrace(start + 1);
     *end = 0;
-    tmp = strdup(start + 1);
+    tmp = wcsdup(start + 1);
     *end = '}';
 
     out = dim(tmp, newChild(graph));
@@ -74,9 +74,9 @@ int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
 void drawText(int * Kid,
               int * Curx,
               int * Cury,
-              char *** screen,
+              wchar_t *** screen,
               struct Tgraph * graph,
-              char * txt __attribute__((unused)))
+              wchar_t * txt __attribute__((unused)))
 {
 #define kid (*Kid)
 #define curx (*Curx)

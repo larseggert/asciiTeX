@@ -24,6 +24,9 @@
 
 #pragma once
 
+#include <wchar.h>
+
+
 // to add keywords:
 //
 // 1 add an element to the list below
@@ -71,7 +74,7 @@ typedef enum {
 
 
 typedef struct {
-    char * name;
+    wchar_t * name;
     int len;
     PRSDEF Nr;
 } KEYWORD;

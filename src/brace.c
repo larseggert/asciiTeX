@@ -1,59 +1,61 @@
-/* brace.c: layout/dimentioning and drawing routines for braces. */
+// brace.c: layout/dimensioning and drawing routines for braces
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-int dimBrace(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+
+int dimBrace(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
 drawing routines to use. Our		--	dimention of the parent graph
---	The parent The routines returns the number of characters it used of the
-found vector.
+--	The parent The routines returns the number of wcharacters_t it used of
+the found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
-    char *start, *end, *tmp, c;
+    wchar_t *start, *end, *tmp, c;
     Tdim out;
 
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)BRACES;
+    *gpos = (wchar_t)BRACES;
     gpos++;
     *gpos = 0;
 
@@ -64,7 +66,7 @@ found vector.
     end = findClosingLRBrace(start);
     c = (*end);
     *end = 0;
-    tmp = strdup(start + 1);
+    tmp = wcsdup(start + 1);
     *end = c;
     out = dim(tmp, newChild(graph));
     free(tmp);
@@ -73,7 +75,7 @@ found vector.
     while (*(end + off) == '\\')
         off++;
 
-    tmp = malloc(sizeof(char) * 3);
+    tmp = malloc(sizeof(wchar_t) * 3);
     tmp[0] = (*start);
     tmp[1] = (*(end + off));
     tmp[2] = '\0';
@@ -84,7 +86,7 @@ found vector.
     /*
      * We will use it in the drawing routine
      */
-    graph->down[graph->children - 1]->options = strdup(tmp);
+    graph->down[graph->children - 1]->options = wcsdup(tmp);
     free(tmp);
 
     if ((graph->down[graph->children - 1]->options[0] == '[') &&
@@ -134,14 +136,14 @@ found vector.
 void drawBrace(int * Kid,
                int * Curx,
                int * Cury,
-               char *** screen,
+               wchar_t *** screen,
                struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
-Curx		--	Current x position in the 2D character field
-Cury		--	Current y position in the 2D character field
-screen		--	pointer to the 2D character field
+Curx		--	Current x position in the 2D wcharacter_t field
+Cury		--	Current y position in the 2D wcharacter_t field
+screen		--	pointer to the 2D wcharacter_t field
 graph		--	The parent
 */
 {

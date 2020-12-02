@@ -1,31 +1,29 @@
-/* main.c: parse the commandline, reading files, and output to stdout. */
-
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+// main.c: parse the command line, reading files, and output to stdout
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,12 +32,12 @@
 #include "utils.h"
 
 
-char * readfile(char * filename)
+wchar_t * readfile(char * filename)
 {
     FILE * f;
     int l_alloc = 100;
     int l = 0, esc = 0;
-    char * results = malloc(l_alloc * sizeof(char));
+    wchar_t * results = malloc(l_alloc * sizeof(wchar_t));
     if ((f = fopen(filename, "r")) == NULL) {
         fprintf(stderr, "File %s not found\n", filename);
         exit(1);
@@ -47,9 +45,9 @@ char * readfile(char * filename)
     while (!feof(f)) {
         if (l == l_alloc) {
             l_alloc += 100;
-            results = realloc(results, l_alloc * sizeof(char));
+            results = realloc(results, l_alloc * sizeof(wchar_t));
         }
-        results[l++] = (char)getc(f);
+        results[l++] = getwc(f);
 
         if ((results[l - 1] == '%') && (!esc)) {
             /* % is the comment sign, ignore rest of the line */
@@ -69,9 +67,10 @@ char * readfile(char * filename)
 
 int main(int argc, char * argv[])
 {
-    char ** screen;
+    setlocale(LC_ALL, "en_US.UTF-8");
+    wchar_t ** screen;
     int i, cols, rows;
-    char * eq = NULL;
+    wchar_t * eq = NULL;
     int ll = 80, f = 0;
     enum { LL, FILE, EQ } opt_parse = EQ;
     char * usage = {
@@ -129,8 +128,11 @@ int main(int argc, char * argv[])
             } else if (eq) {
                 fprintf(stderr, "More than one equation found.\n");
                 exit(1);
-            } else
-                eq = argv[i];
+            } else {
+                eq = malloc((strlen(argv[i]) + 1) * sizeof(wchar_t));
+                swprintf(eq, (strlen(argv[i]) + 1) * sizeof(wchar_t), L"%s",
+                         argv[i]);
+            }
         }
     }
 
@@ -144,9 +146,9 @@ int main(int argc, char * argv[])
     if (screen) {
         for (i = 0; i < rows; i++) {
             if (cols < 0)
-                fprintf(stderr, "%s", screen[i]);
+                fwprintf(stderr, L"%ls", screen[i]);
             else
-                printf("%s", screen[i]);
+                wprintf(L"%ls", screen[i]);
             free(screen[i]);
             if (cols < 0)
                 fprintf(stderr, "\n");
@@ -154,10 +156,10 @@ int main(int argc, char * argv[])
                 printf("\n");
         }
         free(screen);
-        if (cols < 0)
-            fprintf(stderr, "\n");
-        else
-            printf("\n");
+        // if (cols < 0)
+        //     fprintf(stderr, "\n");
+        // else
+        //     printf("\n");
     } else
         return 1;
     return 0;

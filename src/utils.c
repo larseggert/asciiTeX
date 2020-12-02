@@ -1,92 +1,85 @@
-/* utils.c: utillities for asciiTeX. */
+// utils.c: utillities for asciiTeX
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
-
-#include "utils.h"
-#include "asciiTeX_struct.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void SyntaxError(char * format_str, ...)
-/* Routine to be used to indicate syntax errors. Raises the syntax error flag */
+#include "asciiTeX_struct.h"
+#include "utils.h"
+
+
+void SyntaxError(wchar_t * format_str, ...)
 {
     va_list ap;
     va_start(ap, format_str);
-    /*asprintf (&messages[Nmes++],format_str, ap); */
-    /*messages[Nmes++]=g_strdup_printf(format_str, ap);*/
-    messages[Nmes] = malloc(200 * sizeof(char));
-    snprintf(messages[Nmes++], 200, format_str, ap);
+    messages[Nmes] = malloc(200 * sizeof(wchar_t));
+    swprintf(messages[Nmes++], 200, format_str, ap);
     if (Nmes == Nall) {
         Nall += 10;
-        messages = realloc(messages, Nall * sizeof(char *));
+        messages = realloc(messages, Nall * sizeof(wchar_t *));
     }
     SYNTAX_ERR_FLAG = S_ERR;
 }
-void SyntaxWarning(char * format_str, ...)
-/* Routine to be used to indicate syntax errors. Raises the syntax error flag */
+
+void SyntaxWarning(wchar_t * format_str, ...)
 {
     va_list ap;
     va_start(ap, format_str);
-    /*asprintf (&messages[Nmes++],format_str, ap);  */
-    /*messages[Nmes++]=g_strdup_printf(format_str, ap);*/
-    messages[Nmes] = malloc(200 * sizeof(char));
-    snprintf(messages[Nmes++], 200, format_str, ap);
+    messages[Nmes] = malloc(200 * sizeof(wchar_t));
+    swprintf(messages[Nmes++], 200, format_str, ap);
     if (Nmes == Nall) {
         Nall += 10;
-        messages = realloc(messages, Nall * sizeof(char *));
+        messages = realloc(messages, Nall * sizeof(wchar_t *));
     }
     SYNTAX_ERR_FLAG = S_WARN;
 }
 
-char * getbegin_endEnd(char * txt)
+wchar_t * getbegin_endEnd(wchar_t * txt)
 {
-    char * tmp1 = strstr(txt, "\\begin");
-    char * tmp2 = strstr(txt, "\\end");
+    wchar_t * tmp1 = wcsstr(txt, L"\\begin");
+    wchar_t * tmp2 = wcsstr(txt, L"\\end");
     while ((tmp1 < tmp2) && (tmp1 != NULL)) {
-        tmp2 = strstr(tmp2 + 4, "\\end");
-        tmp1 = strstr(tmp1 + 6, "\\begin");
+        tmp2 = wcsstr(tmp2 + 4, L"\\end");
+        tmp1 = wcsstr(tmp1 + 6, L"\\begin");
     }
     if (tmp2)
-        return tmp2; /* return a pointer to the `\' letter of
-                      * final \end */
+        return tmp2; /* return a pointer to the `\' letter of final \end */
     else {
-        SyntaxError("Missing \\end in getbegin_endEnd\n");
+        SyntaxError(L"Missing \\end in getbegin_endEnd\n");
         exit(1);
     }
 }
 
-char * preparse(char * txt)
+wchar_t * preparse(wchar_t * txt)
 {
-    char * result = malloc((strlen(txt) * 3) * sizeof(char));
-    char * ptr = txt;
-    char * rptr = result;
+    wchar_t * result = malloc((wcslen(txt) * 3) * sizeof(wchar_t));
+    wchar_t * ptr = txt;
+    wchar_t * rptr = result;
     while (*ptr) {
-        while ((*ptr == ' ') || (*ptr == '\t') || (*ptr == '\n'))
+        while ((*ptr == L' ') || (*ptr == L'\t') || (*ptr == L'\n'))
             ptr++;
         /* spaces around +/-*= is generally prettier */
         /* We insert spaces as when a line does not fit within the
@@ -99,7 +92,8 @@ char * preparse(char * txt)
         /* In this case breaking lines around the - is undesired and so is
          * inserting */
         /* spaces. The quick and dirty workaround is to escape the - */
-        if ((*ptr == '\\') && ((*(ptr + 1) != '\\') && (*(ptr + 1) != '\0'))) {
+        if ((*ptr == L'\\') &&
+            ((*(ptr + 1) != L'\\') && (*(ptr + 1) != L'\0'))) {
             *rptr = *ptr;
             rptr++;
             ptr++;
@@ -107,43 +101,43 @@ char * preparse(char * txt)
             rptr++;
             ptr++;
         }
-        if ((*ptr != '+') && (*ptr != '-') && (*ptr != '/') && (*ptr != '*') &&
-            (*ptr != '=')) {
+        if ((*ptr != L'+') && (*ptr != L'-') && (*ptr != L'/') &&
+            (*ptr != L'*') && (*ptr != L'=')) {
             *rptr = *ptr;
             rptr++;
             ptr++;
         } else {
-            *rptr = ' ';
+            *rptr = L' ';
             rptr++;
             *rptr = *ptr;
             rptr++;
-            *rptr = ' ';
+            *rptr = L' ';
             rptr++;
             ptr++;
         }
-        if ((*(ptr - 1) == '\\') && (*ptr == '\\')) {
+        if ((*(ptr - 1) == L'\\') && (*ptr == L'\\')) {
             /* internally we replace \\ with endline characters as a single
              * endline character is more convenient */
-            *(rptr - 1) = '\n';
+            *(rptr - 1) = L'\n';
             ptr++;
         }
-        if (((*(ptr - 1) == '^') || (*(ptr - 1) == '_')) && (*ptr != '{')) {
-            if (!(*ptr) && (*(ptr - 2) != '\\')) {
-                SyntaxError("Premature end of input\n");
+        if (((*(ptr - 1) == L'^') || (*(ptr - 1) == L'_')) && (*ptr != L'{')) {
+            if (!(*ptr) && (*(ptr - 2) != L'\\')) {
+                SyntaxError(L"Premature end of input\n");
                 return result;
             }
-            if ((*ptr == '^') || (*ptr == '_')) {
-                SyntaxError("Ill formatter super- of subscript\n");
+            if ((*ptr == L'^') || (*ptr == L'_')) {
+                SyntaxError(L"Ill formatter super- of subscript\n");
                 return result;
             }
-            if ((ptr - 2 < txt) || (*(ptr - 2) != '\\')) {
-                *rptr = '{';
+            if ((ptr - 2 < txt) || (*(ptr - 2) != L'\\')) {
+                *rptr = L'{';
                 rptr++;
 
                 *rptr = *ptr;
                 ptr++;
                 rptr++;
-                if (*(ptr - 1) == '\\') {
+                if (*(ptr - 1) == L'\\') {
                     while (((*ptr >= 0x41) && (*ptr <= 0x5a)) ||
                            ((*ptr >= 0x61) &&
                             (*ptr <= 0x7a))) { /* while not whitespace or end */
@@ -153,69 +147,66 @@ char * preparse(char * txt)
                     }
                 }
 
-                *rptr = '}';
+                *rptr = L'}';
                 rptr++;
             }
         }
     }
-    *rptr = '\0';
-    result = (char *)realloc(result, strlen(result) + 1);
-    /*
-     * printf("%s %i\n",result, strlen(result));
-     */
+    *rptr = L'\0';
+    result = (wchar_t *)realloc(result, (wcslen(result) + 1) * sizeof(wchar_t));
     return result;
 }
 
-char * findClosingBrace(char * txt)
+wchar_t * findClosingBrace(wchar_t * txt)
 {
     int opened = 1;
-    int len = strlen(txt);
+    int len = wcslen(txt);
     int i;
     for (i = 0; i < len; i++) {
-        if (txt[i] == '{')
+        if (txt[i] == L'{')
             opened++;
-        if (txt[i] == '}')
+        if (txt[i] == L'}')
             opened--;
         if (opened == 0)
             return txt + i;
     }
-    SyntaxError("Couldn't find matching brace\n");
+    SyntaxError(L"Couldn't find matching brace\n");
     return txt;
 }
 
-char * findClosingLRBrace(char * txt)
+wchar_t * findClosingLRBrace(wchar_t * txt)
 {
     /* txt should point to the brace after \left */
     int opened = 1;
-    int len = strlen(txt);
+    int len = wcslen(txt);
     int i;
-    char *lb, *rb, c = (*txt);
-    char * inv = "()[]{}||<>";
+    wchar_t *lb, *rb, c = (*txt);
+    wchar_t * inv = L"()[]{}||<>";
 
     for (i = 0; i < 9; i += 2)
         if (inv[i] == c)
             c = inv[i + 1];
 
-    lb = malloc(7 * sizeof(char));
-    rb = malloc(8 * sizeof(char));
+    lb = malloc(7 * sizeof(wchar_t));
+    rb = malloc(8 * sizeof(wchar_t));
 
-    strncpy(lb, "\\left", 6);
-    strncpy(rb, "\\right", 7);
+    wcsncpy(lb, L"\\left", 6);
+    wcsncpy(rb, L"\\right", 7);
 
-    strncat(lb, txt, 1);
-    strncat(rb, &c, 1);
+    wcsncat(lb, txt, 1);
+    wcsncat(rb, &c, 1);
 
     for (i = 0; i < len; i++) {
         if (opened == 1) {
             /* any left opens */
             /* only the right \right closes */
-            if (strncmp(txt + i, lb, 5) == 0)
+            if (wcsncmp(txt + i, lb, 5) == 0)
                 opened++;
-            else if ((c == '.') && (strncmp(txt + i, "\\right", 6) == 0))
+            else if ((c == L'.') && (wcsncmp(txt + i, L"\\right", 6) == 0))
                 opened--;
-            else if ((strncmp(txt + i, "\\right.", 7) == 0) ||
-                     (strncmp(txt + i, "\\right\\.", 8) == 0) ||
-                     (strncmp(txt + i, rb, 7) == 0))
+            else if ((wcsncmp(txt + i, L"\\right.", 7) == 0) ||
+                     (wcsncmp(txt + i, L"\\right\\.", 8) == 0) ||
+                     (wcsncmp(txt + i, rb, 7) == 0))
                 opened--;
             if (opened == 0) {
                 free(lb);
@@ -225,15 +216,15 @@ char * findClosingLRBrace(char * txt)
         } else {
             /* any left opens */
             /* any right closes */
-            if (strncmp(txt + i, lb, 5) == 0)
+            if (wcsncmp(txt + i, lb, 5) == 0)
                 opened++;
-            else if ((strncmp(txt + i, "\\right", 6) == 0))
+            else if ((wcsncmp(txt + i, L"\\right", 6) == 0))
                 opened--;
         }
     }
     free(lb);
     free(rb);
-    SyntaxError("Couldn't find matching right brace\n");
+    SyntaxError(L"Couldn't find matching right brace\n");
     return txt;
 }
 
@@ -256,8 +247,7 @@ struct Tgraph * newChild(struct Tgraph * graph)
             graph->down, sizeof(struct Tgraph **) * (graph->children + 1));
     graph->down[graph->children] =
         (struct Tgraph *)malloc(sizeof(struct Tgraph));
-    graph->down[graph->children]->up = graph; /* setup the
-                                               * parent */
+    graph->down[graph->children]->up = graph;
     graph->down[graph->children]->options = NULL;
     graph->down[graph->children]->array = NULL;
     graph->down[graph->children]->txt = NULL;

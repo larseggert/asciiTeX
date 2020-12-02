@@ -1,44 +1,44 @@
-/* symbol.c: layout/dimentioning and drawing routines for symbols (things
-   that do not resize). */
+// symbol.c: layout/dimensioning and drawing routines for symbols (things
+// that do not resize)
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+#include <string.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "parsedef.h"
 #include "utils.h"
-#include <string.h>
+
+
 /*
  * all non adaptive symbols here
  */
 /*
  * integral symbol (it has a constant size)
  */
-int dimInt(char * found __attribute__((unused)),
-           char ** Gpos,
+int dimInt(wchar_t * found __attribute__((unused)),
+           wchar_t ** Gpos,
            Tdim * Our,
            struct Tgraph * graph __attribute__((unused)))
 /*
@@ -76,7 +76,7 @@ found vector.
 void drawInt(int * Kid __attribute__((unused)),
              int * Curx,
              int * Cury,
-             char *** screen,
+             wchar_t *** screen,
              struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -101,8 +101,8 @@ graph		--	The parent
 /*
  * closed path integral
  */
-int dimOint(char * found __attribute__((unused)),
-            char ** Gpos,
+int dimOint(wchar_t * found __attribute__((unused)),
+            wchar_t ** Gpos,
             Tdim * Our,
             struct Tgraph * graph __attribute__((unused)))
 /*
@@ -140,7 +140,7 @@ found vector.
 void drawOint(int * Kid __attribute__((unused)),
               int * Curx,
               int * Cury,
-              char *** screen,
+              wchar_t *** screen,
               struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -165,8 +165,8 @@ graph		--	The parent
 /*
  * product sign
  */
-int dimProd(char * found __attribute__((unused)),
-            char ** Gpos,
+int dimProd(wchar_t * found __attribute__((unused)),
+            wchar_t ** Gpos,
             Tdim * Our,
             struct Tgraph * graph __attribute__((unused)))
 /*
@@ -204,7 +204,7 @@ found vector.
 void drawProd(int * Kid __attribute__((unused)),
               int * Curx,
               int * Cury,
-              char *** screen,
+              wchar_t *** screen,
               struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -231,8 +231,8 @@ graph		--	The parent
 /*
  * sum sign
  */
-int dimSum(char * found __attribute__((unused)),
-           char ** Gpos,
+int dimSum(wchar_t * found __attribute__((unused)),
+           wchar_t ** Gpos,
            Tdim * Our,
            struct Tgraph * graph __attribute__((unused)))
 /*
@@ -270,7 +270,7 @@ found vector.
 void drawSum(int * Kid __attribute__((unused)),
              int * Curx,
              int * Cury,
-             char *** screen,
+             wchar_t *** screen,
              struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -298,8 +298,8 @@ graph		--	The parent
  * to sign ->
  */
 
-int dimTo(char * found __attribute__((unused)),
-          char ** Gpos,
+int dimTo(wchar_t * found __attribute__((unused)),
+          wchar_t ** Gpos,
           Tdim * Our,
           struct Tgraph * graph __attribute__((unused)))
 /*
@@ -331,7 +331,7 @@ found vector.
 void drawTo(int * Kid __attribute__((unused)),
             int * Curx,
             int * Cury,
-            char *** screen,
+            wchar_t *** screen,
             struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -349,8 +349,8 @@ graph		--	The parent
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLeadsto(char * found __attribute__((unused)),
-               char ** Gpos,
+int dimLeadsto(wchar_t * found __attribute__((unused)),
+               wchar_t ** Gpos,
                Tdim * Our,
                struct Tgraph * graph __attribute__((unused)))
 /*
@@ -382,7 +382,7 @@ found vector.
 void drawLeadsto(int * Kid __attribute__((unused)),
                  int * Curx,
                  int * Cury,
-                 char *** screen,
+                 wchar_t *** screen,
                  struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -400,8 +400,8 @@ graph		--	The parent
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLceil(char * found __attribute__((unused)),
-             char ** Gpos,
+int dimLceil(wchar_t * found __attribute__((unused)),
+             wchar_t ** Gpos,
              Tdim * Our,
              struct Tgraph * graph __attribute__((unused)))
 /*
@@ -439,7 +439,7 @@ found vector.
 void drawLceil(int * Kid __attribute__((unused)),
                int * Curx,
                int * Cury,
-               char *** screen,
+               wchar_t *** screen,
                struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -457,8 +457,8 @@ graph		--	The parent
     (*screen)[cury - 1][curx++] = '_';
 }
 
-int dimRceil(char * found __attribute__((unused)),
-             char ** Gpos,
+int dimRceil(wchar_t * found __attribute__((unused)),
+             wchar_t ** Gpos,
              Tdim * Our,
              struct Tgraph * graph __attribute__((unused)))
 /*
@@ -496,7 +496,7 @@ found vector.
 void drawRceil(int * Kid __attribute__((unused)),
                int * Curx,
                int * Cury,
-               char *** screen,
+               wchar_t *** screen,
                struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -514,8 +514,8 @@ graph		--	The parent
     (*screen)[cury][curx++] = '|';
 }
 
-int dimLfloor(char * found __attribute__((unused)),
-              char ** Gpos,
+int dimLfloor(wchar_t * found __attribute__((unused)),
+              wchar_t ** Gpos,
               Tdim * Our,
               struct Tgraph * graph __attribute__((unused)))
 /*
@@ -547,7 +547,7 @@ found vector.
 void drawLfloor(int * Kid __attribute__((unused)),
                 int * Curx,
                 int * Cury,
-                char *** screen,
+                wchar_t *** screen,
                 struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:
@@ -565,8 +565,8 @@ graph		--	The parent
     (*screen)[cury][curx++] = '_';
 }
 
-int dimRfloor(char * found __attribute__((unused)),
-              char ** Gpos,
+int dimRfloor(wchar_t * found __attribute__((unused)),
+              wchar_t ** Gpos,
               Tdim * Our,
               struct Tgraph * graph __attribute__((unused)))
 /*
@@ -598,7 +598,7 @@ found vector.
 void drawRfloor(int * Kid __attribute__((unused)),
                 int * Curx,
                 int * Cury,
-                char *** screen,
+                wchar_t *** screen,
                 struct Tgraph * graph __attribute__((unused)))
 /*
 The drawXxx routines all have the forllowing arguments:

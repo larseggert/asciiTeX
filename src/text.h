@@ -22,12 +22,19 @@
 
 #pragma once
 
+#include <wchar.h>
 
-int dimText(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph);
+#include "asciiTeX_struct.h"
+
+
+int dimText(wchar_t * found,
+            wchar_t ** Gpos,
+            Tdim * Our,
+            struct Tgraph * graph);
 
 void drawText(int * Kid,
               int * Curx,
               int * Cury,
-              char *** screen,
+              wchar_t *** screen,
               struct Tgraph * graph,
-              char * txt);
+              wchar_t * txt);

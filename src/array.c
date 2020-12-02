@@ -1,50 +1,48 @@
-/* array.c: layout/dimentioning and drawing routines for arrays. */
+// array.c: layout/dimensioning and drawing routines for arrays
+//
+// This file is part of asciiTeX.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to
+// The Free Software Foundation, Inc.
+// 59 Temple Place, Suite 330
+// Boston, MA 02111 USA
+//
+// Authors:
+// Original program (eqascii): Przemek Borys
+// Fork by: Bart Pieters
+// Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-/*  This file is part of asciiTeX.
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; see the file COPYING.  If not, write to
-      The Free Software Foundation, Inc.
-      59 Temple Place, Suite 330
-      Boston, MA 02111 USA
-
-
-    Authors:
-    Original program (eqascii): Przemek Borys <pborys@dione.ids.pl>
-    Fork by: Bart Pieters
-    Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
-
-*************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 
-char * findArrayDelimiter(char * txt)
+wchar_t * findArrayDelimiter(wchar_t * txt)
 {
-    int len = strlen(txt);
+    int len = wcslen(txt);
     int i;
     for (i = 0; i < len; i++) {
         if (txt[i] == '\\') {
-            if (strncmp(txt + i, "\\begin", 6) == 0) /* skip
-                                                      * nested
-                                                      * * parts
-                                                      */
+            if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip
+                                                       * nested
+                                                       * * parts
+                                                       */
                 i += 6 + getbegin_endEnd(txt + i + 1) - (txt + i);
         }
         if ((txt[i] == '&') || (txt[i] == '\n'))
@@ -53,23 +51,26 @@ char * findArrayDelimiter(char * txt)
     return txt + i; /* no delimiter has been found */
 }
 
-int dimArray(char * found, char ** Gpos, Tdim * Our, struct Tgraph * graph)
+int dimArray(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
 drawing routines to use. Our		--	dimention of the parent graph
---	The parent The routines returns the number of characters it used of the
-found vector.
+--	The parent The routines returns the number of characters it used of
+the found vector.
 */
 {
 #define gpos (*Gpos)
 #define our (*Our)
-    char *start, *end, *tmp = getbegin_endEnd(found + 1), rowal = 'c';
+    wchar_t *start, *end, *tmp = getbegin_endEnd(found + 1), rowal = 'c';
     Tdim out;
 
-    char ** cells = (char **)malloc(sizeof(char *));
+    wchar_t ** cells = (wchar_t **)malloc(sizeof(wchar_t *));
     int ncells = 0;
     int rows = 0, cols = 0;
     int curcols = 0;
@@ -78,58 +79,58 @@ found vector.
     if (tmp)
         *tmp = 0;
     else {
-        SyntaxError("Could not find matching \\end in array %s\n", found);
+        SyntaxError(L"Could not find matching \\end in array %s\n", found);
         return 0;
     }
 
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)ARRAY;
+    *gpos = (wchar_t)ARRAY;
     gpos++;
     *gpos = 0;
 
     newChild(graph);
     /* find the column-alignment argument */
-    start = strchr(found + 6 + 7, '{');
+    start = wcschr(found + 6 + 7, '{');
     if (start)
         end = findClosingBrace(start + 1);
     if (!start || !end || (end - start < 2)) {
-        SyntaxError("Usage: \\begin{array}{alignment} elements "
+        SyntaxError(L"Usage: \\begin{array}{alignment} elements "
                     "\\end{array}\n\tProduces an array.\n");
         return 0;
     }
     if (start - found - 6 - 7 > 0) {
         /* search for row alignment */
-        if (strstr(found + 6 + 7, "[t]"))
+        if (wcsstr(found + 6 + 7, L"[t]"))
             rowal = 't';
-        else if (strstr(found + 6 + 7, "[b]"))
+        else if (wcsstr(found + 6 + 7, L"[b]"))
             rowal = 'b';
-        else if (strstr(found + 6 + 7, "[c]"))
+        else if (wcsstr(found + 6 + 7, L"[c]"))
             rowal = 'c';
         else
-            SyntaxWarning("Warning spurious characters ignored in \\array\n");
+            SyntaxWarning(L"Warning spurious characters ignored in \\array\n");
     }
 
     *end = 0;
     i = 1;
 
     graph->down[graph->children - 1]->options =
-        malloc((strlen(start) + 1) * sizeof(char));
+        malloc((wcslen(start) + 1) * sizeof(wchar_t));
     j = 0;
     while (start[i]) {
         switch (start[i]) {
         case 'l':
         case 'c':
         case 'r':
-            /* put char in options */
+            /* put wchar_t in options */
             graph->down[graph->children - 1]->options[j] = start[i];
             j++;
         case ' ':
             /*ignore*/
             break;
         default:
-            SyntaxError("Ill formatted alignment string\n");
+            SyntaxError(L"Ill formatted alignment string\n");
             return 0;
         }
         i++;
@@ -142,9 +143,9 @@ found vector.
     start = end + 1;
     while (1) {
         end = findArrayDelimiter(start);
-        cells = (char **)realloc(cells, (ncells + 1) * (sizeof(char *)));
-        cells[ncells] = (char *)malloc(end - start + 1);
-        strncpy(cells[ncells], start, end - start);
+        cells = (wchar_t **)realloc(cells, (ncells + 1) * (sizeof(wchar_t *)));
+        cells[ncells] = (wchar_t *)malloc((end - start + 1) * sizeof(wchar_t));
+        wcsncpy(cells[ncells], start, end - start);
         cells[ncells][end - start] = 0; /* terminate the string */
         ncells++;
         if (*end == '&') {
@@ -154,7 +155,7 @@ found vector.
             curcols++;
             start = end + 1;
             if ((cols != 0) && (curcols != cols)) {
-                SyntaxError("Bad number of collumns in array\n");
+                SyntaxError(L"Bad number of collumns in array\n");
                 exit(1);
             }
             cols = curcols;
@@ -228,7 +229,7 @@ found vector.
 void drawArray(int * Kid,
                int * Curx,
                int * Cury,
-               char *** screen,
+               wchar_t *** screen,
                struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
