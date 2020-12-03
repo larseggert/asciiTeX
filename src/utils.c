@@ -23,9 +23,8 @@
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "utils.h"
@@ -39,9 +38,10 @@ void SyntaxError(wchar_t * format_str, ...)
     swprintf(messages[Nmes++], 200, format_str, ap);
     if (Nmes == Nall) {
         Nall += 10;
-        messages = realloc(messages, Nall * sizeof(wchar_t *));
+        messages = realloc(messages, (size_t)Nall * sizeof(wchar_t *));
     }
     SYNTAX_ERR_FLAG = S_ERR;
+    va_end(ap);
 }
 
 void SyntaxWarning(wchar_t * format_str, ...)
@@ -52,9 +52,10 @@ void SyntaxWarning(wchar_t * format_str, ...)
     swprintf(messages[Nmes++], 200, format_str, ap);
     if (Nmes == Nall) {
         Nall += 10;
-        messages = realloc(messages, Nall * sizeof(wchar_t *));
+        messages = realloc(messages, (size_t)Nall * sizeof(wchar_t *));
     }
     SYNTAX_ERR_FLAG = S_WARN;
+    va_end(ap);
 }
 
 wchar_t * getbegin_endEnd(wchar_t * txt)
@@ -67,10 +68,8 @@ wchar_t * getbegin_endEnd(wchar_t * txt)
     }
     if (tmp2)
         return tmp2; /* return a pointer to the `\' letter of final \end */
-    else {
-        SyntaxError(L"Missing \\end in getbegin_endEnd\n");
-        exit(1);
-    }
+    SyntaxError(L"Missing \\end in getbegin_endEnd\n");
+    exit(1);
 }
 
 wchar_t * preparse(wchar_t * txt)
@@ -92,7 +91,7 @@ wchar_t * preparse(wchar_t * txt)
                 SyntaxError(L"\\text not closed\n");
                 exit(1);
             }
-            wcsncpy(rptr, ptr, end - ptr + 1);
+            wcsncpy(rptr, ptr, (size_t)(end - ptr + 1));
             rptr += end - ptr + 1;
             *rptr = L'\0';
             ptr = end + 1;
@@ -101,7 +100,7 @@ wchar_t * preparse(wchar_t * txt)
 
         if (wcsncmp(ptr, L"\\left", 5) == 0 ||
             wcsncmp(ptr, L"\\right", 6) == 0) {
-            int len = *(ptr + 1) == L'l' ? 5 : 6;
+            size_t len = *(ptr + 1) == L'l' ? 5 : 6;
             wcsncpy(rptr, ptr, len);
             rptr += len;
             *rptr = L'\0';
@@ -131,8 +130,9 @@ wchar_t * preparse(wchar_t * txt)
             ptr++;
         } else {
             if (*ptr != L',' &&
-                (*ptr != L'=' || (*(rptr - 1) != '<' && *(rptr - 1) != '>' &&
-                                  *(rptr - 1) != '!'))) {
+                (*ptr != L'=' ||
+                 (rptr > result && (*(rptr - 1) != '<' && *(rptr - 1) != '>' &&
+                                    *(rptr - 1) != '!')))) {
                 *rptr = L' ';
                 rptr++;
             }
@@ -140,8 +140,8 @@ wchar_t * preparse(wchar_t * txt)
             rptr++;
             ptr++;
 
-            if (*ptr != L'=' || (*(rptr - 1) != L'<' && *(rptr - 1) != L'>' &&
-                                 *(rptr - 1) != L'!')) {
+            if (*ptr != L'=' || (rptr > result && *(rptr - 1) != L'<' &&
+                                 *(rptr - 1) != L'>' && *(rptr - 1) != L'!')) {
                 *rptr = L' ';
                 rptr++;
             }
@@ -194,8 +194,8 @@ wchar_t * preparse(wchar_t * txt)
 wchar_t * findClosingBrace(wchar_t * txt)
 {
     int opened = 1;
-    int len = wcslen(txt);
-    int i;
+    size_t len = wcslen(txt);
+    size_t i;
     for (i = 0; i < len; i++) {
         if (txt[i] == L'{')
             opened++;
@@ -212,8 +212,8 @@ wchar_t * findClosingLRBrace(wchar_t * txt)
 {
     /* txt should point to the brace after \left */
     int opened = 1;
-    int len = wcslen(txt);
-    int i;
+    size_t len = wcslen(txt);
+    size_t i;
     wchar_t *lb, *rb, c = (*txt);
     wchar_t * inv = L"()[]{}||<>";
 
@@ -236,9 +236,8 @@ wchar_t * findClosingLRBrace(wchar_t * txt)
             /* only the right \right closes */
             if (wcsncmp(txt + i, lb, 5) == 0)
                 opened++;
-            else if ((c == L'.') && (wcsncmp(txt + i, L"\\right", 6) == 0))
-                opened--;
-            else if ((wcsncmp(txt + i, L"\\right.", 7) == 0) ||
+            else if ((c == L'.' && (wcsncmp(txt + i, L"\\right", 6) == 0)) ||
+                     (wcsncmp(txt + i, L"\\right.", 7) == 0) ||
                      (wcsncmp(txt + i, L"\\right\\.", 8) == 0) ||
                      (wcsncmp(txt + i, rb, 7) == 0))
                 opened--;
@@ -278,7 +277,8 @@ struct Tgraph * newChild(struct Tgraph * graph)
         graph->down = (struct Tgraph **)malloc(sizeof(struct Tgraph *));
     else
         graph->down = (struct Tgraph **)realloc(
-            graph->down, sizeof(struct Tgraph **) * (graph->children + 1));
+            graph->down,
+            sizeof(struct Tgraph *) * (size_t)(graph->children + 1));
     graph->down[graph->children] =
         (struct Tgraph *)malloc(sizeof(struct Tgraph));
     graph->down[graph->children]->up = graph;
@@ -290,25 +290,6 @@ struct Tgraph * newChild(struct Tgraph * graph)
     return graph->down[graph->children - 1];
 }
 
-void dealloc_c(struct Tgraph * graph)
-{
-    int i;
-    for (i = 0; i < graph->children; i++) {
-        dealloc_c(graph->down[i]);
-    }
-    if (graph->children)
-        free(graph->down);
-    if (graph->options)
-        free(graph->options);
-    if (graph->txt)
-        free(graph->txt);
-    if (graph->array) {
-        free(graph->array->rowy);
-        free(graph->array->colx);
-        free(graph->array);
-    }
-    free(graph);
-}
 
 void dealloc(struct Tgraph * graph)
 {

@@ -30,26 +30,26 @@
 #include "asciiTeX_struct.h"
 
 
-int dimSubscript(wchar_t * found,
-                 wchar_t ** Gpos,
-                 Tdim * Our,
-                 struct Tgraph * graph);
+long dimSubscript(wchar_t * found,
+                  wchar_t ** Gpos,
+                  Tdim * Our,
+                  struct Tgraph * graph);
 
-void drawSubscript(int * Kid,
-                   int * Curx,
-                   int * Cury,
+void drawSubscript(long * Kid,
+                   long * Curx,
+                   long * Cury,
                    wchar_t *** screen,
                    struct Tgraph * graph,
                    wchar_t * txt);
 
-int dimSuperscript(wchar_t * found,
-                   wchar_t ** Gpos,
-                   Tdim * Our,
-                   struct Tgraph * graph);
+long dimSuperscript(wchar_t * found,
+                    wchar_t ** Gpos,
+                    Tdim * Our,
+                    struct Tgraph * graph);
 
-void drawSuperscript(int * Kid,
-                     int * Curx,
-                     int * Cury,
+void drawSuperscript(long * Kid,
+                     long * Curx,
+                     long * Cury,
                      wchar_t *** screen,
                      struct Tgraph * graph,
                      wchar_t * txt);

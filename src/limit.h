@@ -29,13 +29,13 @@
 #include "asciiTeX_struct.h"
 
 
-int dimLimit(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
+long dimLimit(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph);
 
-void drawLimit(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawLimit(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph);

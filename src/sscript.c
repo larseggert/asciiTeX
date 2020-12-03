@@ -23,19 +23,20 @@
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
+#include "sscript.h"
 #include "utils.h"
 
 
-int dimSubscript(wchar_t * found,
-                 wchar_t ** Gpos,
-                 Tdim * Our,
-                 struct Tgraph * graph)
+long dimSubscript(wchar_t * found,
+                  wchar_t ** Gpos,
+                  Tdim * Our,
+                  struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -70,7 +71,7 @@ found vector.
     if (gpos - graph->txt >= 4) { /* check if we had a superscript before */
         if ((*(gpos - 4) == 1) &&
             (*(gpos - 3) == (char)SUPER)) { /* yep, we had it */
-            int width = graph->down[graph->children - 2]->dim.x;
+            long width = graph->down[graph->children - 2]->dim.x;
             if (width < out.x)
                 our.x += out.x - width;
         } else
@@ -82,9 +83,9 @@ found vector.
 #undef our
 }
 
-void drawSubscript(int * Kid,
-                   int * Curx,
-                   int * Cury,
+void drawSubscript(long * Kid,
+                   long * Curx,
+                   long * Cury,
                    wchar_t *** screen,
                    struct Tgraph * graph,
                    wchar_t * txt)
@@ -92,7 +93,7 @@ void drawSubscript(int * Kid,
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int width = graph->down[kid]->dim.x;
+    long width = graph->down[kid]->dim.x;
     if (txt - 3 >= graph->txt) {
         if ((*(txt - 3) == 1) && (*(txt - 2) == (char)SUPER)) {
             drawInternal(screen, graph->down[kid],
@@ -110,10 +111,10 @@ void drawSubscript(int * Kid,
     kid++;
 }
 
-int dimSuperscript(wchar_t * found,
-                   wchar_t ** Gpos,
-                   Tdim * Our,
-                   struct Tgraph * graph)
+long dimSuperscript(wchar_t * found,
+                    wchar_t ** Gpos,
+                    Tdim * Our,
+                    struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -150,7 +151,7 @@ found vector.
             (*(gpos - 3) ==
              (char)SUB)) { /* yep, we had it--our superscript will
                             * start at the same pos as the subscript */
-            int width = graph->down[graph->children - 2]->dim.x;
+            long width = graph->down[graph->children - 2]->dim.x;
             if (width < out.x)
                 our.x += out.x - width;
         } else
@@ -160,9 +161,9 @@ found vector.
     return end - found;
 }
 
-void drawSuperscript(int * Kid,
-                     int * Curx,
-                     int * Cury,
+void drawSuperscript(long * Kid,
+                     long * Curx,
+                     long * Cury,
                      wchar_t *** screen,
                      struct Tgraph * graph,
                      wchar_t * txt)
@@ -178,7 +179,7 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int width = graph->down[kid]->dim.x;
+    long width = graph->down[kid]->dim.x;
     if (txt - 3 >= graph->txt) {
         if ((*(txt - 3) == 1) && (*(txt - 2) == (char)SUB)) {
             drawInternal(screen, graph->down[kid],

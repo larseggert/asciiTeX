@@ -29,25 +29,25 @@
 
 
 typedef struct {
-    int x;        // width, counting from 0 (left) to x (right)
-    int y;        // height, counting from 0 (top) to y (bottom)
-    int baseline; // default line for single
-                  // characters counting from down (i.e. y value of this line is
-                  // dim.y-baseline)
+    long x;        // width, counting from 0 (left) to x (right)
+    long y;        // height, counting from 0 (top) to y (bottom)
+    long baseline; // default line for single
+                   // characters counting from down (i.e. y value of this line
+                   // is dim.y-baseline)
 } Tdim;
 
 typedef struct {
-    int rows;
-    int cols;
-    int * rowy;
-    int * colx;
+    long rows;
+    long cols;
+    long * rowy;
+    long * colx;
 } Tarray;
 
 struct Tgraph {            // the order of fields is important--see Tarray
     struct Tgraph ** down; // downnodes for sequential children
     Tdim dim;              // dimensions of this field
     Tarray * array;
-    int children;       // number of children
+    long children;      // number of children
     struct Tgraph * up; // upnode
     wchar_t * txt;      // the text. #1 points for a child
     wchar_t * options;  // options to pass to draw routine

@@ -30,103 +30,109 @@
 #include "asciiTeX_struct.h"
 
 
-int dimInt(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph);
-
-void drawInt(int * Kid,
-             int * Curx,
-             int * Cury,
-             wchar_t *** screen,
-             struct Tgraph * graph);
-
-int dimOint(wchar_t * found,
+long dimInt(wchar_t * found,
             wchar_t ** Gpos,
             Tdim * Our,
             struct Tgraph * graph);
 
-void drawOint(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawInt(long * Kid,
+             long * Curx,
+             long * Cury,
+             wchar_t *** screen,
+             struct Tgraph * graph);
+
+long dimOint(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph);
+
+void drawOint(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph);
 
-int dimProd(wchar_t * found,
+long dimProd(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph);
+
+void drawProd(long * Kid,
+              long * Curx,
+              long * Cury,
+              wchar_t *** screen,
+              struct Tgraph * graph);
+
+long dimSum(wchar_t * found,
             wchar_t ** Gpos,
             Tdim * Our,
             struct Tgraph * graph);
 
-void drawProd(int * Kid,
-              int * Curx,
-              int * Cury,
-              wchar_t *** screen,
-              struct Tgraph * graph);
-
-int dimSum(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph);
-
-void drawSum(int * Kid,
-             int * Curx,
-             int * Cury,
+void drawSum(long * Kid,
+             long * Curx,
+             long * Cury,
              wchar_t *** screen,
              struct Tgraph * graph);
 
-int dimTo(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph);
+long dimTo(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph);
 
-void drawTo(int * Kid,
-            int * Curx,
-            int * Cury,
+void drawTo(long * Kid,
+            long * Curx,
+            long * Cury,
             wchar_t *** screen,
             struct Tgraph * graph);
 
-int dimLeadsto(wchar_t * found,
+long dimLeadsto(wchar_t * found,
+                wchar_t ** Gpos,
+                Tdim * Our,
+                struct Tgraph * graph);
+
+void drawLeadsto(long * Kid,
+                 long * Curx,
+                 long * Cury,
+                 wchar_t *** screen,
+                 struct Tgraph * graph);
+
+long dimLceil(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph);
+
+void drawLceil(long * Kid,
+               long * Curx,
+               long * Cury,
+               wchar_t *** screen,
+               struct Tgraph * graph);
+
+long dimRceil(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph);
+
+void drawRceil(long * Kid,
+               long * Curx,
+               long * Cury,
+               wchar_t *** screen,
+               struct Tgraph * graph);
+
+long dimLfloor(wchar_t * found,
                wchar_t ** Gpos,
                Tdim * Our,
                struct Tgraph * graph);
 
-void drawLeadsto(int * Kid,
-                 int * Curx,
-                 int * Cury,
-                 wchar_t *** screen,
-                 struct Tgraph * graph);
-
-int dimLceil(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
-
-void drawLceil(int * Kid,
-               int * Curx,
-               int * Cury,
-               wchar_t *** screen,
-               struct Tgraph * graph);
-
-int dimRceil(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
-
-void drawRceil(int * Kid,
-               int * Curx,
-               int * Cury,
-               wchar_t *** screen,
-               struct Tgraph * graph);
-
-int dimLfloor(wchar_t * found,
-              wchar_t ** Gpos,
-              Tdim * Our,
-              struct Tgraph * graph);
-
-void drawLfloor(int * Kid,
-                int * Curx,
-                int * Cury,
+void drawLfloor(long * Kid,
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph);
 
-int dimRfloor(wchar_t * found,
-              wchar_t ** Gpos,
-              Tdim * Our,
-              struct Tgraph * graph);
+long dimRfloor(wchar_t * found,
+               wchar_t ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph);
 
-void drawRfloor(int * Kid,
-                int * Curx,
-                int * Cury,
+void drawRfloor(long * Kid,
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph);

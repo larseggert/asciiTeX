@@ -22,10 +22,10 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
+#include "array.h"
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
@@ -35,15 +35,15 @@
 
 wchar_t * findArrayDelimiter(wchar_t * txt)
 {
-    int len = wcslen(txt);
-    int i;
+    size_t len = wcslen(txt);
+    size_t i;
     for (i = 0; i < len; i++) {
         if (txt[i] == L'\\') {
             if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip
                                                        * nested
                                                        * * parts
                                                        */
-                i += 6 + getbegin_endEnd(txt + i + 1) - (txt + i);
+                i += (size_t)(6 + getbegin_endEnd(txt + i + 1) - (txt + i));
         }
         if ((txt[i] == L'&') || (txt[i] == L'\n'))
             return txt + i;
@@ -51,10 +51,10 @@ wchar_t * findArrayDelimiter(wchar_t * txt)
     return txt + i; /* no delimiter has been found */
 }
 
-int dimArray(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph)
+long dimArray(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -67,19 +67,20 @@ the found vector.
 {
 #define gpos (*Gpos)
 #define our (*Our)
-    wchar_t *start, *end, *tmp = getbegin_endEnd(found + 1), rowal = L'c';
+    wchar_t *start, *end = 0, *tmp = getbegin_endEnd(found + 1), rowal = L'c';
     Tdim out;
 
     wchar_t ** cells = (wchar_t **)malloc(sizeof(wchar_t *));
-    int ncells = 0;
-    int rows = 0, cols = 0;
-    int curcols = 0;
-    int i, j;
+    long ncells = 0;
+    long rows = 0, cols = 0;
+    long curcols = 0;
+    long i, j;
 
     if (tmp)
         *tmp = 0;
     else {
         SyntaxError(L"Could not find matching \\end in array %s\n", found);
+        free(cells);
         return 0;
     }
 
@@ -98,6 +99,7 @@ the found vector.
     if (!start || !end || (end - start < 2)) {
         SyntaxError(L"Usage: \\begin{array}{alignment} elements "
                     "\\end{array}\n\tProduces an array.\n");
+        free(cells);
         return 0;
     }
     if (start - found - 6 - 7 > 0) {
@@ -126,11 +128,13 @@ the found vector.
             /* put wchar_t in options */
             graph->down[graph->children - 1]->options[j] = start[i];
             j++;
+            __attribute__((fallthrough));
         case ' ':
             /*ignore*/
             break;
         default:
             SyntaxError(L"Ill formatted alignment string\n");
+            free(cells);
             return 0;
         }
         i++;
@@ -143,9 +147,11 @@ the found vector.
     start = end + 1;
     while (1) {
         end = findArrayDelimiter(start);
-        cells = (wchar_t **)realloc(cells, (ncells + 1) * (sizeof(wchar_t *)));
-        cells[ncells] = (wchar_t *)malloc((end - start + 1) * sizeof(wchar_t));
-        wcsncpy(cells[ncells], start, end - start);
+        cells = (wchar_t **)realloc(cells,
+                                    (size_t)(ncells + 1) * sizeof(wchar_t *));
+        cells[ncells] =
+            (wchar_t *)malloc((size_t)(end - start + 1) * sizeof(wchar_t));
+        wcsncpy(cells[ncells], start, (size_t)(end - start));
         cells[ncells][end - start] = 0; /* terminate the string */
         ncells++;
         if (*end == L'&') {
@@ -156,6 +162,7 @@ the found vector.
             start = end + 1;
             if ((cols != 0) && (curcols != cols)) {
                 SyntaxError(L"Bad number of columns in array\n");
+                free(cells);
                 exit(1);
             }
             cols = curcols;
@@ -174,11 +181,11 @@ the found vector.
     Array->array = malloc(sizeof(Tarray));
     Array->array->rows = rows;
     Array->array->cols = cols;
-    Array->array->rowy = (int *)calloc(rows + 1, sizeof(int));
-    Array->array->colx = (int *)calloc(cols + 1, sizeof(int));
+    Array->array->rowy = calloc((size_t)rows + 1, sizeof(*Array->array->rowy));
+    Array->array->colx = calloc((size_t)cols + 1, sizeof(*Array->array->colx));
     for (i = 0; i < ncells; i++) {
-        int whichrow = i / cols;
-        int whichcol = i - whichrow * cols;
+        long whichrow = i / cols;
+        long whichcol = i - whichrow * cols;
         out = dim(cells[i], newChild(Array));
         if (out.x > Array->array->colx[whichcol])
             Array->array->colx[whichcol] = out.x;
@@ -226,9 +233,9 @@ the found vector.
 #undef our
 }
 
-void drawArray(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawArray(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph)
 /*
@@ -243,9 +250,9 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define Array (graph->down[kid])
-    int cury = (*Cury) - ((Array->dim.y - 1) - Array->dim.baseline);
-    int x = 0, y = 0, curitem = 0, xx, yy;
-    int i, j;
+    long cury = (*Cury) - ((Array->dim.y - 1) - Array->dim.baseline);
+    long x = 0, y = 0, curitem = 0, xx = 0, yy;
+    long i, j;
 
 
     for (i = 0; i < Array->array->rows; i++) {

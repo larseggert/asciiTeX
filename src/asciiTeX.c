@@ -22,22 +22,23 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
+#include "asciiTeX.h"
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "utils.h"
 
+
 wchar_t ** messages;
-int Nmes;
-int Nall;
+long Nmes;
+long Nall;
 
 STAT SYNTAX_ERR_FLAG;
 
-wchar_t ** asciiTeX(wchar_t * eq, int ll, int * cols, int * rows)
+
+wchar_t ** asciiTeX(wchar_t * eq, long ll, long * cols, long * rows)
 {
     struct Tgraph * graph = malloc(sizeof(struct Tgraph));
     wchar_t ** screen;
@@ -45,11 +46,8 @@ wchar_t ** asciiTeX(wchar_t * eq, int ll, int * cols, int * rows)
     SYNTAX_ERR_FLAG = S_NOERR;
     Nmes = 0;
     Nall = 10;
-    messages = malloc(Nall * sizeof(wchar_t *));
+    messages = malloc((size_t)Nall * sizeof(wchar_t *));
 
-#ifdef DEBUG
-    mtrace();
-#endif
     InitGraph(graph);
     eqdim(txt = preparse(eq), graph, ll);
     if (SYNTAX_ERR_FLAG != S_ERR) {
@@ -64,8 +62,5 @@ wchar_t ** asciiTeX(wchar_t * eq, int ll, int * cols, int * rows)
     }
     dealloc(graph);
     free(graph);
-#ifdef DEBUG
-    muntrace();
-#endif
     return screen;
 }

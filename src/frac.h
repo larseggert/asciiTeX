@@ -29,13 +29,13 @@
 #include "asciiTeX_struct.h"
 
 
-int dimFrac(wchar_t * found,
-            wchar_t ** Gpos,
-            Tdim * Our,
-            struct Tgraph * graph);
+long dimFrac(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph);
 
-void drawFrac(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawFrac(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph);

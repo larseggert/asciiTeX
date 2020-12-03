@@ -27,14 +27,14 @@
 #include "asciiTeX_struct.h"
 
 
-int dimText(wchar_t * found,
-            wchar_t ** Gpos,
-            Tdim * Our,
-            struct Tgraph * graph);
+long dimText(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph);
 
-void drawText(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawText(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph,
               wchar_t * txt);

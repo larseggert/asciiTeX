@@ -27,4 +27,4 @@
 #include <wchar.h>
 
 
-wchar_t ** asciiTeX(wchar_t * eq, int ll, int * cols, int * rows);
+wchar_t ** asciiTeX(wchar_t * eq, long ll, long * cols, long * rows);

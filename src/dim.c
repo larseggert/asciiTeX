@@ -24,11 +24,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "array.h"
 #include "asciiTeX_struct.h"
 #include "brace.h"
+#include "dim.h"
 #include "frac.h"
 #include "limit.h"
 #include "ouline.h"
@@ -39,57 +40,61 @@
 #include "text.h"
 #include "utils.h"
 
-const KEYWORD Keys[] = {{L"^{", 2, SUPER},
-                        {L"_{", 2, SUB},
-                        {L"\\frac", 5, FRAC},
-                        {L"\\sqrt", 5, SQRT},
-                        {L"\\overline", 9, OVERLINE},
-                        {L"\\underline", 10, UNDERLINE},
-                        {L"\\limit", 6, LIMIT},
-                        {L"\\left", 5, BRACES},
-                        {L"\\begin{array}", 13, ARRAY},
-                        {L"\\to", 3, TO},
-                        {L"\\leadsto", 8, LEADSTO},
-                        {L"\\sum", 4, SUM},
-                        {L"\\prod", 5, PROD},
-                        {L"\\int", 4, INT},
-                        {L"\\oint", 5, OINT},
-                        {L"\\infty", 6, INFTY},
-                        {L"\\lceil", 6, LCEIL},
-                        {L"\\rceil", 6, RCEIL},
-                        {L"\\lfloor", 7, LFLOOR},
-                        {L"\\rfloor", 7, RFLOOR},
-                        {L"\\text", 5, TEXT},
-                        {L"\\mathrm", 7, TEXT},
-                        {L"\\", 1, ESCAPE},
-                        {NULL, 0, ERR}};
-PRSDEF
-LookupKey(wchar_t * txt, const KEYWORD * Keys)
+
+static const KEYWORD Keys[] = {{L"^{", 2UL, SUPER},
+                               {L"_{", 2UL, SUB},
+                               {L"\\frac", 5UL, FRAC},
+                               {L"\\sqrt", 5UL, SQRT},
+                               {L"\\overline", 9UL, OVERLINE},
+                               {L"\\underline", 10UL, UNDERLINE},
+                               {L"\\limit", 6UL, LIMIT},
+                               {L"\\left", 5UL, BRACES},
+                               {L"\\begin{array}", 13UL, ARRAY},
+                               {L"\\to", 3UL, TO},
+                               {L"\\leadsto", 8UL, LEADSTO},
+                               {L"\\sum", 4UL, SUM},
+                               {L"\\prod", 5UL, PROD},
+                               {L"\\int", 4UL, INT},
+                               {L"\\oint", 5UL, OINT},
+                               {L"\\infty", 6UL, INFTY},
+                               {L"\\lceil", 6UL, LCEIL},
+                               {L"\\rceil", 6UL, RCEIL},
+                               {L"\\lfloor", 7UL, LFLOOR},
+                               {L"\\rfloor", 7UL, RFLOOR},
+                               {L"\\text", 5UL, TEXT},
+                               {L"\\mathrm", 7UL, TEXT},
+                               {L"\\", 1UL, ESCAPE},
+                               {NULL, 0, ERR}};
+
+
+static PRSDEF LookupKey(wchar_t * txt, const KEYWORD * keys)
 {
-    for (; Keys->name; Keys++) {
-        if (wcsncmp(txt, Keys->name, Keys->len) == 0)
+    for (; keys->name; keys++) {
+        if (wcsncmp(txt, keys->name, keys->len) == 0)
             break;
     }
-    return Keys->Nr;
+    return keys->Nr;
 }
 
-wchar_t * findLineEnd(wchar_t * txt)
+
+static wchar_t * findLineEnd(wchar_t * txt)
 {
-    int len = wcslen(txt);
-    int i;
+    size_t len = wcslen(txt);
+    size_t i;
     for (i = 0; i < len; i++) {
         /* return pointer to the next endline */
         if (wcsncmp(txt + i, L"\\begin", 6) == 0) /* skip nested parts */
-            i = 4 + getbegin_endEnd(txt + i + 6) - txt;
+            i = (size_t)(4 + getbegin_endEnd(txt + i + 6) - txt);
         else if (wcsncmp(txt + i, L"\\left", 5) == 0)
-            i = 6 + findClosingLRBrace(txt + i + 5) - txt;
+            i = (size_t)(6 + findClosingLRBrace(txt + i + 5) - txt);
         else if (txt[i] == '{')
-            i = findClosingBrace(txt + i + 1) - txt;
+            i = (size_t)(findClosingBrace(txt + i + 1) - txt);
         else if (txt[i] == '\n')
             return txt + i;
     }
     return txt + i; /* no line end found */
 }
+
 
 Tdim dim(wchar_t * txt, struct Tgraph * graph)
 {
@@ -98,11 +103,11 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
      * lines */
     /* a flag for linebreak should be placed, containing the y jump size */
     /* so that the draw routines know when to add to y and reset x zo 0 */
-    int i;
-    int len = wcslen(txt); /* length of text passed
-                            * to parse */
-    Tdim our;              /* the dimensions of our current object */
-    wchar_t * gpos;        /* points to the tree node's text */
+    long i;
+    long len = (long)wcslen(txt); /* length of text passed
+                                   * to parse */
+    Tdim our;                     /* the dimensions of our current object */
+    wchar_t * gpos;               /* points to the tree node's text */
     wchar_t * end;
     PRSDEF K; /* keynumber, result from the
                * keywordlookup */
@@ -111,24 +116,20 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
     our.baseline = 0;
     graph->children = 0; /* at the beginning the tree doesn't have
                           * children. We must first find them */
-    graph->txt =
-        (wchar_t *)malloc((len + 1) * sizeof(wchar_t)); /* allocating the same
-                                                         * length is OK. Special
-                                                         * wcharacters_t in
-                                                         * output are 2 wchars_t
-                                                         * long--shorter than in
-                                                         * the input */
+    graph->txt = (wchar_t *)malloc((size_t)(len + 1) * sizeof(*graph->txt));
     gpos = graph->txt; /* we setup now this pointer */
     *gpos = 0;
     if (*(end = findLineEnd(txt)) != '\0') {
         /* the current level contains one or more line ends */
         /* the current level will become aan array of lines */
-        int nlines = 0;
+        long nlines = 0;
         wchar_t * start = txt;
-        wchar_t ** lines = (wchar_t **)malloc(sizeof(wchar_t *));
+        wchar_t ** lines = (wchar_t **)malloc(sizeof(*lines));
         Tdim out = {0};
-        if (SYNTAX_ERR_FLAG == S_ERR)
+        if (SYNTAX_ERR_FLAG == S_ERR) {
+            free(lines);
             return out;
+        }
         *gpos = 1; /* See parsedef.h for the keyword
                     * definitions */
         gpos++;
@@ -144,11 +145,11 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
             '\0'; /* default col alignment */
         /* count how many lines we have */
         while (1) {
-            lines =
-                (wchar_t **)realloc(lines, (nlines + 1) * (sizeof(wchar_t *)));
+            lines = (wchar_t **)realloc(lines, (size_t)(nlines + 1) *
+                                                   (sizeof(wchar_t *)));
             lines[nlines] =
-                (wchar_t *)malloc((end - start + 1) * sizeof(wchar_t));
-            wcsncpy(lines[nlines], start, end - start);
+                (wchar_t *)malloc((size_t)(end - start + 1) * sizeof(wchar_t));
+            wcsncpy(lines[nlines], start, (size_t)(end - start));
             lines[nlines][end - start] = '\0'; /* terminate the string */
             nlines++;
             if (*end == '\0')
@@ -162,8 +163,9 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
         Array->array = malloc(sizeof(Tarray));
         Array->array->rows = nlines;
         Array->array->cols = 1;
-        Array->array->rowy = (int *)calloc(nlines, sizeof(int));
-        Array->array->colx = (int *)calloc(1, sizeof(int));
+        Array->array->rowy =
+            calloc((size_t)nlines, sizeof(*Array->array->rowy));
+        Array->array->colx = calloc(1, sizeof(*Array->array->colx));
         for (i = 0; i < nlines; i++) {
             out = dim(lines[i], newChild(Array));
             if (out.x > Array->array->colx[0])
@@ -281,11 +283,9 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
                 *gpos = 0;
                 break;
             case ERR:
-            default:
                 fprintf(stderr,
                         "I screwed up in dim, this should never happen!\n");
                 exit(1);
-                break;
             }
         }
     }
@@ -293,10 +293,10 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
     return our;
 }
 
-wchar_t * PotLineEnd(wchar_t * txt)
+static wchar_t * PotLineEnd(wchar_t * txt)
 {
-    int len = wcslen(txt);
-    int i, j;
+    long len = (long)wcslen(txt);
+    long i, j;
     wchar_t * plbp = L"+-*/=~";
     for (i = 0; i < len; i++) {
         /* return pointer to the next potential endline position */
@@ -318,7 +318,7 @@ wchar_t * PotLineEnd(wchar_t * txt)
     return txt + i; /* no potential line end found */
 }
 
-Tdim eqdim(wchar_t * txt, struct Tgraph * graph, int ll)
+Tdim eqdim(wchar_t * txt, struct Tgraph * graph, long ll)
 {
     /* if the linelength (ll) is zero we do not break, otherwise we try to fit
     the eq within ll columns */
@@ -326,15 +326,17 @@ Tdim eqdim(wchar_t * txt, struct Tgraph * graph, int ll)
         /* position linebreaks at + - / * = in the top level */
         wchar_t * END = txt + wcslen(txt);
         struct Tgraph * dummy = malloc(sizeof(struct Tgraph));
-        Tdim dumdim;
+        Tdim dumdim = {0};
         wchar_t * start = txt;
         wchar_t *end, c;
         wchar_t * prevplb = NULL;
-        int x = 0;
+        long x = 0;
         while (start < END) {
             end = PotLineEnd(start);
-            if (SYNTAX_ERR_FLAG == S_ERR)
+            if (SYNTAX_ERR_FLAG == S_ERR) {
+                free(dummy);
                 return dumdim;
+            }
             c = *end;
             *end = '\0';
             InitGraph(dummy);

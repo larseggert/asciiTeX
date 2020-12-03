@@ -22,21 +22,21 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
+#include "brace.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
 #include "utils.h"
 
 
-int dimBrace(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph)
+long dimBrace(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -137,9 +137,9 @@ the found vector.
 #undef our
 }
 
-void drawBrace(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawBrace(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph)
 /*
@@ -154,8 +154,8 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int low = cury + graph->down[kid]->dim.baseline;
-    int i;
+    long low = cury + graph->down[kid]->dim.baseline;
+    long i;
     /*
      * the options of our child contains the brace type
      */

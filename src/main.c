@@ -27,18 +27,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX.h"
-#include "utils.h"
 
 
-wchar_t * readfile(char * filename)
+static wchar_t * readfile(char * filename)
 {
     FILE * f;
-    int l_alloc = 1000;
-    int l = 0, esc = 0;
+    size_t l_alloc = 1000;
+    size_t l = 0, esc = 0;
     wchar_t * results = malloc(l_alloc * sizeof(wchar_t));
-    if ((f = fopen(filename, "r")) == NULL) {
+    if ((f = fopen(filename, "re")) == NULL) {
         fprintf(stderr, "File %s not found\n", filename);
         exit(1);
     }
@@ -68,10 +68,10 @@ wchar_t * readfile(char * filename)
 int main(int argc, char * argv[])
 {
     setlocale(LC_ALL, "en_US.UTF-8");
-    wchar_t ** screen;
-    int i, cols, rows;
+    wchar_t ** screen = NULL;
+    long i, cols = 0, rows = 0;
     wchar_t * eq = NULL;
-    int ll = 80, f = 0;
+    int ll = 80;
     enum { LL, FILE, EQ } opt_parse = EQ;
     char * usage = {
         "Usage: asciiTeX [-v] [-f file] [-ll line-length] [equation]\n"
@@ -93,46 +93,52 @@ int main(int argc, char * argv[])
 
     for (i = 1; i < argc; i++) {
         if (opt_parse == FILE) {
+            if (eq) {
+                fprintf(stderr, "Cannot multiple inputs\n");
+                goto done;
+            }
             eq = readfile(argv[i]);
-            f = 1;
             opt_parse = EQ;
         } else if (opt_parse == LL) {
             opt_parse = EQ;
             ll = atoi(argv[i]);
             if (ll < 0) {
                 fprintf(stderr, "Cannot handle negative line lengths\n");
-                exit(1);
+                goto done;
             }
 
         } else if (opt_parse == EQ) {
             if (strncmp("-ll", argv[i], 3) == 0) {
                 if (i == argc - 1) {
                     fprintf(stderr, "Missing line length value\n");
-                    exit(1);
+                    goto done;
                 }
 
                 opt_parse = LL;
             } else if (strncmp("-f", argv[i], 2) == 0) {
                 if (i == argc - 1) {
                     fprintf(stderr, "Missing file name\n");
-                    exit(1);
+                    goto done;
                 }
 
                 opt_parse = FILE;
             } else if (strncmp("-v", argv[i], 2) == 0) {
                 printf(header, "lars", __DATE__);
-                return 0;
+                goto done;
             } else if (strncmp("-h", argv[i], 2) == 0) {
                 puts(usage);
-                return 0;
+                goto done;
             } else if (eq) {
                 fprintf(stderr, "More than one equation found.\n");
-                exit(1);
+                goto done;
             } else {
+                if (eq) {
+                    fprintf(stderr, "Cannot multiple inputs\n");
+                    goto done;
+                }
                 eq = malloc((strlen(argv[i]) + 1) * sizeof(wchar_t));
                 swprintf(eq, (strlen(argv[i]) + 1) * sizeof(wchar_t), L"%s",
                          argv[i]);
-                f = 1;
             }
         }
     }
@@ -142,8 +148,8 @@ int main(int argc, char * argv[])
         return 1;
     }
     screen = asciiTeX(eq, ll, &cols, &rows);
-    if (f)
-        free(eq);
+done:
+    free(eq);
     if (screen) {
         for (i = 0; i < rows; i++) {
             if (cols < 0)
@@ -157,10 +163,6 @@ int main(int argc, char * argv[])
                 printf("\n");
         }
         free(screen);
-        // if (cols < 0)
-        //     fprintf(stderr, "\n");
-        // else
-        //     printf("\n");
     } else
         return 1;
     return 0;

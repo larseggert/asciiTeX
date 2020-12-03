@@ -22,21 +22,21 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
+#include "limit.h"
 #include "parsedef.h"
 #include "utils.h"
 
 
-int dimLimit(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph)
+long dimLimit(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -66,8 +66,9 @@ found vector.
     }
     end = findClosingBrace(start + 1);
     if (end - start < 2) {
-        SyntaxError(L"Usage: \\limit{X}\n\tProduces a limit\n\te.g \\lim{x \\to "
-                    "\\infty}\n");
+        SyntaxError(
+            L"Usage: \\limit{X}\n\tProduces a limit\n\te.g \\lim{x \\to "
+            "\\infty}\n");
         return 0;
     }
 
@@ -103,9 +104,9 @@ found vector.
 #undef our
 }
 
-void drawLimit(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawLimit(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph)
 /*
@@ -120,7 +121,7 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int width = graph->down[kid]->dim.x;
+    long width = graph->down[kid]->dim.x;
     if (width < 3)
         width = 3;
     drawInternal(screen, graph->down[kid], curx, cury + 1);

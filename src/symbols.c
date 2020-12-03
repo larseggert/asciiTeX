@@ -23,13 +23,11 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
-#include "dim.h"
 #include "parsedef.h"
-#include "utils.h"
-
+#include "symbols.h"
 
 /*
  * all non adaptive symbols here
@@ -37,10 +35,10 @@
 /*
  * integral symbol (it has a constant size)
  */
-int dimInt(wchar_t * found __attribute__((unused)),
-           wchar_t ** Gpos,
-           Tdim * Our,
-           struct Tgraph * graph __attribute__((unused)))
+long dimInt(wchar_t * found __attribute__((unused)),
+            wchar_t ** Gpos,
+            Tdim * Our,
+            struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -73,9 +71,9 @@ found vector.
 #undef our
 }
 
-void drawInt(int * Kid __attribute__((unused)),
-             int * Curx,
-             int * Cury,
+void drawInt(long * Kid __attribute__((unused)),
+             long * Curx,
+             long * Cury,
              wchar_t *** screen,
              struct Tgraph * graph __attribute__((unused)))
 /*
@@ -87,7 +85,6 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury - 2][curx + 2] = '_';
@@ -101,10 +98,10 @@ graph		--	The parent
 /*
  * closed path integral
  */
-int dimOint(wchar_t * found __attribute__((unused)),
-            wchar_t ** Gpos,
-            Tdim * Our,
-            struct Tgraph * graph __attribute__((unused)))
+long dimOint(wchar_t * found __attribute__((unused)),
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -137,9 +134,9 @@ found vector.
 #undef our
 }
 
-void drawOint(int * Kid __attribute__((unused)),
-              int * Curx,
-              int * Cury,
+void drawOint(long * Kid __attribute__((unused)),
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph __attribute__((unused)))
 /*
@@ -151,7 +148,6 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury - 2][curx + 2] = '_';
@@ -165,10 +161,10 @@ graph		--	The parent
 /*
  * product sign
  */
-int dimProd(wchar_t * found __attribute__((unused)),
-            wchar_t ** Gpos,
-            Tdim * Our,
-            struct Tgraph * graph __attribute__((unused)))
+long dimProd(wchar_t * found __attribute__((unused)),
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -201,9 +197,9 @@ found vector.
 #undef our
 }
 
-void drawProd(int * Kid __attribute__((unused)),
-              int * Curx,
-              int * Cury,
+void drawProd(long * Kid __attribute__((unused)),
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph __attribute__((unused)))
 /*
@@ -215,7 +211,6 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury - 1][curx] = '_';
@@ -231,10 +226,10 @@ graph		--	The parent
 /*
  * sum sign
  */
-int dimSum(wchar_t * found __attribute__((unused)),
-           wchar_t ** Gpos,
-           Tdim * Our,
-           struct Tgraph * graph __attribute__((unused)))
+long dimSum(wchar_t * found __attribute__((unused)),
+            wchar_t ** Gpos,
+            Tdim * Our,
+            struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -267,9 +262,9 @@ found vector.
 #undef our
 }
 
-void drawSum(int * Kid __attribute__((unused)),
-             int * Curx,
-             int * Cury,
+void drawSum(long * Kid __attribute__((unused)),
+             long * Curx,
+             long * Cury,
              wchar_t *** screen,
              struct Tgraph * graph __attribute__((unused)))
 /*
@@ -281,7 +276,6 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury - 1][curx] = ' ';
@@ -298,10 +292,10 @@ graph		--	The parent
  * to sign ->
  */
 
-int dimTo(wchar_t * found __attribute__((unused)),
-          wchar_t ** Gpos,
-          Tdim * Our,
-          struct Tgraph * graph __attribute__((unused)))
+long dimTo(wchar_t * found __attribute__((unused)),
+           wchar_t ** Gpos,
+           Tdim * Our,
+           struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -328,9 +322,9 @@ found vector.
 #undef our
 }
 
-void drawTo(int * Kid __attribute__((unused)),
-            int * Curx,
-            int * Cury,
+void drawTo(long * Kid __attribute__((unused)),
+            long * Curx,
+            long * Cury,
             wchar_t *** screen,
             struct Tgraph * graph __attribute__((unused)))
 /*
@@ -342,17 +336,16 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury][curx++] = '-';
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLeadsto(wchar_t * found __attribute__((unused)),
-               wchar_t ** Gpos,
-               Tdim * Our,
-               struct Tgraph * graph __attribute__((unused)))
+long dimLeadsto(wchar_t * found __attribute__((unused)),
+                wchar_t ** Gpos,
+                Tdim * Our,
+                struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -379,9 +372,9 @@ found vector.
 #undef our
 }
 
-void drawLeadsto(int * Kid __attribute__((unused)),
-                 int * Curx,
-                 int * Cury,
+void drawLeadsto(long * Kid __attribute__((unused)),
+                 long * Curx,
+                 long * Cury,
                  wchar_t *** screen,
                  struct Tgraph * graph __attribute__((unused)))
 /*
@@ -393,17 +386,16 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury][curx++] = '~';
     (*screen)[cury][curx++] = '>';
 }
 
-int dimLceil(wchar_t * found __attribute__((unused)),
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph __attribute__((unused)))
+long dimLceil(wchar_t * found __attribute__((unused)),
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -436,9 +428,9 @@ found vector.
 #undef our
 }
 
-void drawLceil(int * Kid __attribute__((unused)),
-               int * Curx,
-               int * Cury,
+void drawLceil(long * Kid __attribute__((unused)),
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph __attribute__((unused)))
 /*
@@ -450,17 +442,16 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury][curx++] = '|';
     (*screen)[cury - 1][curx++] = '_';
 }
 
-int dimRceil(wchar_t * found __attribute__((unused)),
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph __attribute__((unused)))
+long dimRceil(wchar_t * found __attribute__((unused)),
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -493,9 +484,9 @@ found vector.
 #undef our
 }
 
-void drawRceil(int * Kid __attribute__((unused)),
-               int * Curx,
-               int * Cury,
+void drawRceil(long * Kid __attribute__((unused)),
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph __attribute__((unused)))
 /*
@@ -507,17 +498,16 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury - 1][curx++] = '_';
     (*screen)[cury][curx++] = '|';
 }
 
-int dimLfloor(wchar_t * found __attribute__((unused)),
-              wchar_t ** Gpos,
-              Tdim * Our,
-              struct Tgraph * graph __attribute__((unused)))
+long dimLfloor(wchar_t * found __attribute__((unused)),
+               wchar_t ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -544,9 +534,9 @@ found vector.
 #undef our
 }
 
-void drawLfloor(int * Kid __attribute__((unused)),
-                int * Curx,
-                int * Cury,
+void drawLfloor(long * Kid __attribute__((unused)),
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph __attribute__((unused)))
 /*
@@ -558,17 +548,16 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury][curx++] = '|';
     (*screen)[cury][curx++] = '_';
 }
 
-int dimRfloor(wchar_t * found __attribute__((unused)),
-              wchar_t ** Gpos,
-              Tdim * Our,
-              struct Tgraph * graph __attribute__((unused)))
+long dimRfloor(wchar_t * found __attribute__((unused)),
+               wchar_t ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -595,9 +584,9 @@ found vector.
 #undef our
 }
 
-void drawRfloor(int * Kid __attribute__((unused)),
-                int * Curx,
-                int * Cury,
+void drawRfloor(long * Kid __attribute__((unused)),
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph __attribute__((unused)))
 /*
@@ -609,7 +598,6 @@ screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
-#define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
     (*screen)[cury][curx++] = '_';

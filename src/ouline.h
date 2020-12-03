@@ -30,24 +30,24 @@
 #include "asciiTeX_struct.h"
 
 
-int dimOverl(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
-
-void drawOverl(int * Kid,
-               int * Curx,
-               int * Cury,
-               wchar_t *** screen,
-               struct Tgraph * graph);
-
-int dimUnderl(wchar_t * found,
+long dimOverl(wchar_t * found,
               wchar_t ** Gpos,
               Tdim * Our,
               struct Tgraph * graph);
 
-void drawUnderl(int * Kid,
-                int * Curx,
-                int * Cury,
+void drawOverl(long * Kid,
+               long * Curx,
+               long * Cury,
+               wchar_t *** screen,
+               struct Tgraph * graph);
+
+long dimUnderl(wchar_t * found,
+               wchar_t ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph);
+
+void drawUnderl(long * Kid,
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph);

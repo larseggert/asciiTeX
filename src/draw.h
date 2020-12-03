@@ -26,9 +26,8 @@
 
 #include <wchar.h>
 
-#include "asciiTeX_struct.h"
+struct Tgraph;
 
-
-void drawInternal(wchar_t *** screen, struct Tgraph * graph, int x, int y);
+void drawInternal(wchar_t *** screen, struct Tgraph * graph, long x, long y);
 
 wchar_t ** draw(struct Tgraph * graph);

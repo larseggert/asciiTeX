@@ -29,13 +29,13 @@
 #include "asciiTeX_struct.h"
 
 
-int dimSqrt(wchar_t * found,
-            wchar_t ** Gpos,
-            Tdim * Our,
-            struct Tgraph * graph);
+long dimSqrt(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph);
 
-void drawSqrt(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawSqrt(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph);

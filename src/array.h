@@ -31,13 +31,13 @@
 
 wchar_t * findArrayDelimiter(wchar_t * txt);
 
-int dimArray(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
+long dimArray(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph);
 
-void drawArray(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawArray(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph);

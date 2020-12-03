@@ -24,7 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
@@ -34,7 +34,10 @@
 #include "utils.h"
 
 
-int dimFrac(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph)
+long dimFrac(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -46,10 +49,10 @@ found vector.
 */
 {
     Tdim out;
-    wchar_t *start, *end, *tmp;
+    wchar_t *start, *end = 0, *tmp;
 #define our (*Our)
 #define gpos (*Gpos)
-    int height = 0, width = 0;
+    long height = 0, width = 0;
 
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
@@ -115,9 +118,9 @@ found vector.
 #undef gpos
 }
 
-void drawFrac(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawFrac(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph)
 /*
@@ -132,8 +135,8 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int width = graph->down[kid]->dim.x;
-    int i;
+    long width = graph->down[kid]->dim.x;
+    long i;
     if (width < graph->down[kid + 1]->dim.x)
         width = graph->down[kid + 1]->dim.x;
     drawInternal(screen, graph->down[kid],

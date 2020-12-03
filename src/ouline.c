@@ -22,21 +22,21 @@
 // Fork by: Bart Pieters
 // Fork by: Lars Eggert (https://github.com/larseggert/asciiTeX)
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
+#include "ouline.h"
 #include "parsedef.h"
 #include "utils.h"
 
 
-int dimOverl(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph)
+long dimOverl(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -99,9 +99,9 @@ found vector.
 #undef our
 }
 
-void drawOverl(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawOverl(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph)
 /*
@@ -116,7 +116,7 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int i;
+    long i;
     drawInternal(screen, graph->down[kid], curx,
                  cury - (graph->down[kid]->dim.y -
                          (graph->down[kid]->dim.baseline + 1)));
@@ -126,10 +126,10 @@ graph		--	The parent
     kid++;
 }
 
-int dimUnderl(wchar_t * found,
-              wchar_t ** Gpos,
-              Tdim * Our,
-              struct Tgraph * graph)
+long dimUnderl(wchar_t * found,
+               wchar_t ** Gpos,
+               Tdim * Our,
+               struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -193,9 +193,9 @@ found vector.
 #undef our
 }
 
-void drawUnderl(int * Kid,
-                int * Curx,
-                int * Cury,
+void drawUnderl(long * Kid,
+                long * Curx,
+                long * Cury,
                 wchar_t *** screen,
                 struct Tgraph * graph)
 /*
@@ -210,7 +210,7 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int i;
+    long i;
     drawInternal(screen, graph->down[kid], curx,
                  cury - (graph->down[kid]->dim.y -
                          (graph->down[kid]->dim.baseline + 1)));

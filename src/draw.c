@@ -24,10 +24,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 #include "array.h"
 #include "asciiTeX_struct.h"
 #include "brace.h"
+#include "draw.h"
 #include "frac.h"
 #include "limit.h"
 #include "ouline.h"
@@ -36,12 +38,11 @@
 #include "sscript.h"
 #include "symbols.h"
 #include "text.h"
-#include "utils.h"
 
 
-void drawInternal(wchar_t *** screen, struct Tgraph * graph, int x, int y)
+void drawInternal(wchar_t *** screen, struct Tgraph * graph, long x, long y)
 {
-    int kid = 0, curx = x, cury = y + (graph->dim.y - 1) - graph->dim.baseline;
+    long kid = 0, curx = x, cury = y + (graph->dim.y - 1) - graph->dim.baseline;
     wchar_t * txt = graph->txt;
     while (*txt) {
         if (*txt == 1) {
@@ -106,13 +107,15 @@ void drawInternal(wchar_t *** screen, struct Tgraph * graph, int x, int y)
                 drawOint(&kid, &curx, &cury, screen, graph);
                 break;
             case TEXT:
+            case MATHRM:
                 drawText(&kid, &curx, &cury, screen, graph, txt);
                 break;
-            default:
+            case ERR:
+            case ESCAPE:
+            case INFTY:
                 fprintf(stderr,
                         "I screwed up in draw, this should never happen!\n");
                 exit(1);
-                break;
             }
         } else {
             (*screen)[cury][curx++] = *txt;
@@ -123,10 +126,10 @@ void drawInternal(wchar_t *** screen, struct Tgraph * graph, int x, int y)
 
 wchar_t ** draw(struct Tgraph * graph)
 {
-    wchar_t ** screen = malloc(sizeof(wchar_t *) * (graph->dim.y + 1));
-    int i, j;
+    wchar_t ** screen = malloc(sizeof(wchar_t *) * (size_t)(graph->dim.y + 1));
+    long i, j;
     for (i = 0; i < graph->dim.y; i++) {
-        screen[i] = malloc((graph->dim.x * 2) * sizeof(wchar_t));
+        screen[i] = malloc((size_t)(graph->dim.x * 2) * sizeof(wchar_t));
         for (j = 0; j < graph->dim.x; j++)
             screen[i][j] = ' ';
         screen[i][graph->dim.x] = 0;

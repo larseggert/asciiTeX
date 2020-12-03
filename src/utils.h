@@ -26,8 +26,7 @@
 
 #include <wchar.h>
 
-#include "asciiTeX_struct.h"
-
+struct Tgraph;
 
 void SyntaxError(wchar_t * format_str, ...);
 
@@ -59,6 +58,6 @@ wchar_t * findClosingLRBrace(wchar_t * txt); /* find the closing brace
 
 extern wchar_t ** messages;
 
-extern int Nmes;
+extern long Nmes;
 
-extern int Nall;
+extern long Nall;

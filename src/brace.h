@@ -29,13 +29,13 @@
 #include "asciiTeX_struct.h"
 
 
-int dimBrace(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph);
+long dimBrace(wchar_t * found,
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph);
 
-void drawBrace(int * Kid,
-               int * Curx,
-               int * Cury,
+void drawBrace(long * Kid,
+               long * Curx,
+               long * Cury,
                wchar_t *** screen,
                struct Tgraph * graph);

@@ -24,16 +24,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
+#include "sqrt.h"
 #include "utils.h"
 
 
-int dimSqrt(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph)
+long dimSqrt(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
 found		--	Pointer to a sting containing the remaining part of the
@@ -113,9 +117,9 @@ found vector.
 #undef our
 }
 
-void drawSqrt(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawSqrt(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph)
 /*
@@ -130,7 +134,7 @@ graph		--	The parent
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int i;
+    long i;
     if (graph->down[kid]->options) {
         for (i = 0; i < (int)wcslen(graph->down[kid]->options); i++)
             (*screen)[cury + graph->down[kid]->dim.baseline -

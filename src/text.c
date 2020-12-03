@@ -21,12 +21,13 @@
 // Lars Eggert (https://github.com/larseggert/asciiTeX)
 
 #include <stdlib.h>
-#include <string.h>
+#include <wchar.h>
 
 #include "asciiTeX_struct.h"
 #include "dim.h"
 #include "draw.h"
 #include "parsedef.h"
+#include "text.h"
 #include "utils.h"
 
 
@@ -42,7 +43,10 @@
 ///
 /// @return     Number of characters it used of the found vector.
 ///
-int dimText(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph)
+long dimText(wchar_t * found,
+             wchar_t ** Gpos,
+             Tdim * Our,
+             struct Tgraph * graph)
 {
 #define gpos (*Gpos)
 #define our (*Our)
@@ -71,9 +75,9 @@ int dimText(wchar_t * found, wchar_t ** Gpos, Tdim * Our, struct Tgraph * graph)
 #undef our
 }
 
-void drawText(int * Kid,
-              int * Curx,
-              int * Cury,
+void drawText(long * Kid,
+              long * Curx,
+              long * Cury,
               wchar_t *** screen,
               struct Tgraph * graph,
               wchar_t * txt __attribute__((unused)))
@@ -81,7 +85,7 @@ void drawText(int * Kid,
 #define kid (*Kid)
 #define curx (*Curx)
 #define cury (*Cury)
-    int width = graph->down[kid]->dim.x;
+    long width = graph->down[kid]->dim.x;
     drawInternal(screen, graph->down[kid], curx, cury);
     curx += width;
     kid++;

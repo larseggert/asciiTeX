@@ -31,4 +31,4 @@
 
 Tdim dim(wchar_t * txt, struct Tgraph * graph);
 
-Tdim eqdim(wchar_t * txt, struct Tgraph * graph, int ll);
+Tdim eqdim(wchar_t * txt, struct Tgraph * graph, long ll);

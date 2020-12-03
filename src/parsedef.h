@@ -75,7 +75,7 @@ typedef enum {
 
 typedef struct {
     wchar_t * name;
-    int len;
+    size_t len;
     PRSDEF Nr;
 } KEYWORD;
 
