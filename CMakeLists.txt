@@ -31,3 +31,8 @@ add_executable (asciitex
                 src/text.c
                 src/utils.c
 )
+
+enable_testing()
+
+add_test(NAME test
+         COMMAND asciitex -f ${PROJECT_SOURCE_DIR}/EXAMPLES)
