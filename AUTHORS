@@ -1,5 +1,8 @@
 Author:
 Lars Eggert:
+        Fork of Bart Pieters' asciiTeX to focus on improving
+        compatibility with tex2svg, for use with kramdown-rfc2629
+        to produce prettier math for IETF specifications
 
 Bart Pieters:
 	Responsible for forking eqascii into asciiTeX, i.e.,

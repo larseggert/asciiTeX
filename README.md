@@ -7,10 +7,35 @@ e.g., emails or comments in your source code. The syntax is similar to LaTex.
 The asciiTeX project is a fork of eqascii, providing new features and many bug
 fixes to the original program.
 
+## Changes
+
+This is a fork of [Bart Pieters' asciiTeX](http://asciitex.sourceforge.net/)
+that focuses on improving compatibility with
+[tex2svg](https://github.com/Ximik/tex2svg), for use with
+[kramdown-rfc2629](https://github.com/cabo/kramdown-rfc2629) to produce prettier
+math for [IETF](https://ietf.org/) specifications.
+
+Specifically, these changes were made (so far):
+
+- Unicode support
+- support for `<>` braces
+- support for `\eft\` and `\right`
+- support for `\text` and `\mathrm`
+- better automatic whitespace insertion/removal
+- switch build system to cmake
+- removal of the GUI
+- fix numerous minor bugs
+
+There are very likely many [tex2svg](https://github.com/Ximik/tex2svg) still
+missing from this fork of asciiTeX. There are also very likely still many
+remaining bugs. I'd be happy to see issues filed and pull-requests opened to
+further improve this software.
+
 ## Installing from sources
 
-~~~
-cd asciiart
+~~~ shell
+git clone https://github.com/larseggert/asciiTeX.git
+cd asciiTeX
 mkdir build
 cd build
 cmake ..
