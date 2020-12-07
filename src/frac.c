@@ -61,7 +61,7 @@ found vector.
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
     if (start)
         end = findClosingBrace(start + 1);
     if (!start || !end || (end - start < 2)) {
@@ -74,14 +74,14 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
 
     out = dim(tmp, newChild(graph));
     free(tmp);
     height += out.y;
     width = out.x;
 
-    start = wcschr(end, '{');
+    start = wcschr(end, L'{');
     if (start - end - 1 > 0)
         SyntaxWarning(L"Warning spurious characters ignored in \\frac\n");
     if (start)
@@ -95,7 +95,7 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
 
@@ -146,6 +146,6 @@ graph		--	The parent
                  curx + width / 2 - (graph->down[kid + 1]->dim.x) / 2,
                  cury + 1);
     for (i = 0; i < width; i++)
-        (*screen)[cury][curx++] = '-';
+        (*screen)[cury][curx++] = L'-';
     kid += 2;
 }

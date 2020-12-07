@@ -122,14 +122,14 @@ the found vector.
     j = 0;
     while (start[i]) {
         switch (start[i]) {
-        case 'l':
-        case 'c':
-        case 'r':
+        case L'l':
+        case L'c':
+        case L'r':
             /* put wchar_t in options */
             graph->down[graph->children - 1]->options[j] = start[i];
             j++;
             __attribute__((fallthrough));
-        case ' ':
+        case L' ':
             /*ignore*/
             break;
         default:
@@ -205,14 +205,14 @@ the found vector.
     Array->dim.x += Array->array->cols - 1;
 
     switch (rowal) {
-    case 'b':
+    case L'b':
         Array->dim.baseline = 0;
         break;
-    case 't':
+    case L't':
         Array->dim.baseline = Array->dim.y - 1;
         break;
     default:
-    case 'c':
+    case L'c':
         Array->dim.baseline = Array->dim.y / 2;
         break;
     }
@@ -263,16 +263,16 @@ graph		--	The parent
 
             switch (graph->down[kid]->options[j]) {
             /* compute current c position (column alignment) */
-            case 'l':
+            case L'l':
                 /* left */
                 xx = curx + x;
                 break;
-            case 'r':
+            case L'r':
                 /* right */
                 xx = curx + x +
                      (Array->array->colx[j] - Array->down[curitem]->dim.x);
                 break;
-            case 'c':
+            case L'c':
                 /* center */
                 xx = curx + x +
                      (Array->array->colx[j] - Array->down[curitem]->dim.x) / 2;

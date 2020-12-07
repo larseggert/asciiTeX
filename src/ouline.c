@@ -59,7 +59,7 @@ found vector.
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
     if (!start) {
         SyntaxError(
             L"Usage: \\overline{X}\n\tdraws a line above expression X\n");
@@ -74,7 +74,7 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
 
@@ -122,7 +122,7 @@ graph		--	The parent
                          (graph->down[kid]->dim.baseline + 1)));
     for (i = 0; i < graph->down[kid]->dim.x; i++)
         (*screen)[cury - (graph->down[kid]->dim.y) +
-                  (graph->down[kid]->dim.baseline)][curx++] = '_';
+                  (graph->down[kid]->dim.baseline)][curx++] = L'_';
     kid++;
 }
 
@@ -152,7 +152,7 @@ found vector.
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
     if (!start) {
         SyntaxError(
             L"Usage: \\underline{X}\n\tdraws a line under expression X\n");
@@ -167,7 +167,7 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
 
@@ -216,6 +216,6 @@ graph		--	The parent
                          (graph->down[kid]->dim.baseline + 1)));
     for (i = 0; i < graph->down[kid]->dim.x; i++)
         (*screen)[cury + (graph->down[kid]->dim.y) +
-                  (graph->down[kid]->dim.baseline)][curx++] = '-';
+                  (graph->down[kid]->dim.baseline)][curx++] = L'-';
     kid++;
 }

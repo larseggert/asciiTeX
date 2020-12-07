@@ -87,9 +87,9 @@ static wchar_t * findLineEnd(wchar_t * txt)
             i = (size_t)(4 + getbegin_endEnd(txt + i + 6) - txt);
         else if (wcsncmp(txt + i, L"\\left", 5) == 0)
             i = (size_t)(6 + findClosingLRBrace(txt + i + 5) - txt);
-        else if (txt[i] == '{')
+        else if (txt[i] == L'{')
             i = (size_t)(findClosingBrace(txt + i + 1) - txt);
-        else if (txt[i] == '\n')
+        else if (txt[i] == L'\n')
             return txt + i;
     }
     return txt + i; /* no line end found */
@@ -119,7 +119,7 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
     graph->txt = (wchar_t *)malloc((size_t)(len + 1) * sizeof(*graph->txt));
     gpos = graph->txt; /* we setup now this pointer */
     *gpos = 0;
-    if (*(end = findLineEnd(txt)) != '\0') {
+    if (*(end = findLineEnd(txt)) != L'\0') {
         /* the current level contains one or more line ends */
         /* the current level will become aan array of lines */
         long nlines = 0;
@@ -140,9 +140,9 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
         graph->down[graph->children - 1]->options =
             malloc((2) * sizeof(wchar_t));
         graph->down[graph->children - 1]->options[0] =
-            'c'; /* default col alignment */
+            L'c'; /* default col alignment */
         graph->down[graph->children - 1]->options[1] =
-            '\0'; /* default col alignment */
+            L'\0'; /* default col alignment */
         /* count how many lines we have */
         while (1) {
             lines = (wchar_t **)realloc(lines, (size_t)(nlines + 1) *
@@ -150,9 +150,9 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
             lines[nlines] =
                 (wchar_t *)malloc((size_t)(end - start + 1) * sizeof(wchar_t));
             wcsncpy(lines[nlines], start, (size_t)(end - start));
-            lines[nlines][end - start] = '\0'; /* terminate the string */
+            lines[nlines][end - start] = L'\0'; /* terminate the string */
             nlines++;
-            if (*end == '\0')
+            if (*end == L'\0')
                 break;
             start = end + 1;
             end = findLineEnd(start);
@@ -200,7 +200,7 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
     for (i = 0; i < len; i++) {
         if (SYNTAX_ERR_FLAG == S_ERR)
             return our;
-        if ((txt[i] != '\\') && (txt[i] != '_') && (txt[i] != '^')) {
+        if ((txt[i] != L'\\') && (txt[i] != L'_') && (txt[i] != L'^')) {
             our.x++;
             *gpos = txt[i];
             gpos++;
@@ -304,11 +304,11 @@ static wchar_t * PotLineEnd(wchar_t * txt)
             i = 4 + getbegin_endEnd(txt + i + 6) - txt;
         else if (wcsncmp(txt + i, L"\\left", 5) == 0)
             i = 6 + findClosingLRBrace(txt + i + 5) - txt;
-        else if (txt[i] == '{')
+        else if (txt[i] == L'{')
             i = findClosingBrace(txt + i + 1) - txt;
-        else if (txt[i] == '\\')
+        else if (txt[i] == L'\\')
             i++;
-        else if (txt[i] == '\n')
+        else if (txt[i] == L'\n')
             return txt + i;
         else
             for (j = 0; j < 6; j++)
@@ -338,7 +338,7 @@ Tdim eqdim(wchar_t * txt, struct Tgraph * graph, long ll)
                 return dumdim;
             }
             c = *end;
-            *end = '\0';
+            *end = L'\0';
             InitGraph(dummy);
             dumdim = dim(start, dummy);
             if (SYNTAX_ERR_FLAG == S_ERR)
@@ -357,10 +357,10 @@ Tdim eqdim(wchar_t * txt, struct Tgraph * graph, long ll)
                 /* note that enters are removed in preparse to allow multi line
                  * editing
                  */
-                *(prevplb) = '\n';
+                *(prevplb) = L'\n';
                 x = dumdim.x;
             }
-            if (c == '\n') {
+            if (c == L'\n') {
                 /* the current end is already a break */
                 /* reset x, prevent a new linebreak */
                 prevplb = NULL;

@@ -160,7 +160,7 @@ graph		--	The parent
      * the options of our child contains the brace type
      */
     switch (graph->down[kid]->options[0]) {
-    case '(':
+    case L'(':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx] = L'\\';
             for (i = 1; i < graph->down[kid]->dim.y - 1; i++)
@@ -170,7 +170,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'(';
         break;
-    case '|':
+    case L'|':
         if (graph->down[kid]->dim.y > 2) {
             for (i = 0; i < graph->down[kid]->dim.y; i++)
                 (*screen)[low - i][curx] = L'|';
@@ -178,7 +178,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'|';
         break;
-    case '[':
+    case L'[':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx + 1] = L'_';
             for (i = 0; i < graph->down[kid]->dim.y; i++)
@@ -188,7 +188,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'[';
         break;
-    case '{':
+    case L'{':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx] = L'\\';
             (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'<';
@@ -204,7 +204,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'{';
         break;
-    case '<':
+    case L'<':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'<';
             curx += graph->down[kid]->dim.y / 2 - 1;
@@ -218,8 +218,8 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'<';
         break;
-    case '.': /* dummy brace to open or close any type *
-               * of brace */
+    case L'.': /* dummy brace to open or close any type *
+                * of brace */
         break;
     default:
         if (graph->down[kid]->dim.y > 2) {
@@ -240,7 +240,7 @@ graph		--	The parent
     curx += graph->down[kid]->dim.x;
 
     switch (graph->down[kid]->options[1]) {
-    case ')':
+    case L')':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx] = L'/';
             for (i = 1; i < graph->down[kid]->dim.y - 1; i++)
@@ -249,14 +249,14 @@ graph		--	The parent
         } else
             (*screen)[cury][curx] = L')';
         break;
-    case '|':
+    case L'|':
         if (graph->down[kid]->dim.y > 2) {
             for (i = 0; i < graph->down[kid]->dim.y; i++)
                 (*screen)[low - i][curx] = L'|';
         } else
             (*screen)[cury][curx] = L'|';
         break;
-    case ']':
+    case L']':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx] = L'_';
             for (i = 0; i < graph->down[kid]->dim.y; i++)
@@ -266,7 +266,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx] = L']';
         break;
-    case '}':
+    case L'}':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low][curx] = L'/';
             (*screen)[low - graph->down[kid]->dim.y / 2][curx] = L'>';
@@ -281,7 +281,7 @@ graph		--	The parent
         } else
             (*screen)[cury][curx] = L'}';
         break;
-    case '>':
+    case L'>':
         if (graph->down[kid]->dim.y > 2) {
             (*screen)[low - graph->down[kid]->dim.y / 2]
                      [curx + graph->down[kid]->dim.y / 2 - 1] = L'>';
@@ -295,8 +295,8 @@ graph		--	The parent
         } else
             (*screen)[cury][curx++] = L'>';
         break;
-    case '.': /* dummy brace to open or close any type *
-               * of brace */
+    case L'.': /* dummy brace to open or close any type *
+                * of brace */
         break;
     default:
         if (graph->down[kid]->dim.y > 2) {

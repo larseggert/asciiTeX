@@ -61,7 +61,7 @@ found vector.
     end = findClosingBrace(start + 1);
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
     if (out.y > our.baseline) {
@@ -140,7 +140,7 @@ found vector.
     end = findClosingBrace(start + 1);
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
     if (out.y + 1 > our.y - our.baseline)

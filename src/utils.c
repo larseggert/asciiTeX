@@ -130,9 +130,9 @@ wchar_t * preparse(wchar_t * txt)
             ptr++;
         } else {
             if (*ptr != L',' &&
-                (*ptr != L'=' ||
-                 (rptr > result && (*(rptr - 1) != '<' && *(rptr - 1) != '>' &&
-                                    *(rptr - 1) != '!')))) {
+                (*ptr != L'=' || (rptr > result &&
+                                  (*(rptr - 1) != L'<' && *(rptr - 1) != L'>' &&
+                                   *(rptr - 1) != L'!')))) {
                 *rptr = L' ';
                 rptr++;
             }

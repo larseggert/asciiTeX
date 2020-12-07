@@ -87,11 +87,11 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury - 2][curx + 2] = '_';
-    (*screen)[cury - 1][curx + 1] = '/';
-    (*screen)[cury][curx + 1] = '|';
-    (*screen)[cury + 1][curx + 1] = '/';
-    (*screen)[cury + 1][curx] = '_';
+    (*screen)[cury - 2][curx + 2] = L'_';
+    (*screen)[cury - 1][curx + 1] = L'/';
+    (*screen)[cury][curx + 1] = L'|';
+    (*screen)[cury + 1][curx + 1] = L'/';
+    (*screen)[cury + 1][curx] = L'_';
     curx += 4;
 }
 
@@ -150,11 +150,11 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury - 2][curx + 2] = '_';
-    (*screen)[cury - 1][curx + 1] = '/';
-    (*screen)[cury][curx + 1] = 'O';
-    (*screen)[cury + 1][curx + 1] = '/';
-    (*screen)[cury + 1][curx] = '_';
+    (*screen)[cury - 2][curx + 2] = L'_';
+    (*screen)[cury - 1][curx + 1] = L'/';
+    (*screen)[cury][curx + 1] = L'O';
+    (*screen)[cury + 1][curx + 1] = L'/';
+    (*screen)[cury + 1][curx] = L'_';
     curx += 4;
 }
 
@@ -213,13 +213,13 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury - 1][curx] = '_';
-    (*screen)[cury - 1][curx + 1] = '_';
-    (*screen)[cury - 1][curx + 2] = '_';
-    (*screen)[cury][curx] = '|';
-    (*screen)[cury][curx + 2] = '|';
-    (*screen)[cury + 1][curx] = '|';
-    (*screen)[cury + 1][curx + 2] = '|';
+    (*screen)[cury - 1][curx] = L'_';
+    (*screen)[cury - 1][curx + 1] = L'_';
+    (*screen)[cury - 1][curx + 2] = L'_';
+    (*screen)[cury][curx] = L'|';
+    (*screen)[cury][curx + 2] = L'|';
+    (*screen)[cury + 1][curx] = L'|';
+    (*screen)[cury + 1][curx + 2] = L'|';
     curx += 4;
 }
 
@@ -278,13 +278,13 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury - 1][curx] = ' ';
-    (*screen)[cury - 1][curx + 1] = '_';
-    (*screen)[cury - 1][curx + 2] = '_';
-    (*screen)[cury][curx] = '\\';
-    (*screen)[cury + 1][curx] = '/';
-    (*screen)[cury + 1][curx + 1] = '_';
-    (*screen)[cury + 1][curx + 2] = '_';
+    (*screen)[cury - 1][curx] = L' ';
+    (*screen)[cury - 1][curx + 1] = L'_';
+    (*screen)[cury - 1][curx + 2] = L'_';
+    (*screen)[cury][curx] = L'\\';
+    (*screen)[cury + 1][curx] = L'/';
+    (*screen)[cury + 1][curx + 1] = L'_';
+    (*screen)[cury + 1][curx + 2] = L'_';
     curx += 4;
 }
 
@@ -338,8 +338,8 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury][curx++] = '-';
-    (*screen)[cury][curx++] = '>';
+    (*screen)[cury][curx++] = L'-';
+    (*screen)[cury][curx++] = L'>';
 }
 
 long dimLeadsto(wchar_t * found __attribute__((unused)),
@@ -388,8 +388,8 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury][curx++] = '~';
-    (*screen)[cury][curx++] = '>';
+    (*screen)[cury][curx++] = L'~';
+    (*screen)[cury][curx++] = L'>';
 }
 
 long dimLceil(wchar_t * found __attribute__((unused)),
@@ -444,8 +444,8 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury][curx++] = '|';
-    (*screen)[cury - 1][curx++] = '_';
+    (*screen)[cury][curx++] = L'|';
+    (*screen)[cury - 1][curx++] = L'_';
 }
 
 long dimRceil(wchar_t * found __attribute__((unused)),
@@ -500,8 +500,8 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury - 1][curx++] = '_';
-    (*screen)[cury][curx++] = '|';
+    (*screen)[cury - 1][curx++] = L'_';
+    (*screen)[cury][curx++] = L'|';
 }
 
 long dimLfloor(wchar_t * found __attribute__((unused)),
@@ -550,8 +550,8 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury][curx++] = '|';
-    (*screen)[cury][curx++] = '_';
+    (*screen)[cury][curx++] = L'|';
+    (*screen)[cury][curx++] = L'_';
 }
 
 long dimRfloor(wchar_t * found __attribute__((unused)),
@@ -600,6 +600,6 @@ graph		--	The parent
 {
 #define curx (*Curx)
 #define cury (*Cury)
-    (*screen)[cury][curx++] = '_';
-    (*screen)[cury][curx++] = '|';
+    (*screen)[cury][curx++] = L'_';
+    (*screen)[cury][curx++] = L'|';
 }

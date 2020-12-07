@@ -131,7 +131,7 @@ wchar_t ** draw(struct Tgraph * graph)
     for (i = 0; i < graph->dim.y; i++) {
         screen[i] = malloc((size_t)(graph->dim.x * 2) * sizeof(wchar_t));
         for (j = 0; j < graph->dim.x; j++)
-            screen[i][j] = ' ';
+            screen[i][j] = L' ';
         screen[i][graph->dim.x] = 0;
     }
     drawInternal(&screen, graph, 0, 0);

@@ -59,7 +59,7 @@ found vector.
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
     if (!start) {
         SyntaxError(L"Usage: \\limit{X}\n\tProduces a limit\n");
         return 0;
@@ -74,7 +74,7 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
 
@@ -125,9 +125,9 @@ graph		--	The parent
     if (width < 3)
         width = 3;
     drawInternal(screen, graph->down[kid], curx, cury + 1);
-    (*screen)[cury][curx + (width - 1) / 2 - 1] = 'l';
-    (*screen)[cury][curx + (width - 1) / 2] = 'i';
-    (*screen)[cury][curx + (width - 1) / 2 + 1] = 'm';
+    (*screen)[cury][curx + (width - 1) / 2 - 1] = L'l';
+    (*screen)[cury][curx + (width - 1) / 2] = L'i';
+    (*screen)[cury][curx + (width - 1) / 2 + 1] = L'm';
     curx += width + 1;
 
     kid++;

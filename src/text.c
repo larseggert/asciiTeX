@@ -58,12 +58,12 @@ long dimText(wchar_t * found,
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
 
     end = findClosingBrace(start + 1);
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
 
     out = dim(tmp, newChild(graph));
     free(tmp);

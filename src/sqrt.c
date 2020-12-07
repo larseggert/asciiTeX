@@ -60,7 +60,7 @@ found vector.
     gpos++;
     *gpos = 0;
 
-    start = wcschr(found, '{');
+    start = wcschr(found, L'{');
     if (!start) {
         SyntaxError(L"Usage: \\sqrt[n]{X}\n\tdraws a root of X, where n is "
                     "an\n\toptional argument specifying the root\n");
@@ -75,13 +75,13 @@ found vector.
 
     *end = 0;
     tmp = wcsdup(start + 1);
-    *end = '}';
+    *end = L'}';
     out = dim(tmp, newChild(graph));
     free(tmp);
 
-    tmp = wcschr(found, '[');
+    tmp = wcschr(found, L'[');
     if (tmp) {
-        endopt = wcschr(found, ']');
+        endopt = wcschr(found, L']');
         if (tmp + 1 < start) {
             if ((endopt > start) || (endopt - tmp < 2)) {
                 SyntaxError(
@@ -89,9 +89,9 @@ found vector.
                     "is an\n\toptional argument specifying the root\n");
                 return 0;
             }
-            *endopt = '\0';
+            *endopt = L'\0';
             graph->down[graph->children - 1]->options = wcsdup(tmp + 1);
-            *endopt = ']';
+            *endopt = L']';
             our.x += wcslen(graph->down[graph->children - 1]->options) - 1;
         }
     }
@@ -147,16 +147,16 @@ graph		--	The parent
          (graph->down[kid]->dim.y - (graph->down[kid]->options != NULL)) / 2 +
              1;
          i++)
-        (*screen)[cury + graph->down[kid]->dim.baseline - i][curx] = '|';
+        (*screen)[cury + graph->down[kid]->dim.baseline - i][curx] = L'|';
     curx++;
     drawInternal(screen, graph->down[kid], curx + graph->down[kid]->dim.y,
                  cury - (graph->down[kid]->dim.y -
                          (graph->down[kid]->dim.baseline + 1)));
     for (i = 0; i < graph->down[kid]->dim.y; i++)
-        (*screen)[cury + graph->down[kid]->dim.baseline - i][curx++] = '/';
+        (*screen)[cury + graph->down[kid]->dim.baseline - i][curx++] = L'/';
 
     for (i = 0; i < graph->down[kid]->dim.x; i++)
         (*screen)[cury - (graph->down[kid]->dim.y) +
-                  (graph->down[kid]->dim.baseline)][curx++] = '_';
+                  (graph->down[kid]->dim.baseline)][curx++] = L'_';
     kid++;
 }
