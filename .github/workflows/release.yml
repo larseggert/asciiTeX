@@ -20,8 +20,8 @@ jobs:
       - name: Build project
         working-directory: ${{runner.workspace}}
         run: |
-          mkdir build
-          cd build
+          mkdir -p ${{runner.workspace}}/build
+          cd ${{runner.workspace}}/build
           cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
           cmake --build . --config $BUILD_TYPE
           zip --junk-paths ../asciiTeX.zip ../README.md ../EXAMPLES asciitex
