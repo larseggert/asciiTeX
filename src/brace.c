@@ -24,6 +24,7 @@
 
 #include <stdlib.h>
 #include <wchar.h>
+#include <wctype.h>
 
 #include "asciiTeX_struct.h"
 #include "brace.h"
