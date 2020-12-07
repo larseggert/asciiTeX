@@ -173,9 +173,7 @@ wchar_t * preparse(wchar_t * txt)
                 rptr++;
 
                 if (*(ptr - 1) == L'\\') {
-                    while ((*ptr >= 0x41 && *ptr <= 0x5a) ||
-                           (*ptr >= 0x61 && *ptr <= 0x7a)) {
-                        /* while not whitespace or end */
+                    while (iswalpha(*ptr)) {
                         *rptr = *ptr;
                         rptr++;
                         ptr++;
