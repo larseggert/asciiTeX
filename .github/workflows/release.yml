@@ -18,14 +18,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build project
+        working-directory: ${{runner.workspace}}
         run: |
-          cmake -E make_directory ${{runner.workspace}}/build
-          cd ${{runner.workspace}}/build
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
           cmake --build . --config $BUILD_TYPE
-          ls -la ..
-          ls -la .
-          zip --junk-paths asciiTeX.zip ../README.md ../EXAMPLES asciitex
+          zip --junk-paths ../asciiTeX.zip ../README.md ../EXAMPLES asciitex
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
