@@ -38,7 +38,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release ZIP
-        id: upload-release-asset
+        id: upload-release-zip
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
           asset_name: asciiTeX.zip
           asset_content_type: application/zip
       - name: Upload Release Binary
-        id: upload-release-asset
+        id: upload-release-binary
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
