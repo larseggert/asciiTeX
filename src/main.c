@@ -153,14 +153,10 @@ done:
     if (screen) {
         for (i = 0; i < rows; i++) {
             if (cols < 0)
-                fwprintf(stderr, L"%ls", screen[i]);
+                fwprintf(stderr, L"%ls\n", screen[i]);
             else
-                wprintf(L"%ls", screen[i]);
+                wprintf(L"%ls\n", screen[i]);
             free(screen[i]);
-            if (cols < 0)
-                fprintf(stderr, "\n");
-            else
-                printf("\n");
         }
         free(screen);
     } else
