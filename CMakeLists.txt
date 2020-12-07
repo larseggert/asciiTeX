@@ -4,14 +4,19 @@ project(asciiTeX C)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CMAKE_BUILD_TYPE Debug)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug
+        CACHE STRING "Set build type (default Debug)" FORCE)
+endif()
 
-if (MSVC)
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra -pedantic -Werror) # -Weverything
-    string(APPEND CMAKE_C_FLAGS_DEBUG " -fno-omit-frame-pointer -fsanitize=address,undefined")
-    string(APPEND CMAKE_LINKER_FLAGS_DEBUG " -fno-omit-frame-pointer -fsanitize=address,undefined")
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    if (MSVC)
+        add_compile_options(/W4 /WX)
+    else()
+        add_compile_options(-Wall -Wextra -pedantic -Werror) # -Weverything
+        string(APPEND CMAKE_C_FLAGS_DEBUG " -fno-omit-frame-pointer -fsanitize=address,undefined")
+        string(APPEND CMAKE_LINKER_FLAGS_DEBUG " -fno-omit-frame-pointer -fsanitize=address,undefined")
+    endif()
 endif()
 
 add_executable (asciitex
