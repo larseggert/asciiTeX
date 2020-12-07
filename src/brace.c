@@ -117,13 +117,6 @@ the found vector.
         our.y = (out.y - out.baseline) + our.baseline;
     }
 
-    if ((graph->down[graph->children - 1]->options[0] == L'{') ||
-        (graph->down[graph->children - 1]->options[1] == L'}')) {
-        our.y += (!(our.y % 2)); /* ensure y is uneven with
-                                  * room at the top */
-        our.x += out.x + 3;
-    }
-
     if ((graph->down[graph->children - 1]->options[0] == L'<') ||
         (graph->down[graph->children - 1]->options[1] == L'>')) {
         our.y += (!(our.y % 2)); /* ensure y is uneven with
@@ -131,6 +124,13 @@ the found vector.
         out.x += our.y;
         our.x += out.x;
     }
+
+    if ((graph->down[graph->children - 1]->options[0] == L'{') ||
+        (graph->down[graph->children - 1]->options[1] == L'}')) {
+        our.y += (!(our.y % 2)); /* ensure y is uneven with
+                                  * room at the top */
+    } else
+        our.x += out.x + 2;
 
     return end + off - (found);
 #undef gpos
