@@ -57,7 +57,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)FRAC;
+    *gpos = FRAC;
     gpos++;
     *gpos = 0;
 

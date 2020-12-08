@@ -55,7 +55,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)LIMIT;
+    *gpos = LIMIT;
     gpos++;
     *gpos = 0;
 

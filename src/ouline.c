@@ -55,7 +55,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)OVERLINE;
+    *gpos = OVERLINE;
     gpos++;
     *gpos = 0;
 
@@ -148,7 +148,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)UNDERLINE;
+    *gpos = UNDERLINE;
     gpos++;
     *gpos = 0;
 

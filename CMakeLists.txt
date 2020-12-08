@@ -46,11 +46,11 @@ foreach(test_input ${test_inputs})
     string(REPLACE ".tex" ".txt" expected_result ${test_input})
     add_custom_command(TARGET asciitex
                        POST_BUILD
-                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples
-                       COMMAND $<TARGET_FILE:asciitex> -f ${test_input} > ${test}.output
+                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                       COMMAND $<TARGET_FILE:asciitex> -f ${test_input} > ${test}.txt
                        )
     add_test(NAME ${test}
-             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples
-             COMMAND ${CMAKE_COMMAND} -E compare_files ${expected_result} ${test}.output
+             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+             COMMAND ${CMAKE_COMMAND} -E compare_files ${expected_result} ${test}.txt
              )
 endforeach()

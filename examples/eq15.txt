@@ -1,0 +1,13 @@
+                                                                                 
+                     <W        , W   > =                                         
+                       last_max   max                                            
+                                                                                 
+/                                                                                
+| /             1 + β     \                                                      
+|<                   cubic >                                if W    < W          
+| \W   , W    * ----------/                                     max    last_max  
+<   max   max        2                                                           
+|                                                                                
+|                                                                                
+|<W   , W   >                                               otherwise            
+\  max   max                                                                     

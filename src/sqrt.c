@@ -56,7 +56,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)SQRT;
+    *gpos = SQRT;
     gpos++;
     *gpos = 0;
 
@@ -136,7 +136,7 @@ graph		--	The parent
 #define cury (*Cury)
     long i;
     if (graph->down[kid]->options) {
-        for (i = 0; i < (int)wcslen(graph->down[kid]->options); i++)
+        for (i = 0; i < (long)wcslen(graph->down[kid]->options); i++)
             (*screen)[cury + graph->down[kid]->dim.baseline -
                       (graph->down[kid]->dim.y - 1) / 2 - 1][curx++] =
                 graph->down[kid]->options[i];

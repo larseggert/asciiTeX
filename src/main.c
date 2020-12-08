@@ -152,10 +152,7 @@ done:
     free(eq);
     if (screen) {
         for (i = 0; i < rows; i++) {
-            if (cols < 0)
-                fwprintf(stderr, L"%ls\n", screen[i]);
-            else
-                wprintf(L"%ls\n", screen[i]);
+            wprintf(L"%ls\n", screen[i]);
             free(screen[i]);
         }
         free(screen);

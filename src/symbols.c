@@ -55,7 +55,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)INT;
+    *gpos = INT;
     gpos++;
     *gpos = 0;
     our.x += 4;
@@ -118,7 +118,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)OINT;
+    *gpos = OINT;
     gpos++;
     *gpos = 0;
     our.x += 4;
@@ -181,7 +181,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)PROD;
+    *gpos = PROD;
     gpos++;
     *gpos = 0;
     our.x += 4;
@@ -246,7 +246,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)SUM;
+    *gpos = SUM;
     gpos++;
     *gpos = 0;
     our.x += 4;
@@ -312,7 +312,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)TO;
+    *gpos = TO;
     gpos++;
     *gpos = 0;
     our.x += 2;
@@ -362,7 +362,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)LEADSTO;
+    *gpos = LEADSTO;
     gpos++;
     *gpos = 0;
     our.x += 2;
@@ -412,7 +412,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)LCEIL;
+    *gpos = LCEIL;
     gpos++;
     *gpos = 0;
     our.x += 2;
@@ -468,7 +468,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)RCEIL;
+    *gpos = RCEIL;
     gpos++;
     *gpos = 0;
     our.x += 2;
@@ -524,7 +524,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)LFLOOR;
+    *gpos = LFLOOR;
     gpos++;
     *gpos = 0;
     our.x += 2;
@@ -574,7 +574,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)RFLOOR;
+    *gpos = RFLOOR;
     gpos++;
     *gpos = 0;
     our.x += 2;

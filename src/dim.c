@@ -133,12 +133,11 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
         *gpos = 1; /* See parsedef.h for the keyword
                     * definitions */
         gpos++;
-        *gpos = (wchar_t)ARRAY;
+        *gpos = ARRAY;
         gpos++;
         *gpos = 0;
         newChild(graph);
-        graph->down[graph->children - 1]->options =
-            malloc((2) * sizeof(wchar_t));
+        graph->down[graph->children - 1]->options = malloc(2 * sizeof(wchar_t));
         graph->down[graph->children - 1]->options[0] =
             L'c'; /* default col alignment */
         graph->down[graph->children - 1]->options[1] =

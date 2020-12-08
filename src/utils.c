@@ -25,6 +25,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <wchar.h>
+#include <wctype.h>
 
 #include "asciiTeX_struct.h"
 #include "utils.h"
@@ -154,7 +155,7 @@ wchar_t * preparse(wchar_t * txt)
             ptr++;
         }
 
-        if (*(ptr - 1) == L'^' || (*(ptr - 1) == L'_' && *ptr != L'{')) {
+        if ((*(ptr - 1) == L'^' || *(ptr - 1) == L'_') && *ptr != L'{') {
             if (!*ptr && *(ptr - 2) != L'\\') {
                 SyntaxError(L"Premature end of input\n");
                 return result;
@@ -212,21 +213,19 @@ wchar_t * findClosingLRBrace(wchar_t * txt)
     int opened = 1;
     size_t len = wcslen(txt);
     size_t i;
-    wchar_t *lb, *rb, c = (*txt);
-    wchar_t * inv = L"()[]{}||<>";
+    wchar_t c = *txt;
+    const wchar_t * inv = L"()[]{}||<>";
 
     for (i = 0; i < 9; i += 2)
         if (inv[i] == c)
             c = inv[i + 1];
 
-    lb = malloc(7 * sizeof(wchar_t));
-    rb = malloc(8 * sizeof(wchar_t));
-
-    wcsncpy(lb, L"\\left", 6);
-    wcsncpy(rb, L"\\right", 7);
-
-    wcsncat(lb, txt, 1);
-    wcsncat(rb, &c, 1);
+    wchar_t lb[7] = L"\\left";
+    wchar_t rb[8] = L"\\right";
+    lb[5] = *txt;
+    lb[6] = L'\0';
+    rb[6] = c;
+    rb[7] = L'\0';
 
     for (i = 0; i < len; i++) {
         if (opened == 1) {
@@ -239,11 +238,8 @@ wchar_t * findClosingLRBrace(wchar_t * txt)
                      (wcsncmp(txt + i, L"\\right\\.", 8) == 0) ||
                      (wcsncmp(txt + i, rb, 7) == 0))
                 opened--;
-            if (opened == 0) {
-                free(lb);
-                free(rb);
+            if (opened == 0)
                 return txt + i;
-            }
         } else {
             /* any left opens */
             /* any right closes */
@@ -253,8 +249,6 @@ wchar_t * findClosingLRBrace(wchar_t * txt)
                 opened--;
         }
     }
-    free(lb);
-    free(rb);
     SyntaxError(L"Couldn't find matching right brace\n");
     return txt;
 }

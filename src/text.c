@@ -54,7 +54,7 @@ long dimText(wchar_t * found,
     Tdim out;
     *gpos = 1;
     gpos++;
-    *gpos = (char)TEXT;
+    *gpos = TEXT;
     gpos++;
     *gpos = 0;
 

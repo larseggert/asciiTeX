@@ -54,7 +54,7 @@ found vector.
 
     *gpos = 1;
     gpos++;
-    *gpos = (char)SUB;
+    *gpos = SUB;
     gpos++;
     *gpos = 0;
 
@@ -69,8 +69,7 @@ found vector.
         our.y += out.y;
     }
     if (gpos - graph->txt >= 4) { /* check if we had a superscript before */
-        if ((*(gpos - 4) == 1) &&
-            (*(gpos - 3) == (char)SUPER)) { /* yep, we had it */
+        if ((*(gpos - 4) == 1) && (*(gpos - 3) == SUPER)) { /* yep, we had it */
             long width = graph->down[graph->children - 2]->dim.x;
             if (width < out.x)
                 our.x += out.x - width;
@@ -95,7 +94,7 @@ void drawSubscript(long * Kid,
 #define cury (*Cury)
     long width = graph->down[kid]->dim.x;
     if (txt - 3 >= graph->txt) {
-        if ((*(txt - 3) == 1) && (*(txt - 2) == (char)SUPER)) {
+        if ((*(txt - 3) == 1) && (*(txt - 2) == SUPER)) {
             drawInternal(screen, graph->down[kid],
                          curx - (graph->down[kid - 1]->dim.x), cury + 1);
             if (width > graph->down[kid - 1]->dim.y)
@@ -133,7 +132,7 @@ found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (char)SUPER;
+    *gpos = SUPER;
     gpos++;
     *gpos = 0;
 
@@ -148,9 +147,8 @@ found vector.
 
     if (gpos - graph->txt >= 4) { /* check if we had a subscript before */
         if ((*(gpos - 4) == 1) &&
-            (*(gpos - 3) ==
-             (char)SUB)) { /* yep, we had it--our superscript will
-                            * start at the same pos as the subscript */
+            (*(gpos - 3) == SUB)) { /* yep, we had it--our superscript will
+                                     * start at the same pos as the subscript */
             long width = graph->down[graph->children - 2]->dim.x;
             if (width < out.x)
                 our.x += out.x - width;
@@ -181,7 +179,7 @@ graph		--	The parent
 #define cury (*Cury)
     long width = graph->down[kid]->dim.x;
     if (txt - 3 >= graph->txt) {
-        if ((*(txt - 3) == 1) && (*(txt - 2) == (char)SUB)) {
+        if ((*(txt - 3) == 1) && (*(txt - 2) == SUB)) {
             drawInternal(screen, graph->down[kid],
                          curx - (graph->down[kid - 1]->dim.x),
                          cury - (graph->down[kid]->dim.y));

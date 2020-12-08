@@ -44,7 +44,7 @@ found		--	Pointer to a sting containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
 drawing routines to use. Our		--	dimention of the parent graph
---	The parent The routines returns the number of wcharacters_t it used of
+--	The parent The routines returns the number of characters_t it used of
 the found vector.
 */
 {
@@ -56,7 +56,7 @@ the found vector.
     *gpos = 1; /* See parsedef.h for the keyword
                 * definitions */
     gpos++;
-    *gpos = (wchar_t)BRACES;
+    *gpos = BRACES;
     gpos++;
     *gpos = 0;
 
@@ -130,6 +130,7 @@ the found vector.
         (graph->down[graph->children - 1]->options[1] == L'}')) {
         our.y += (!(our.y % 2)); /* ensure y is uneven with
                                   * room at the top */
+        our.x += out.x + 3;
     } else
         our.x += out.x + 2;
 
@@ -146,9 +147,9 @@ void drawBrace(long * Kid,
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
-Curx		--	Current x position in the 2D wcharacter_t field
-Cury		--	Current y position in the 2D wcharacter_t field
-screen		--	pointer to the 2D wcharacter_t field
+Curx		--	Current x position in the 2D character field
+Cury		--	Current y position in the 2D character field
+screen		--	pointer to the 2D character field
 graph		--	The parent
 */
 {
