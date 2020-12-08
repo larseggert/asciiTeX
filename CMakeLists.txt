@@ -38,5 +38,19 @@ add_executable (asciitex
 
 enable_testing()
 
-add_test(NAME test
-         COMMAND asciitex -f ${PROJECT_SOURCE_DIR}/EXAMPLES)
+file(GLOB test_inputs "examples/*.tex")
+
+foreach(test_input ${test_inputs})
+    file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR}/examples ${test_input})
+    string(REPLACE ".tex" "" test ${test_file})
+    string(REPLACE ".tex" ".txt" expected_result ${test_input})
+    add_custom_command(TARGET asciitex
+                       POST_BUILD
+                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples
+                       COMMAND $<TARGET_FILE:asciitex> -f ${test_input} > ${test}.output
+                       )
+    add_test(NAME ${test}
+             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples
+             COMMAND ${CMAKE_COMMAND} -E compare_files ${expected_result} ${test}.output
+             )
+endforeach()

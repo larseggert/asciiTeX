@@ -22,6 +22,7 @@
                 "*.sh",
                 "*.sh",
                 "*.sublime-project",
+                "*.tex",
                 "*.txt",
                 "*.yml",
                 "*.1",
