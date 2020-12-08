@@ -126,11 +126,11 @@ void drawInternal(wchar_t *** screen, struct Tgraph * graph, long x, long y)
 
 wchar_t ** draw(struct Tgraph * graph)
 {
-    wchar_t ** screen = malloc(sizeof(wchar_t *) * (size_t)(graph->dim.y + 1));
+    wchar_t ** screen = malloc(sizeof(wchar_t *) * (size_t)graph->dim.y);
     long i, j;
     for (i = 0; i < graph->dim.y; i++) {
         screen[i] = malloc((size_t)(graph->dim.x * 2) * sizeof(wchar_t));
-        for (j = 0; j < graph->dim.x; j++)
+        for (j = 0; j < graph->dim.x * 2; j++)
             screen[i][j] = L' ';
         screen[i][graph->dim.x] = 0;
     }
