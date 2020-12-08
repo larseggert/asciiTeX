@@ -1,4 +1,4 @@
-// utils.h: header for .c: utillities for asciiTeX
+// utils.h: header for .c: utilities for asciiTeX
 //
 // This file is part of asciiTeX.
 //

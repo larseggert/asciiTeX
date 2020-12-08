@@ -1,4 +1,4 @@
-// utils.c: utillities for asciiTeX
+// utils.c: utilities for asciiTeX
 //
 // This file is part of asciiTeX.
 //

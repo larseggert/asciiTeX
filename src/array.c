@@ -57,10 +57,10 @@ long dimArray(wchar_t * found,
               struct Tgraph * graph)
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of
 the found vector.
 */

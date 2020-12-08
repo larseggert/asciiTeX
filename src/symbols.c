@@ -41,10 +41,10 @@ long dimInt(wchar_t * found __attribute__((unused)),
             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -104,10 +104,10 @@ long dimOint(wchar_t * found __attribute__((unused)),
              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -167,10 +167,10 @@ long dimProd(wchar_t * found __attribute__((unused)),
              struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -232,10 +232,10 @@ long dimSum(wchar_t * found __attribute__((unused)),
             struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -298,10 +298,10 @@ long dimTo(wchar_t * found __attribute__((unused)),
            struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -348,10 +348,10 @@ long dimLeadsto(wchar_t * found __attribute__((unused)),
                 struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -398,10 +398,10 @@ long dimLceil(wchar_t * found __attribute__((unused)),
               struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -454,10 +454,10 @@ long dimRceil(wchar_t * found __attribute__((unused)),
               struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -510,10 +510,10 @@ long dimLfloor(wchar_t * found __attribute__((unused)),
                struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
@@ -560,10 +560,10 @@ long dimRfloor(wchar_t * found __attribute__((unused)),
                struct Tgraph * graph __attribute__((unused)))
 /*
 The dimXxx routines all have the forllowing arguments:
-found		--	Pointer to a sting containing the remaining part of the
+found		--	Pointer to a string containing the remaining part of the
 equation Gpos		--	Pointer to a string which will contain the part
 of the equation relevant to the current parent with flags to indicate which
-drawing routines to use. Our		--	dimention of the parent graph
+drawing routines to use. Our		--	dimension of the parent graph
 --	The parent The routines returns the number of characters it used of the
 found vector.
 */
