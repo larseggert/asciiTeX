@@ -48,7 +48,7 @@ jobs:
     - name: Install
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --install -DCMAKE_INSTALL_PREFIX=/usr
+      run: cmake --install . -DCMAKE_INSTALL_PREFIX=/usr
 
     - name: Examples
       working-directory: $GITHUB_WORKSPACE
