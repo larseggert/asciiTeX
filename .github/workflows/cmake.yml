@@ -50,7 +50,7 @@ jobs:
       shell: bash
       run: |
         locale
-        localectl set-locale LANG=en_US.UTF-8
+        update-locale LANG=LANG=en_US.UTF-8 LANGUAGE
         locale
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
