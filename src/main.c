@@ -62,6 +62,7 @@ static wchar_t * readfile(char * filename)
     }
     results[--l] = L'\0';
     fclose(f);
+    wprintf(L"%ls", results);
     return results;
 }
 
@@ -94,7 +95,7 @@ int main(int argc, char * argv[])
     for (i = 1; i < argc; i++) {
         if (opt_parse == FILE) {
             if (eq) {
-                fprintf(stderr, "Cannot multiple inputs\n");
+                fprintf(stderr, "Cannot handle multiple inputs\n");
                 goto done;
             }
             eq = readfile(argv[i]);
@@ -129,11 +130,11 @@ int main(int argc, char * argv[])
                 puts(usage);
                 goto done;
             } else if (eq) {
-                fprintf(stderr, "More than one equation found.\n");
+                fprintf(stderr, "More than one equation found\n");
                 goto done;
             } else {
                 if (eq) {
-                    fprintf(stderr, "Cannot multiple inputs\n");
+                    fprintf(stderr, "Cannot handle multiple inputs\n");
                     goto done;
                 }
                 eq = malloc((strlen(argv[i]) + 1) * sizeof(wchar_t));
@@ -147,7 +148,9 @@ int main(int argc, char * argv[])
         fputs(usage, stderr);
         return 1;
     }
+    wprintf(L"plotting\n");
     screen = asciiTeX(eq, ll, &cols, &rows);
+    wprintf(L"done\n");
 done:
     free(eq);
     if (screen) {
