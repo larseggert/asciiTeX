@@ -5,6 +5,7 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
+  LANG: "en_US.UTF-8"
 
 jobs:
   build:
@@ -50,7 +51,8 @@ jobs:
       shell: bash
       run: |
         locale
-        update-locale LANG=LANG=en_US.UTF-8 LANGUAGE
+        sudo locale-gen en_US.UTF-8
+        sudo update-locale LANG=en_US.UTF-8
         locale
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
