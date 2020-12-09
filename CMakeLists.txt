@@ -42,21 +42,20 @@ install(TARGETS asciitex RUNTIME)
 install(FILES ${test_inputs} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/asciitex")
 install(FILES man/asciitex.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/share/man/man1")
 
-enable_testing()
-
-file(GLOB test_inputs "examples/*.tex")
-
-foreach(test_input ${test_inputs})
-    file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR}/examples ${test_input})
-    string(REPLACE ".tex" "" test ${test_file})
-    string(REPLACE ".tex" ".txt" expected_result ${test_input})
-    add_custom_command(TARGET asciitex
-                       POST_BUILD
-                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                       COMMAND $<TARGET_FILE:asciitex> -f ${test_input} > ${test}.txt
-                       )
-    add_test(NAME ${test}
-             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-             COMMAND ${CMAKE_COMMAND} -E compare_files ${expected_result} ${test}.txt
-             )
-endforeach()
+if(NOT DISABLE_TESTING)
+  enable_testing()
+  foreach(test_input ${test_inputs})
+      file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR}/examples ${test_input})
+      string(REPLACE ".tex" "" test ${test_file})
+      string(REPLACE ".tex" ".txt" expected_result ${test_input})
+      add_custom_command(TARGET asciitex
+                         POST_BUILD
+                         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                         COMMAND $<TARGET_FILE:asciitex> -f ${test_input} > ${test}.txt
+                         )
+      add_test(NAME ${test}
+               WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+               COMMAND ${CMAKE_COMMAND} -E compare_files ${expected_result} ${test}.txt
+               )
+  endforeach()
+endif()
