@@ -38,7 +38,7 @@ static wchar_t * readfile(char * filename)
     size_t l_alloc = 1000;
     size_t l = 0, esc = 0;
     wchar_t * results = malloc(l_alloc * sizeof(wchar_t));
-    if ((f = fopen(filename, "re")) == NULL) {
+    if ((f = fopen(filename, "rbe")) == NULL) {
         fprintf(stderr, "File %s not found\n", filename);
         exit(1);
     }
@@ -47,12 +47,12 @@ static wchar_t * readfile(char * filename)
             l_alloc += 100;
             results = realloc(results, l_alloc * sizeof(wchar_t));
         }
-        results[l++] = getwc(f);
+        results[l++] = fgetwc(f);
 
         if ((results[l - 1] == L'%') && (!esc)) {
             /* % is the comment sign, ignore rest of the line */
             l--;
-            while (!feof(f) && getwc(f) != L'\n')
+            while (!feof(f) && fgetwc(f) != L'\n')
                 ;
         }
         if (esc) /* the escape flag is to comment out comment signs, i.e. \% */
@@ -62,13 +62,12 @@ static wchar_t * readfile(char * filename)
     }
     results[--l] = L'\0';
     fclose(f);
-    wprintf(L"%ls", results);
     return results;
 }
 
 int main(int argc, char * argv[])
 {
-    setlocale(LC_ALL, "en_US.UTF-8");
+    setlocale(LC_ALL, ""); // en_US.UTF-8
     wchar_t ** screen = NULL;
     long i, cols = 0, rows = 0;
     wchar_t * eq = NULL;
@@ -148,9 +147,7 @@ int main(int argc, char * argv[])
         fputs(usage, stderr);
         return 1;
     }
-    wprintf(L"plotting\n");
     screen = asciiTeX(eq, ll, &cols, &rows);
-    wprintf(L"done\n");
 done:
     free(eq);
     if (screen) {

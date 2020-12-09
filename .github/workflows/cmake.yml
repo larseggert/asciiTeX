@@ -49,6 +49,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: |
+        locale
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq3.tex
