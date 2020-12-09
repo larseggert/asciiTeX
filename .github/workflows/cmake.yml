@@ -50,6 +50,8 @@ jobs:
       shell: bash
       run: |
         locale
+        localectl set-locale LANG=en_US.UTF-8
+        locale
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq3.tex
