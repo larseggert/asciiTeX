@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-    if (MSVC)
+    if(MSVC)
         add_compile_options(/W4 /WX)
     else()
         add_compile_options(-Wall -Wextra -pedantic -Werror) # -Weverything
@@ -19,22 +19,28 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     endif()
 endif()
 
-add_executable (asciitex
-                src/array.c
-                src/asciiTeX.c
-                src/brace.c
-                src/dim.c
-                src/draw.c
-                src/frac.c
-                src/limit.c
-                src/main.c
-                src/ouline.c
-                src/sqrt.c
-                src/sscript.c
-                src/symbols.c
-                src/text.c
-                src/utils.c
+add_executable(asciitex
+               src/array.c
+               src/asciiTeX.c
+               src/brace.c
+               src/dim.c
+               src/draw.c
+               src/frac.c
+               src/limit.c
+               src/main.c
+               src/ouline.c
+               src/sqrt.c
+               src/sscript.c
+               src/symbols.c
+               src/text.c
+               src/utils.c
 )
+
+file(GLOB test_inputs "examples/*.tex")
+
+install(TARGETS asciitex RUNTIME)
+install(FILES ${test_inputs} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/asciitex")
+install(FILES man/asciitex.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/share/man/man1")
 
 enable_testing()
 
