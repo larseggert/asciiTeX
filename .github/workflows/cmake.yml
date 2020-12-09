@@ -46,21 +46,21 @@ jobs:
       run: ctest -C $BUILD_TYPE
 
     - name: Examples
-      working-directory: $GITHUB_WORKSPACE
+      working-directory: ${{runner.workspace}}/build
       shell: bash
       run: |
-        ${{runner.workspace}}/build/asciitex -f examples/eq1.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq2.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq3.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq4.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq5.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq6.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq7.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq8.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq9.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq10.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq11.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq12.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq13.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq14.tex
-        ${{runner.workspace}}/build/asciitex -f examples/eq15.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq3.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq4.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq5.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq6.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq7.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq8.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq9.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq10.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq11.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq12.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq13.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq14.tex
+        ./asciitex -f $GITHUB_WORKSPACE/examples/eq15.tex
