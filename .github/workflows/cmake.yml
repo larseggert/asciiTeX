@@ -51,9 +51,6 @@ jobs:
       shell: bash
       run: |
         locale
-        sudo locale-gen en_US.UTF-8
-        sudo update-locale LANG=en_US.UTF-8
-        locale
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq1.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq2.tex
         ./asciitex -f $GITHUB_WORKSPACE/examples/eq3.tex
