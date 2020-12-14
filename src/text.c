@@ -67,8 +67,11 @@ long dimText(wchar_t * found,
 
     out = dim(tmp, newChild(graph));
     free(tmp);
-    our.baseline = out.y;
-    our.y += out.y;
+
+    if (out.y > our.baseline) {
+        our.baseline = out.y;
+        our.y += out.y;
+    }
     our.x += out.x;
     return end - found;
 #undef gpos
