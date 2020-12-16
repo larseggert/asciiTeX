@@ -1,0 +1,13 @@
+cwnd = prior_cwnd              \                      
+                               |                      
+ssthresh = prior_ssthresh      |                      
+                               |                      
+W    = prior_W                 |                      
+ max          max              |                      
+                               >if cwnd < prior_cwnd  
+K = prior_K                    |                      
+                               |                      
+epoch_start = prior_epoch_start|                      
+                               |                      
+W    = prior_W                 |                      
+ est          est              /                      
