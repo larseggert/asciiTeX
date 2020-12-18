@@ -1,4 +1,4 @@
-                       3       
-W     (t) = C * (t - K)  + W   
+                       3
+W     (t) = C * (t - K)  + W
  cubic                      max
-                               
+

@@ -152,6 +152,10 @@ done:
     free(eq);
     if (screen) {
         for (i = 0; i < rows; i++) {
+            // remove trailing whitespace
+            long j = cols - 1;
+            while (j >= 0 && screen[i][j] == L' ')
+                screen[i][j--] = L'\0';
             wprintf(L"%ls\n", screen[i]);
             free(screen[i]);
         }

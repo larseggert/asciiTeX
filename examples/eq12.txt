@@ -1,13 +1,13 @@
-         /                                                  
-         |                if W     (t + RTT) <= cwnd        
-         |cwnd                cubic                         
-         |                                                  
-         |                                                  
-         |                                                  
-target = <                if W     (t + RTT) != 1.5 * cwnd  
-         |1.5 * cwnd          cubic                         
-         |                                                  
-         |                                                  
-         |W     (t + RTT)                                   
-         | cubic          otherwise                         
-         \                                                  
+         /
+         |                if W     (t + RTT) <= cwnd
+         |cwnd                cubic
+         |
+         |
+         |
+target = <                if W     (t + RTT) != 1.5 * cwnd
+         |1.5 * cwnd          cubic
+         |
+         |
+         |W     (t + RTT)
+         | cubic          otherwise
+         \
