@@ -22,6 +22,7 @@ Specifically, these changes were made (so far):
 - support for `\eft\` and `\right`
 - support for `\text` and `\mathrm`
 - better automatic whitespace insertion/removal
+- remove trailing whitespaces from output
 - switch build system to cmake
 - removal of the GUI
 - fix numerous minor bugs
