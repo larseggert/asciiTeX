@@ -153,8 +153,8 @@ done:
     if (screen) {
         for (i = 0; i < rows; i++) {
             // remove trailing whitespace
-            long j = cols - 1;
-            while (j >= 0 && screen[i][j] == L' ')
+            long j = cols + 1;
+            while (j >= 0 && (iswspace(screen[i][j]) || screen[i][j] == L'\0'))
                 screen[i][j--] = L'\0';
             wprintf(L"%ls\n", screen[i]);
             free(screen[i]);
