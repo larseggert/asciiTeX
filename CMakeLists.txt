@@ -38,7 +38,7 @@ add_executable(asciitex
 
 file(GLOB test_inputs "examples/*.tex")
 
-install(TARGETS asciitex RUNTIME)
+install(TARGETS asciitex RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
 install(FILES ${test_inputs} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/asciitex")
 install(FILES man/asciitex.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/share/man/man1")
 
