@@ -42,7 +42,7 @@ jobs:
     - name: Install
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --install .
+      run: sudo cmake --install .
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
