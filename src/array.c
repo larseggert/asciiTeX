@@ -128,7 +128,7 @@ the found vector.
             /* put wchar_t in options */
             graph->down[graph->children - 1]->options[j] = start[i];
             j++;
-            __attribute__((fallthrough));
+            // fall through
         case L' ':
             /*ignore*/
             break;
