@@ -28,6 +28,7 @@
 
 #include "array.h"
 #include "asciiTeX_struct.h"
+#include "binom.h"
 #include "brace.h"
 #include "dim.h"
 #include "frac.h"
@@ -44,6 +45,7 @@
 static const KEYWORD Keys[] = {{L"^{", 2UL, SUPER},
                                {L"_{", 2UL, SUB},
                                {L"\\frac", 5UL, FRAC},
+                               {L"\\binom", 6UL, BINOM},
                                {L"\\sqrt", 5UL, SQRT},
                                {L"\\overline", 9UL, OVERLINE},
                                {L"\\underline", 10UL, UNDERLINE},
@@ -215,6 +217,9 @@ Tdim dim(wchar_t * txt, struct Tgraph * graph)
                 break;
             case FRAC:
                 i += dimFrac(txt + i, &gpos, &our, graph);
+                break;
+            case BINOM:
+                i += dimBinom(txt + i, &gpos, &our, graph);
                 break;
             case SQRT:
                 i += dimSqrt(txt + i, &gpos, &our, graph);

@@ -27,6 +27,7 @@ add_executable(asciitex
                src/array.c
                src/asciiTeX.c
                src/brace.c
+               src/binom.c
                src/dim.c
                src/draw.c
                src/frac.c
@@ -46,7 +47,7 @@ install(TARGETS asciitex RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
 install(FILES ${test_inputs} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/asciitex")
 install(FILES man/asciitex.1 DESTINATION "${CMAKE_INSTALL_PREFIX}/share/man/man1")
 
-if(NOT DISABLE_TESTING)
+if( DISABLE_TESTING)
   enable_testing()
   foreach(test_input ${test_inputs})
       file(RELATIVE_PATH test_file ${CMAKE_CURRENT_SOURCE_DIR}/examples ${test_input})
