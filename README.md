@@ -21,14 +21,15 @@ Specifically, these changes were made (so far):
 - support for `<>` braces
 - support for `\eft\` and `\right`
 - support for `\text` and `\mathrm`
+- support for `\binom`
 - better automatic whitespace insertion/removal
 - remove trailing whitespaces from output
 - switch build system to cmake
 - removal of the GUI
 - fix numerous minor bugs
 
-There are very likely many [tex2svg](https://github.com/Ximik/tex2svg) still
-missing from this fork of asciiTeX. There are also very likely still many
+There are very likely many [tex2svg](https://github.com/Ximik/tex2svg) features
+still missing from this fork of asciiTeX. There are also very likely still many
 remaining bugs. I'd be happy to see issues filed and pull-requests opened to
 further improve this software.
 

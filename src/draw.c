@@ -28,6 +28,7 @@
 
 #include "array.h"
 #include "asciiTeX_struct.h"
+#include "binom.h"
 #include "brace.h"
 #include "draw.h"
 #include "frac.h"
@@ -57,6 +58,9 @@ void drawInternal(wchar_t *** screen, struct Tgraph * graph, long x, long y)
                 break;
             case FRAC:
                 drawFrac(&kid, &curx, &cury, screen, graph);
+                break;
+            case BINOM:
+                drawBinom(&kid, &curx, &cury, screen, graph);
                 break;
             case SQRT:
                 drawSqrt(&kid, &curx, &cury, screen, graph);

@@ -48,6 +48,7 @@ typedef enum {
     MATHRM,
 
     // things with children
+    BINOM,
     FRAC,
     SUPER,
     SUB,

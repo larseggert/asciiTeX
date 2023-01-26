@@ -27,6 +27,7 @@ add_executable(asciitex
                src/array.c
                src/asciiTeX.c
                src/brace.c
+               src/binom.c
                src/dim.c
                src/draw.c
                src/frac.c
