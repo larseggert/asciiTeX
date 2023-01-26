@@ -25,17 +25,17 @@
 #include <wchar.h>
 
 #include "asciiTeX_struct.h"
+#include "binom.h"
 #include "dim.h"
 #include "draw.h"
-#include "binom.h"
 #include "parsedef.h"
 #include "utils.h"
 
 
 long dimBinom(wchar_t * found,
-             wchar_t ** Gpos,
-             Tdim * Our,
-             struct Tgraph * graph)
+              wchar_t ** Gpos,
+              Tdim * Our,
+              struct Tgraph * graph)
 /*
 The dimXxx routines all have the following arguments:
 found		--	Pointer to a string containing the remaining part of the
@@ -114,35 +114,16 @@ found vector.
     if (our.baseline < out.y)
         our.baseline = out.y;
 
-
-
-    // if (our.baseline < out.baseline) {
-    //     our.y += (out.baseline - our.baseline);
-    //     our.baseline = out.baseline;
-    // }
-
-    // if (our.y - our.baseline < (out.y - out.baseline)) {
-    //     /*
-    //      * our.baseline++;
-    //      */
-    //     our.y = (out.y - out.baseline) + our.baseline;
-    // }
-
-
-    //     our.x += out.x + 2;
-
-
-
     return end - (found); /* skip parsed text */
 #undef our
 #undef gpos
 }
 
 void drawBinom(long * Kid,
-              long * Curx,
-              long * Cury,
-              wchar_t *** screen,
-              struct Tgraph * graph)
+               long * Curx,
+               long * Cury,
+               wchar_t *** screen,
+               struct Tgraph * graph)
 /*
 The drawXxx routines all have the forllowing arguments:
 Kid		--	Ineger index of the current child
@@ -176,6 +157,8 @@ graph		--	The parent
                  curx + width / 2 - (graph->down[kid + 1]->dim.x) / 2,
                  cury + 1);
 
+    curx += width;
+
     low = cury + graph->dim.baseline;
     if (graph->dim.y > 2) {
         (*screen)[low][curx] = L'/';
@@ -186,4 +169,5 @@ graph		--	The parent
         (*screen)[cury][curx] = L')';
 
     kid += 2;
+    curx += 1;
 }
