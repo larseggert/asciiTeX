@@ -169,5 +169,5 @@ graph		--	The parent
         (*screen)[cury][curx] = L')';
 
     kid += 2;
-    curx += 1;
+    curx++;
 }
