@@ -1,3 +1,9 @@
+# You should be using [utftex](https://github.com/bartp5/libtexprintf)!
+
+It is actively supported and produces better output than this.
+
+---
+
 # asciiTeX
 
 asciiTeX is an ASCII equation renderer released under the terms of the GNU
